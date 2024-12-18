@@ -1,0 +1,29 @@
+[[games]]
+name = "dice_game"
+path = "1_dice_game"
+code_languages = ["java"]
+ground_truth_tracing_file = ""
+
+[[games]]
+name = "arkanoid"
+path = "2_arkanoid"
+code_languages = ["java"]
+ground_truth_tracing_file = ""
+
+[[games]]
+name = "snake"
+path = "3_snake"
+code_languages = ["java"]
+ground_truth_tracing_file = ""
+
+[[games]]
+name = "scopa"
+path = "4_scopa"
+code_languages = ["java"]
+ground_truth_tracing_file = ""
+
+[[games]]
+name = "pong"
+path = "5_pong"
+code_languages = ["java"]
+ground_truth_tracing_file = ""

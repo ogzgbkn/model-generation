@@ -1,5 +1,6 @@
 import json
 import logging
+import subprocess
 import os
 import re
 from abc import ABC, abstractmethod
@@ -41,8 +42,7 @@ class Prompt:
             except FileNotFoundError:
                 raise FileNotFoundError(f"Content file not found at {path}")
 
-    def fill_content(self, code, requirements: list[Requirement]):
-        self.content = re.sub("{{code}}", Prompt.code_numbered(code), self.content)
+    def fill_content(self, requirements: list[Requirement]):
         self.content = re.sub(
             "{{requirements}}", Requirement.format_as_list(requirements), self.content
         )
@@ -73,7 +73,7 @@ class LLM(ABC):
 
     @staticmethod
     @abstractmethod
-    def run_batch(path: str, dry_run: bool = False) -> Optional[str]: ...
+    def run_batch(path: str, dry_run: bool = False, batch_id_file: str = "batch_id.txt") -> Optional[str]: ...
 
 
 class GPT(LLM):
@@ -185,7 +185,7 @@ class GPT(LLM):
             return None
 
     @staticmethod
-    def run_batch(config, dry_run: bool = False) -> Optional[str]:
+    def run_batch(config, dry_run: bool = False, batch_id_file: str = "batch_id.txt") -> Optional[str]:
         client = OpenAI(api_key=config["OPENAI_API_KEY"])
 
         if dry_run:
@@ -206,6 +206,11 @@ class GPT(LLM):
                         "description": "all experiments",
                     },
                 )
+
+                batch_id_file_path = os.path.join(config["DATA_PATH"], batch_id_file)
+
+                with open(batch_id_file_path, "w") as file:
+                    file.write(batch.id)
 
                 logger.info("Batch started")
 
@@ -247,6 +252,7 @@ class Ollama(LLM):
         self.model = model
         self.temperature = temperature
         self.top_p = top_p
+        self.session = requests.Session()
         self.max_tokens = max_tokens
         self.response_format = response_format
         self.prompts_path = os.path.join(config["DATA_PATH"], "prompts")
@@ -261,6 +267,8 @@ class Ollama(LLM):
         messages = []
 
         for prompt in prompts:
+            # Line to only add the user prompts
+            # if prompt.role == 'user':
             messages.append({"role": prompt.role, "content": prompt.content})
 
         logger.info(f"Prompting Ollama model {self.model}")
@@ -271,29 +279,97 @@ class Ollama(LLM):
         return chat_completion
 
     @staticmethod
-    def run_batch(path: str, dry_run: bool = False) -> Optional[str]:
+    def run_batch(path: str, dry_run: bool = False, batch_id_file: str = "batch_id.txt") -> Optional[str]:
         raise NotImplementedError("Batch processing is not supported for Ollama")
 
     def _prompt_model(
         self, messages: list[dict[str, str]], json_response: bool = False
     ) -> str:
         data = {
-            "format": "json" if json_response else None,
+            "format": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "output"
+                ]
+            },
             "model": self.model,
             "messages": messages,
             "options": {
                 "temperature": self.temperature,
                 "top_p": self.top_p,
-                "num_ctx": 20000,
                 "num_predict": self.max_tokens,
+                "num_ctx": 20000,
             },
             "stream": False,
         }
         headers = {
             "Content-Type": "application/json",
         }
-        response = requests.post(
+        # 7869 is the Docker Ollama port. 11434 is the default port
+        response = self.session.post(
             "http://localhost:11434/api/chat", headers=headers, json=data
         )
 
-        return response.json()["message"]["content"]
+        responseJson = response.json()
+
+        return responseJson["message"]["content"]
+    
+
+    # We can later try generating results with CURL instead of using the requests library
+    def _prompt_model_curl(
+        self, messages: list[dict[str, str]], json_response: bool = False
+    ) -> str:
+        # Define the data and headers
+        data = {
+            "format": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "output"
+                ]
+            },
+            "model": self.model,
+            "messages": messages,
+            "options": {
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "num_predict": self.max_tokens,
+                "num_ctx": 20000,
+            },
+            "stream": False,
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        # Convert data dictionary to a JSON string
+        data_json = json.dumps(data)
+
+        # Prepare the curl command
+        curl_command = [
+            "curl", "-X", "POST", "http://localhost:11434/api/chat",
+            "-H", "Content-Type: application/json",
+            "-d", data_json
+        ]
+
+        # Trigger the curl command and capture the response
+        response = subprocess.run(curl_command, capture_output=True, text=True)
+
+        # Check if the request was successful
+        if response.returncode == 0:
+            # Parse the JSON response
+            response_data = json.loads(response.stdout)
+            return response_data["message"]["content"]
+        else:
+            raise Exception("Something went wrong with the API call to the LLM!!")
+

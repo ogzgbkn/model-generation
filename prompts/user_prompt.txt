@@ -1,5 +1,2 @@
 ===== REQUIREMENTS =====
 {{requirements}}
-
-===== CODE =====
-{{code}}

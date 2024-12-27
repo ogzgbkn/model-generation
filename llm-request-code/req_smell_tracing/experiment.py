@@ -78,10 +78,7 @@ class Experiment:
         self.requirements_smelly = requirements_smelly
         self.description = description
         self.iterations = iterations
-        self.tracing_csv_columns = {}
 
-        for tracing_column, csv_column in tracing_csv_columns.items():
-            self.tracing_csv_columns[TracingColumn(tracing_column)] = csv_column
 
     def alter_new(self, **kwargs) -> "Experiment":
         """
@@ -105,10 +102,7 @@ class Experiment:
                 "requirements_smelly", self.requirements_smelly
             ),
             description=kwargs.get("description", self.description),
-            iterations=kwargs.get("iterations", self.iterations),
-            tracing_csv_columns=kwargs.get(
-                "tracing_csv_columns", self.tracing_csv_columns
-            ),
+            iterations=kwargs.get("iterations", self.iterations)
         )
 
     def __repr__(self):
@@ -132,14 +126,12 @@ class Experiment:
             "prompts": [{"role": p.role, "content": p.content} for p in self.prompts],
             "requirements": self.requirements,
             "requirements_smelly": self.requirements_smelly,
+            "timestamp": self.timestamp
         }
 
         return _dict_remove_none(details_dict)
 
-    def lines_of_code(self) -> int:
-        return len(self.game.code[self.code_language].splitlines())
-
-    def run(self, dry_run: bool = False, batch: bool = False):
+    def run(self, dry_run: bool = False, batch: bool = False, timestamp = datetime.datetime.now()):
         logger.info(f"Running experiment {self.name}")
 
         self.results = []
@@ -147,18 +139,16 @@ class Experiment:
         if not self.prompts_filled:
             for prompt in self.prompts:
                 prompt.fill_content(
-                    self.game.code[self.code_language],
                     self.game.get_requirements(
                         self.requirements, self.requirements_smelly
-                    ),
+                    )
                 )
 
             self.prompts_filled = True
 
         for i in range(self.iterations):
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-            self.timestamp = timestamp
             result_id = f"{self.group}/{self.name}/{timestamp}/{i + 1}"
+            logger.info(f"Running the iteration: {result_id}")
 
             if dry_run and not batch:
                 res = ""
@@ -173,11 +163,13 @@ class Experiment:
                         f"LLM prompt failed for experiment {self.name} in iteration {i + 1}"
                     )
 
-    def save_results(self, config: dict[str, str | None], dry_run: bool = False):
+    def save_results(self, config: dict[str, str | None], dry_run: bool = False, timestamp = 'Latest'):
         logger.info(f"Saving results for experiment {self.name}")
 
+        llm_type = type(self.llm).__name__
+
         results_path = os.path.join(
-            config["DATA_PATH"], "results", self.group, f"{self.name}_{self.timestamp}"
+            config["DATA_PATH"], "results", llm_type, timestamp, self.group, self.name
         )
 
         os.makedirs(results_path, exist_ok=True)
@@ -192,8 +184,17 @@ class Experiment:
             result = json.loads(result)
             result["id"] = f"{self.group}/{self.name}/{self.timestamp}/{i + 1}"
 
+            '''
             with open(os.path.join(results_path, f"result_{i + 1}.json"), "w") as f:
                 json.dump(result, f, indent=4)
+            '''
+
+            # Instead of dumping the result object directly to the .json file, dump only the string LLM response inside the .txt file
+            with open(os.path.join(results_path, f"result_{i + 1}.txt"), "w") as f:
+                if "output" in result:
+                    f.write(result["output"])
+                else:
+                    f.write('Generated LLM response does not have the key "output"!')
 
     def from_generator(
         self,
@@ -217,8 +218,7 @@ class Experiment:
                 requirements=requirements,
                 requirements_smelly=requirements_smelly,
                 description=self.description,
-                iterations=self.iterations,
-                tracing_csv_columns=self.tracing_csv_columns,
+                iterations=self.iterations
             )
 
             experiments.append(experiment)
@@ -280,7 +280,7 @@ class Experiment:
                     name=e["name"],
                     group=e["group"],
                     game=context["games"][e["game"]],
-                    timestamp="",
+                    timestamp=e["timestamp"],
                     code_language=e["code_language"],
                     llm=llm,
                     prompts=[
@@ -291,12 +291,7 @@ class Experiment:
                     requirements=e["requirements"],
                     requirements_smelly=e["requirements_smelly"],
                     description=e["description"],
-                    iterations=e["iterations"],
-                    tracing_csv_columns={
-                        "requirement_id": "requirement_id",
-                        "implemented": "implemented",
-                        "lines_of_code": "lines_of_code",
-                    },
+                    iterations=e["iterations"]
                 )
             )
 
@@ -334,6 +329,7 @@ class Experiment:
         context: Context,
         dry_run: bool = False,
         batch: bool = False,
+        batch_id_file: str = "batch_id.txt",
         save: bool = True,
     ) -> dict[str, list[str]]:
         """
@@ -354,12 +350,15 @@ class Experiment:
         if batch and os.path.exists("batch.jsonl"):
             os.remove("batch.jsonl")
 
+        experiments_run_timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
+
         for experiment in experiments:
-            experiment.run(dry_run, batch)
+            experiment.timestamp = experiments_run_timestamp
+            experiment.run(dry_run, batch, timestamp = experiments_run_timestamp)
 
             if not batch:
                 if save:
-                    experiment.save_results(config, dry_run)
+                    experiment.save_results(config, dry_run, timestamp = experiments_run_timestamp)
 
                 results[experiment.name] = experiment.results
                 logger.info(f"Results saved for experiment {experiment.name}")

@@ -105,7 +105,7 @@ class Game:
             )
 
         # Load code
-
+        '''
         self.code = {}
 
         for code_language in code_languages:
@@ -119,7 +119,7 @@ class Game:
                 with open(code_path, "r") as f:
                     self.code[code_language] = f.read()
             except FileNotFoundError:
-                raise FileNotFoundError(f"Code file not found at {code_path}")
+                raise FileNotFoundError(f"Code file not found at {code_path}")'''
 
     def __repr__(self):
         return f"Game({self.name})"

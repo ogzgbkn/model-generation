@@ -1,0 +1,107 @@
+[
+    {
+        "name": "no_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 2,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. DO NOT use any if else statements as they are not supported by PlantUML. Instead, you can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows.\nAlt blocks can be nested.\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The player rolls a die.\n2. The game board updates based on the roll.\n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description comes here>\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has 10 more points than every other player.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. The winner will receive the message: \"Congratulations \" + player name + \" you won the game! You are the best!\".\n11. In the beginning, the player point colors shall be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points get above 11, his point color shall turn purple.\n13. If the current player throws a 6, the next player's turn is skipped.\n14. If the dice count is 2, it shall be tripled. If the dice count is even but not 2, it shall be halved.\n15. If the points turn equal at any point in the game, the game shall print: \"Equality!\".\n16. The program shall decide the player's turn order randomly at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is 5, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn yellow.\n20. In each turn, the player must decide if he wants to skip his turn.\n21. If a player throws the same value three times in a row, his points are reset to 0.\n22. If two players have the same amount of points, one player must gain more points than the others before the game can end.\n23. After a game has ended, the system shall print the players' points and the winner.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered by their points in the last game ascending."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ],
+        "requirements_smelly": [],
+        "timestamp": "2024-12-27_152838"
+    },
+    {
+        "name": "all_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 2,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. DO NOT use any if else statements as they are not supported by PlantUML. Instead, you can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows.\nAlt blocks can be nested.\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The player rolls a die.\n2. The game board updates based on the roll.\n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description comes here>\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has significantly more points than the others.\n9. If and only if the dice count is 1, it must be decided if the player re-rolls the dice instead.\n10. There will be some sort of congratulations for the winner.\n11. The player point colors shall always be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points are sufficient to win, his point color shall turn purple.\n13. If the current player throws a 6, his turn must not continue.\n14. If the dice count is 2, it shall be tripled. If the dice count is even, it shall be halved.\n15. The game shall check the players' points at any point in the game. If they turn equal, it shall print: \"Equality!\".\n16. The players' turn order must be decided at the beginning of the game.\n17. Names shall be enred for each player. If \"Computeter\" is entered, the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is high, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn purple.\n20. In each turn, the player could skip his turn.\n21. If a player throws the same value multiple times in a row, his points are reset to 0.\n22. If two players have the same amount of points, the game cannot end until one player has more points than the other.\n23. If needed, the system can print the players' points and the winner after a game has ended.\n24. After the game has ended, one player shall be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered in a certain way."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "requirements_smelly": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ],
+        "timestamp": "2024-12-27_152838"
+    }
+]

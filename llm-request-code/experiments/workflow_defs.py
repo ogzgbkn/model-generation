@@ -21,6 +21,7 @@ def def_workflow(workflow, args):
             Experiment.run_experiments,
             to_context="results",
             batch=True,
+            batch_id_file="batch_id.txt"
         )
         phase.add(
             "save_experiments", Experiment.save_experiments, file="experiments.json"
@@ -43,11 +44,25 @@ def def_workflow(workflow, args):
             to_context="experiments",
         )
         phase.add(
+            "write_batch_results",
+            Result.write_batch_results,
+            to_context="results_batch",
+            file="batch_results.jsonl",
+            file_to_read="batch_id.txt"
+        )
+        phase.add(
+            "write_batch_results_readable",
+            Result.write_batch_results_readable,
+            to_context="results_batch",
+            file_to_read="batch_results.jsonl"
+        )
+
+        """ phase.add(
             "load_batch_results",
             Result.load_batch_results,
             to_context="results",
             file="batch_results.jsonl",
-        )
+        ) """
 
     with Phase("save_batch_results", workflow) as phase:
         phase.add(
@@ -55,4 +70,4 @@ def def_workflow(workflow, args):
         )
 
     workflow.command("run", ["init", "run"])
-    workflow.command("batchtoresults", ["load_batch", "save_batch_results"])
+    workflow.command("batchtoresults", ["load_batch"])

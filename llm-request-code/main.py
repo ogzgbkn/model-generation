@@ -1,4 +1,5 @@
 import logging
+import os
 
 from dotenv import dotenv_values
 
@@ -7,7 +8,9 @@ from req_smell_tracing.workflow import Workflow
 
 from pathlib import Path
 
-config = dotenv_values(".env")
+# Try with full path
+full_path = os.path.join(os.path.dirname(__file__), ".env")
+config = dotenv_values(full_path)
 logger = logging.getLogger(__name__)
 
 

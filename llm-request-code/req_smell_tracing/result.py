@@ -7,6 +7,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
+from openai import OpenAI
 
 from req_smell_tracing.experiment import Experiment
 from req_smell_tracing.tracing import (
@@ -576,7 +577,77 @@ class Result:
                     raise ValueError(f"Unknown key: {key}")
 
         return groups
+    
+    @staticmethod
+    def write_batch_results(
+        config: dict[str, str | None],
+        context: Context,
+        file: str,
+        file_to_read: str):
+        # Read the batch ID from the file and store it in a variable
+        with open(file_to_read, "r") as batch_id_file:
+            batch_id = batch_id_file.read().strip()  # Use strip() to remove any trailing newlines or spaces
 
+        try:
+            client = OpenAI(api_key=config["OPENAI_API_KEY"])
+            # Check the status of the batch
+            batch = client.batches.retrieve(batch_id)
+            if batch.status == "completed":
+                print(f"Batch {batch_id} is completed. Fetching results...")
+                
+                # Fetch the results
+                results = client.files.content(batch.output_file_id)
+                llm_type = "GPT"
+                
+                # Define the path to save the results
+                results_file_path = os.path.join(config["DATA_PATH"], file)
+                
+                # Write results to the .jsonl file
+                with open(results_file_path, "w") as f:
+                    f.write(results.text)
+                
+                print(f"Results saved to {results_file_path}.")
+            else:
+                print(f"Batch {batch_id} is not completed yet. Current status: {batch_status['status']}.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    @staticmethod
+    def write_batch_results_readable(
+        config: dict[str, str | None],
+        context: Context,
+        file_to_read: str
+    ):
+        batch_file_path = os.path.join(config["DATA_PATH"], file_to_read)
+        results = {}
+
+        with open(batch_file_path, "r") as f:
+            for line in f.readlines():
+                result = json.loads(line)
+                custom_id = result["custom_id"]
+                results[custom_id] = result
+        
+        for experiment in context["experiments"]:
+            llm_type = type(experiment.llm).__name__
+            for i in range(experiment.iterations):
+                exp_id = f"{experiment.group}/{experiment.name}/{experiment.timestamp}/{i + 1}"
+                if exp_id in results:
+                    found_result = results[exp_id] if exp_id in results else None
+                    if found_result:
+                        result_dir = os.path.join(config["DATA_PATH"], "results", llm_type, experiment.timestamp, experiment.group, experiment.name)
+                        os.makedirs(result_dir, exist_ok=True)
+
+                        # Instead of dumping the result object directly to the .json file, dump only the string LLM response inside the .txt file
+                        with open(os.path.join(result_dir, f"result_{i+1}.txt"), "w") as f:
+                            llm_response = json.loads(
+                                found_result["response"]["body"]["choices"][0]["message"]["content"]
+                            )
+                            if "output" in llm_response:
+                                f.write(llm_response["output"])
+                            else:
+                                f.write('Generated LLM response does not have the key "output"!')
+                    else:
+                        logger.info(f"Result CANNOT be found in the batch for the experiment {exp_id}")        
 
 def _dirlist(path):
     return filter(os.path.isdir, map(lambda x: os.path.join(path, x), os.listdir(path)))

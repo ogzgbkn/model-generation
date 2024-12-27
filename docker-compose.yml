@@ -1,0 +1,13 @@
+# docker build -f Ollama.Dockerfile -t ollama-custom:llama3.1 .
+# Run the command above before running this docker-compose.yml
+
+version: "3.8"
+
+services:
+  ollama:
+    image: ollama-custom:llama3.1
+    container_name: ollama
+    expose:
+      - 11434
+    ports:
+      - 7869:11434

@@ -135,6 +135,22 @@ class Game:
         Returns the IDs of the game's smelly requirements.
         """
         return [req.id for req in self.requirements_smelly]
+    
+    def requirements_with_specific_smell_type_ids(self, smell_type = 1) -> list[int]:
+        """
+        Returns the IDs of the game's smelly requirements which belong to a specific type.
+        """
+        searched_smell_type = None
+        if smell_type == 1:
+            searched_smell_type = SmellType.LEXICAL
+        elif smell_type == 2:
+            searched_smell_type = SmellType.SEMANTIC
+        elif smell_type == 3:
+            searched_smell_type = SmellType.SYNTACTIC
+        else:
+            raise Exception("Given smell type is not valid!")
+        
+        return [req.id for req in self.requirements_smelly if req.smell_type is searched_smell_type]
 
     def get_requirements(
         self, requirements_ids: list[int], requirements_smelly_ids: list[int]

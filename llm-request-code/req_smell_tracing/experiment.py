@@ -422,6 +422,16 @@ class Generators:
 
             yield sample
 
+    @staticmethod
+    def smell_type_specific_smells(requirements, requirements_smelly, variations=1, smell_type=1, game=None):
+        if not game:
+            raise Exception("The game is not provided!")
+        requirements_with_specific_smell_type = game.requirements_with_specific_smell_type_ids(smell_type)
+        requirements_without_smelly = list(
+            filter(lambda x: x not in requirements_with_specific_smell_type, requirements)
+        )
+
+        yield (requirements_without_smelly, requirements_with_specific_smell_type)
 
 def _dict_remove_none(d: dict[any, any]) -> dict[any, any]:
     new_d = copy.deepcopy(d)

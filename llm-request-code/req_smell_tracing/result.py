@@ -608,7 +608,7 @@ class Result:
                 
                 print(f"Results saved to {results_file_path}.")
             else:
-                print(f"Batch {batch_id} is not completed yet. Current status: {batch_status['status']}.")
+                print(f"Batch {batch_id} is not completed yet. Current status: {batch.status}.")
         except Exception as e:
             print(f"An error occurred: {e}")
 
@@ -639,9 +639,16 @@ class Result:
 
                         # Instead of dumping the result object directly to the .json file, dump only the string LLM response inside the .txt file
                         with open(os.path.join(result_dir, f"result_{i+1}.txt"), "w") as f:
-                            llm_response = json.loads(
-                                found_result["response"]["body"]["choices"][0]["message"]["content"]
-                            )
+                            try:
+                                llm_response_raw = found_result["response"]["body"]["choices"][0]["message"]["content"]
+                                llm_response = json.loads(llm_response_raw)
+                            except json.JSONDecodeError as e:
+                                # Catch JSON decoding errors
+                                print(f"JSON is invalid. Error: {e.msg}")
+                                print(f"Error at line {e.lineno}, column {e.colno}.")
+                                f.write(llm_response_raw)
+                            except Exception as err:
+                                raise err
                             if "output" in llm_response:
                                 f.write(llm_response["output"])
                             else:

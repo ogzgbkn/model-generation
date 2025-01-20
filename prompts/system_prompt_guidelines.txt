@@ -4,8 +4,7 @@ visualize it.
 Input: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:
 1. Represents the requirements in sequence diagram format.
 2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.
-3. DO NOT use any if else statements as they are not supported by PlantUML. Instead, you can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows.
-Alt blocks can be nested.
+3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.
 
 Output: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.
 

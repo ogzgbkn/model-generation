@@ -1,0 +1,73 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Snake
+participant Food
+
+note right of User: Rule 6
+User -> Game: Set the value of k and start game
+note right of Game: Rule 6
+Game -> Board: Initialize Board with size k x k block. A block has size 5 x 5 pixels
+note right of Game: Rule 7
+Game -> Snake: Initialize Snake as a single green block at the bottom left of the board
+Game -> Food: Initialize a piece of Food as a single red block with a random position on the board
+Game -> Snake: Set Snake direction "up"
+
+note right of Snake: Rule 11
+alt User sets difficulty to easy
+  Game -> Snake: Set speed to 0.5 blocks/sec
+else User sets difficulty to hard
+  Game -> Snake: Set speed to 2 blocks/sec
+end
+
+loop Every frame
+  note right of Game: Rule 14
+  alt User presses p
+    alt Game is running
+      Game -> Game: Pause
+    else Game is stopped
+      Game -> Game: Resume
+    end
+  end
+  note right of Snake: Rule 8
+  alt User presses the direction key
+    Game -> Snake: Change direction
+  end  
+  Snake -> Board: Move
+  note right of Food: Rule 2
+  alt Snake eats food by moving over the food
+    note right of Snake: Rule 3
+    Snake -> Snake: Grow by 1 block from the end
+    note right of Game: Rule 9
+    Game -> Food: Place a new piece of Food with a random position on the board
+    note right of Game: Rule 10
+    Game -> Snake: Increase speed by 1%
+    note right of Food: Rule 12
+    alt Snake has eaten 10 pieces
+      Game -> Food: Place blue bonus Food
+      alt Snake eats blue bonus Food
+        Snake -> Snake: Grow by 3 blocks
+      end
+    end
+  end
+  alt Snake touches board side
+    note right of Game: Rule 4
+    Game -> User: Game Over
+  else Snake touches its own body
+    note right of Game: Rule 5
+    Game -> User: Game Over
+  end
+end
+
+note right of Food: Rule 13
+loop Every 5 minutes
+  Game -> Food: Place golden bonus block
+  alt Snake eats golden bonus block
+    Snake -> Snake: Decrease speed by 5%
+  end
+end
+
+User -> Game: Press 'p'
+
+@enduml

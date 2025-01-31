@@ -1,0 +1,71 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Paddle
+participant Ball
+participant Brick
+
+User -> Game: Start Game
+note right of Game: Rule 2
+Game -> Board: Initialize Board (300 pixels x 200 pixels)
+note right of Game: Rule 3
+Game -> Ball: Initialize Ball (10 pixels diameter)
+note right of Game: Rule 11
+Game -> Paddle: Initialize Paddle At The Center Of Bottom Of The Board (10 pixels x 20 pixels)
+
+note right of User: Rule 1
+loop 33 times (33 levels)
+  alt First Level
+    note right of Game: Rule 10
+    Game -> Brick: Initialize 50 Blue Bricks In The Upper Third Randomly
+  end
+  note right of Game: Rule 11
+  Game -> Paddle: Reset The Paddle Position To Center Of Bottom Border
+  note right of Game: Rule 4
+  Game -> Ball: Start Ball Movement (From top left corner, with 45 degrees downwards angle)
+  
+  note right of User: Rule 6
+  loop While Bricks Remaining
+    note right of User: Rule 5
+    User -> Paddle: Move Paddle
+    Ball -> Paddle: Check Collision
+    alt Ball Hits Paddle
+      note right of Ball: Rule 12
+      Ball -> Ball: Change Direction
+    end
+    alt Ball Falls Off Bottom
+      note right of Ball: Rule 17
+      Ball -> Game: Lose Life
+      note right of User: Rule 18
+      alt Lives Remaining
+        Game -> Board: Restart Level
+      else
+        Game -> User: Game Over
+        User -> Game: Play Again?
+        note right of Game: Rule 19
+        alt User Wants to Play Again
+          Game -> Game: Restart Game
+        else
+          Game -> Game: End Game
+        end
+      end
+    end
+    Ball -> Brick: Check Collision
+    alt Ball Hits Brick
+      note right of Ball: Rule 12
+      Brick -> Ball: Change Direction
+      Brick -> Brick: Reduce Brick Strength
+      alt Brick Destroyed
+        Brick -> Game: Update Score
+      end
+    end
+  end
+  note right of Game: Rule 6
+  Game -> Game: Level Complete
+  note right of Game: Rule 14
+  Game -> Board: Initialize Next Level (Add 2 Red Bricks And 1 Gold Brick To The Prev. Brick Arrangement. Initialize The Bricks In The Upper Third Randomly)
+  note right of Game: Rule 13
+  Game -> Ball: Increase Ball Speed By 1 Pixel Per Second
+end
+@enduml

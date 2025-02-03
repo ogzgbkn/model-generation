@@ -2,6 +2,9 @@
 actor Player
 participant GameSystem
 
+note right of GameSystem: Rule 1
+GameSystem -> Player: Initialize a dice throwing game for 3 players
+
 note right of Player: Rule 17
 Player -> GameSystem: Enter names
 alt Name is "Computer"

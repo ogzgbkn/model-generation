@@ -70,7 +70,7 @@ loop 33 times (33 levels)
     Ball -> Brick: Check collision
     alt Ball hits brick
       note right of Ball: Rule 12
-      Brick -> Ball: Change direction
+      Brick -> Ball: Change direction with the same angle of incident
       Brick -> Brick: Reduce brick strength
       alt Brick destroyed
         Brick -> Game: Update score
@@ -81,7 +81,9 @@ loop 33 times (33 levels)
   Game -> Game: Level complete
   note right of Game: Rule 14
   Game -> Board: Configure next level (Add 2 red bricks and 1 gold brick to the prev. brick arrangement)
-  Game -> Board: Initialize the next level's bricks in the upper third randomly
+  note right of Game: Rule 15
+  Game -> Board: Initialize the next level's bricks' locations in the upper third of the board randomly
+  Game -> Board: Initialize the next level's bricks' sizes (single or double) randomly
   note right of Game: Rule 13
   Game -> Ball: Increase ball speed by 1 pixel per second
 end

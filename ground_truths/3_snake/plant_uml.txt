@@ -5,12 +5,15 @@ participant Board
 participant Snake
 participant Food
 
+note right of Game: Rule 1
+Game -> User: Grow the length of the snake by making the snake eat food until it fills the entire board
 note right of User: Rule 6
 User -> Game: Set the value of k and start game
 note right of Game: Rule 6
-Game -> Board: Initialize Board with size k x k block. A block has size 5 x 5 pixels
+Game -> Game: A block has size 5 x 5 pixels
+Game -> Board: Initialize Board with size k x k block
 note right of Game: Rule 7
-Game -> Snake: Initialize Snake as a single green block at the bottom left of the board
+Game -> Snake: Initialize Snake as a single green block at the leftmost and bottommost block of the board
 Game -> Food: Initialize a piece of Food as a single red block with a random position on the board
 Game -> Snake: Set Snake direction "up"
 
@@ -37,19 +40,24 @@ loop Every frame
   Snake -> Board: Move
   note right of Food: Rule 2
   alt Snake eats food by moving over the food
-    note right of Snake: Rule 3
-    Snake -> Snake: Grow by 1 block from the end
-    note right of Game: Rule 9
-    Game -> Food: Place a new piece of Food with a random position on the board
+    note right of Food: Rule 3, 12
+    alt Snake eats blue bonus food
+        Snake -> Snake: Grow by 3 blocks from the end
+    else Snake eats food
+      Snake -> Snake: Grow by 1 block from the end
+    end
     note right of Game: Rule 10
     Game -> Snake: Increase speed by 1%
+    note right of Game: Rule 9
+    Game -> Food: Place a new piece of Food with a random position on the board
     note right of Food: Rule 12
-    alt Snake has eaten 10 pieces
-      Game -> Food: Place blue bonus Food
-      alt Snake eats blue bonus Food
-        Snake -> Snake: Grow by 3 blocks
-      end
+    alt Snake has eaten 10 pieces of food
+      Game -> Food: Place blue bonus food
     end
+  end
+  note right of Food: Rule 13
+  alt Snake eats golden bonus block
+    Snake -> Snake: Decrease speed by 5%
   end
   alt Snake touches board side
     note right of Game: Rule 4
@@ -63,11 +71,5 @@ end
 note right of Food: Rule 13
 loop Every 5 minutes
   Game -> Food: Place golden bonus block
-  alt Snake eats golden bonus block
-    Snake -> Snake: Decrease speed by 5%
-  end
 end
-
-User -> Game: Press 'p'
-
 @enduml

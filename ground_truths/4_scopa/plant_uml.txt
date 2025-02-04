@@ -1,12 +1,11 @@
 @startuml
-actor Player1
-actor Player2
-actor Player3
+actor Player
 participant Program
 
 note right of Program: Rule 2
-Program -> Program: Decide turn order randomly
-
+Program -> Player: A game for 3 players
+note right of Program: Rule 2
+Program -> Program: Decide player turn order randomly
 note right of Program: Rule 4
 Program -> Program: Initialize the deck of 40 cards with 4 suits: Coins, Cups, Swords, and Clubs.
 note right of Program: Rule 5
@@ -14,56 +13,51 @@ Program -> Program: Each suit has 10 cards. From 1 to 10.
 
 note right of Program: Rule 8
 Program -> Program: Shuffle deck
-Program -> Player1: Deal 3 cards
-Program -> Player2: Deal 3 cards
-Program -> Player3: Deal 3 cards
+Program -> Player: Deal 3 cards to each player
 Program -> Table: Place 4 cards
 
 loop Not all cards are distributed
-  note right of Player1: Rule 9
-  Player1 -> Player1: Select card from hand
+  note right of Player: Rule 9
+  Program -> Player: Next player's turn starts
+  Player -> Player: Select card from hand
 
   alt Card matches a card on table
-    note right of Player1: Rule 10
-    Player1 -> Player1: Put matching card on his own discard pile
+    note right of Player: Rule 10
+    Player -> Player: Put matching card on his own discard pile
   else Card matches sum of 2 or more cards on table
-    note right of Player1: Rule 11
-    Player1 -> Player1: Put matching cards on his own discard pile
+    note right of Player: Rule 11
+    Player -> Player: Put matching cards on his own discard pile
   else No match
-    note right of Player1: Rule 12
-    Player1 -> Table: Add card to table
+    note right of Player: Rule 12
+    Player -> Table: Add card to table
   end
 
   alt Player takes all cards from table
-    note right of Player1: Rule 3
-    Player1 -> Player1: Earn special point
+    note right of Player: Rule 3
+    Player -> Player: Earn special point
   end
 
   note right of Program: Rule 13
   alt No cards left in hand
-    Program -> Player1: Deal 3 new cards
+    Program -> Player: Deal 3 new cards
   end
 end
 
 note right of Program: Rule 14
 alt All cards distributed
-  Program -> Player1: The player who last drawn cards takes remaining cards on table to his own discard pile
+  Program -> Player: The player who last drawn cards takes remaining cards on table to his own discard pile
 end
 
 note right of Program: Rule 15
-Program -> Player1: Tally points
-Program -> Player2: Tally points
-Program -> Player3: Tally points
+Program -> Player: Tally points
 
 alt End of round
   note right of Program: Rule 16
   Program -> Program: {\n  "Line 1": "Players receive a point for each of the following rules depending on their discard pile:",\n  "Line 2": "Has most cards, has most coins cards, has the seven of Coins, has the highest sum"\n}
-  Program -> Player1: Award points based on discard pile
-  Program -> Player2: Award points based on discard pile
-  Program -> Player3: Award points based on discard pile
+  Program -> Player: Award points based on discard pile
 end
 
-alt Player reaches the winning score which is 8
+alt A player reaches the winning score which is 8
   note right of Program: Rule 6
   Program -> Program: End game
 else No player reaches winning score

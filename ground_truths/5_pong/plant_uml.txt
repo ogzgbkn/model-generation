@@ -5,28 +5,31 @@ actor Computer
 participant Game
 participant Board
 participant Ball
-participant Paddle1
-participant Paddle2
+participant LeftPaddle
+participant RightPaddle
 
-note right of Game: Rule 1, 2, 7
-Game -> Paddle1: Initiate Paddle 1 on the left side of the board with size 1 x 4 blocks
-Game -> Paddle2: Initiate Paddle 2 on the right side of the board with size 1 x 4 blocks
+note right of Game: Rule 1, 2
+Game -> LeftPaddle: Initiate left paddle on the left side of the board with size 1 x 4 blocks
+Game -> RightPaddle: Initiate right paddle on the right side of the board with size 1 x 4 blocks
+note right of Game: Rule 7
+Game -> LeftPaddle: Left paddle can only move vertically
+Game -> RightPaddle: Right paddle can only move vertically
 
 note right of Game: Rule 11
-Game -> Player1: Control Paddle1
+Game -> Player1: Control LeftPaddle
 Player1 -> Game: Select The Player Mode
 
-note right of Game: Rule 15
+note right of Game: Rule 11, 15
 alt 1 player mode
-  Game -> Computer: Control Paddle2
+  Game -> Computer: Control RightPaddle
 else 2 player mode
-  Game -> Player2: Control Paddle2
+  Game -> Player2: Control RightPaddle
 end
 
-note right of Player1: Rule 7, 20
-Player1 -> Paddle1: Control with 'w' and 's' (Only vertical control on a straight line)
-note right of Player2: Rule 7, 20
-Player2 -> Paddle2: Control with arrow keys (Only vertical control on a straight line)
+note right of Player1: Rule 20
+Player1 -> LeftPaddle: Control with 'w' and 's'
+note right of Player2: Rule 20
+Player2 -> RightPaddle: Control with arrow keys
 
 note right of Game: Rule 6
 Game -> Board: Initialize 80 x 120 blocks board (Longer side is horizontal axis. 1 block is 10 x 10 pixels)
@@ -38,17 +41,17 @@ note right of Game: Rule 17
 Game -> Board: Initialize score boards on each side on top of the board with sizes 4 x 6 blocks. Score boards show the scores of players.
 
 note right of Game: Rule 8
-Game -> Paddle1: Set position to middle
-Game -> Paddle2: Set position to middle
+Game -> LeftPaddle: Set position to middle
+Game -> RightPaddle: Set position to middle
 
 note right of Game: Rule 9
 Game -> Ball: Initialize with size 1 x 1
 note right of Game: Rule 5
 Game -> Ball: Initialize on the center. Move to left at 5 pixels/sec
 
-note right of Paddle1: Rule 10
+note right of LeftPaddle: Rule 10
 loop No player scored 10 points
-  alt Ball hits Paddle1 or Paddle2
+  alt Ball hits LeftPaddle or RightPaddle
     note right of Ball: Rule 3, 4
     Ball -> Ball: Change direction with the same angle of incidence
     note right of Ball: Rule 14
@@ -62,16 +65,16 @@ loop No player scored 10 points
     Ball -> Ball: Increase speed by 10%
     note right of Game: Rule 19
     Game -> Game: Make beep sound
-  else Ball passes Paddle1 or Paddle2
+  else Ball passes LeftPaddle or RightPaddle
     note right of Game: Rule 10
     Game -> Game: Update score
-    Game -> Game: Reset game
+    note right of Game: Rule 13
+    Game -> Game: Reset the game to its initial condition
+    note right of Ball: Rule 13
     alt Player1 scores
-      note right of Ball: Rule 13
-      Ball -> Ball: Move right
+      Ball -> Ball: Move right in the beginning of the game
     else Player2 scores
-      note right of Ball: Rule 13
-      Ball -> Ball: Move left
+      Ball -> Ball: Move left in the beginning of the game
     end
   end
 end

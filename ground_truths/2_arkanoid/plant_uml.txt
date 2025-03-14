@@ -1,90 +1,96 @@
 @startuml
 actor User
-participant Game
+participant GameEngine
 participant Board
 participant Paddle
 participant Ball
 participant Brick
 
-User -> Game: Start Game
-note right of Game: Rule 2
-Game -> Board: Initialize board (300 pixels x 200 pixels)
-note right of Game: Rule 3
-Game -> Ball: Initialize ball (10 pixels diameter)
-Game -> Brick: The bricks have the size 10 pixels x 20 pixels
-note right of Game: Rule 7
-Game -> Brick: Each brick must be either blue, red, or gold and is sized single or double
-note right of Game: Rule 8
-Game -> Brick: A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels)
-note right of Game: Rule 9
-Game -> Brick: Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits
-note right of Game: Rule 11
-Game -> Paddle: Initialize paddle at the center of bottom of the board (10 pixels x 20 pixels)
-Game -> Paddle: The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys.
-Game -> Paddle: The paddle always stays inside the board. 
-note right of Game: Rule 16
-Game -> User: User has 3 lives
-
 note right of User: Rule 1
-loop 33 times (33 levels)
+loop while level <= 33
   alt First level
-    note right of Game: Rule 10
-    Game -> Brick: Initialize 50 single blue bricks in the upper third of the board, randomly placed
+    note right of GameEngine: Rule 10
+    GameEngine -> Brick: Initialize
   end
-  note right of Game: Rule 11
-  Game -> Paddle: Reset the paddle position to center of bottom border
-  note right of Game: Rule 4
-  Game -> Ball: Start ball movement (From top left corner, with 45 degrees downwards angle and 5 pixels/second speed)
+  note right of GameEngine: Rule 11
+  GameEngine -> Paddle: Reset position
+  note right of GameEngine: Rule 4
+  GameEngine -> Ball: Start movement
   
   note right of User: Rule 6
   loop While bricks remaining
-    note right of User: Rule 5
-    User -> Paddle: Move paddle
+    note right of User: Rule 5, 11
+    User -> GameEngine: Arrow key strokes
+    GameEngine -> Paddle: Move
     note right of Ball: Rule 12
     Ball -> Paddle: Check collision
     alt Ball hits paddle
       note right of Ball: Rule 5
-      Ball -> Ball: Change direction with the same angle of incident to upward
+      Ball -> Ball: Change direction upward
     end
     Ball -> Board: Check collision
     alt Ball hits board border (not bottom border)
-      Ball -> Ball: Change direction with the same angle of incident
+      note right of Ball: Rule 12
+      Ball -> Ball: Change direction
     end
     alt Ball falls off bottom
-      note right of Ball: Rule 17
-      Ball -> Game: Lose life
+      note right of GameEngine: Rule 17
+      GameEngine -> GameEngine: Lose life
       note right of User: Rule 18
       alt Lives remaining
-        Game -> Board: Restart level
+        GameEngine -> GameEngine: Restart level
       else
-        Game -> User: Game over
-        User -> Game: Play again?
-        note right of Game: Rule 19
+        GameEngine -> GameEngine: Game over
+        note right of GameEngine: Rule 19
         alt User wants to play again
-          Game -> Game: Restart game from level 1
+          GameEngine -> GameEngine: Restart game from level 1
         else
-          Game -> Game: End game
+          GameEngine -> GameEngine: End game
         end
       end
     end
     Ball -> Brick: Check collision
     alt Ball hits brick
       note right of Ball: Rule 12
-      Brick -> Ball: Change direction with the same angle of incident
-      Brick -> Brick: Reduce brick strength
+      Ball -> Ball: Change direction
+      Brick -> Brick: Reduce strength
       alt Brick destroyed
-        Brick -> Game: Update score
+        GameEngine -> GameEngine: Update score
       end
     end
   end
-  note right of Game: Rule 6
-  Game -> Game: Level complete
-  note right of Game: Rule 14
-  Game -> Board: Configure next level (Add 2 red bricks and 1 gold brick to the prev. brick arrangement)
-  note right of Game: Rule 15
-  Game -> Board: Initialize the next level's bricks' locations in the upper third of the board randomly
-  Game -> Board: Initialize the next level's bricks' sizes (single or double) randomly
-  note right of Game: Rule 13
-  Game -> Ball: Increase ball speed by 1 pixel per second
+  note right of GameEngine: Rule 6
+  GameEngine -> GameEngine: Increase level counter
+  note right of GameEngine: Rule 14, 15
+  GameEngine -> Brick: Spawn new arrangement
+  note right of GameEngine: Rule 13
+  GameEngine -> Ball: Increase speed
 end
+
+note right of GameEngine: Rule 2, 3
+note right of GameEngine: Board has size 200 pixels (width) x 300 pixels (height).
+note right of GameEngine: The bricks and the paddle has size 20 pixels x 10 pixels. The ball has diameter of 10 pixels.
+note right of GameEngine: Rule 7, 8
+note right of GameEngine: Each brick must be either blue, red, or gold and is sized single or double.
+note right of GameEngine: A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).
+note right of GameEngine: Rule 9
+note right of GameEngine: Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.
+note right of GameEngine: Rule 5, 12
+note right of GameEngine: The ball direction changes everytime with the same angle of reflection as the angle of incidence for collisions
+note right of GameEngine: with paddle, brick and board (except bottom border).
+note right of GameEngine: Rule 4, 11
+note right of GameEngine: Paddle position resets to center of the bottom border. Ball movement starts from the top left corner of
+note right of GameEngine: the board and moves downwards with a straight trajectory at a 45° angle and a speed of 5 pixels per second.
+note right of GameEngine: Rule 11
+note right of GameEngine: The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow
+note right of GameEngine: keys. The paddle always stays inside the board.
+note right of GameEngine: Rule 16
+note right of GameEngine: User has 3 lives.
+note right of GameEngine: Rule 10
+note right of GameEngine: The first level is initialized with 50 blue, single bricks randomly placed on the upper third of the board.
+note right of GameEngine: Rule 13
+note right of GameEngine: Every time the next level starts, the speed of the ball increases by 1 pixel per second.
+note right of GameEngine: Rule 14, 15
+note right of GameEngine: With the next level, add 2 red bricks and 1 gold brick to the prev. brick arrangement. Next level's bricks'
+note right of GameEngine: sizes (single or double) and locations (in the upper third of the board) are determined randomly.
 @enduml

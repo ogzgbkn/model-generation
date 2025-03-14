@@ -7,7 +7,7 @@ participant Ball
 participant Brick
 
 note right of User: Rule 1
-loop while level <= 33
+loop While level <= 33
   alt First level
     note right of GameEngine: Rule 10
     GameEngine -> Brick: Initialize
@@ -33,7 +33,7 @@ loop while level <= 33
       note right of Ball: Rule 12
       Ball -> Ball: Change direction
     end
-    alt Ball falls off bottom
+    alt Ball hits bottom border (falls off)
       note right of GameEngine: Rule 17
       GameEngine -> GameEngine: Lose life
       note right of User: Rule 18

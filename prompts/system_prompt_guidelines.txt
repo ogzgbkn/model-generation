@@ -5,17 +5,35 @@ Input: A list of game requirements. Each requirement will be labeled (e.g., 1., 
 1. Represents the requirements in sequence diagram format.
 2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.
 3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.
+4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append
+these extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram
+does not get too wide. Use the following syntax:
+note right of <leftmost_participant/actor>: Rule <RuleID>
+note right of <leftmost_participant/actor>: <Extra information/detail>
+note right of <leftmost_participant/actor>: <Extra information/detail>
 
 Output: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.
 
 Example Input:
-1. The player rolls a die.
-2. The game board updates based on the roll.
+1. The game is played by 2 players.
+2. In each turn, a player rolls a die. Then the other player rolls a die.
+3. The player who rolls a 6 gets 1 point.
+4. The player who rolls a 3 gets 2 points.
+5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.
+6. The player who reaches 10 points first, wins the game.
+7. A die is a classic white die which has values from 1 to 6.
+8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. 
 
 Example Output: Return a JSON object with the following structure:
 {
   "output": "@startuml
-<PlantUML diagram description comes here>
+<PlantUML diagram description that defines game mechanics comes here>
+note right of Player: Rule 7
+note right of Player: A die is a classic white die with values from 1 to 6
+note right of Player: Rule 8
+note right of Player: The game board has size 50 cm x 50 cm.
+note right of Player: The players roll the dice into the game board.
+note right of Player: Its borders prevent dice to go out.
 @enduml"
 }
 

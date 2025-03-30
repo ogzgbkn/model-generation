@@ -8,7 +8,7 @@ participant Food
 note right of User: Rule 6
 User -> Game: Set k
 note right of Game: Rule 6
-Game -> Board: Initialize
+Game -> Board: Initialize k x k
 note right of Game: Rule 7
 Game -> Snake: Initialize
 Game -> Food: Initialize
@@ -17,16 +17,16 @@ Game -> Snake: Set direction "up"
 note right of Snake: Rule 11
 Game -> User: Ask difficulty
 alt User sets difficulty to easy
-  User -> Game: Easy
+  User -> Game: Choose easy difficulty
   Game -> Snake: Set speed to 0.5 blocks/sec
 else User sets difficulty to hard
-  User -> Game: Hard
+  User -> Game: Choose hard difficulty
   Game -> Snake: Set speed to 2 blocks/sec
 end
 
 loop Every frame
   note right of Food: Rule 13
-  loop Every 5 minutes
+  alt 5 minutes passed
     Game -> Food: Spawn golden bonus
   end
   note right of Game: Rule 14
@@ -39,20 +39,16 @@ loop Every frame
   end
   note right of Snake: Rule 8
   alt User presses a direction key
-    User -> Game: Key stroke
+    User -> Game: Key stroke (up,down,right or left)
     Game -> Snake: Change direction
-  end  
-  Snake -> Snake: Move
+  end
+  Snake -> Snake: Move with current speed and direction
   note right of Food: Rule 2
-  alt Snake eats blue or normal food by moving over the food
-    note right of Food: Rule 3, 12
-    alt Snake eats blue bonus food
-        Snake -> Snake: Grow by 3 blocks
-    else Snake eats food
-      Snake -> Snake: Grow by 1 block
-    end
+  alt Snake eats a piece of food by moving over the food
+    note right of Snake: Rule 3
+    Snake -> Snake: Grow by 1 block
     note right of Game: Rule 10
-    Game -> Snake: Increase speed
+    Game -> Snake: Increase speed by 1%
     note right of Food: Rule 9, 12
     alt Snake has eaten 10 pieces of food
       Game -> Food: Spawn blue bonus
@@ -60,7 +56,15 @@ loop Every frame
       Game -> Food: Spawn
     end
   end
-  note right of Food: Rule 13
+  note right of Snake: Rule 12
+  alt Snake eats blue bonus food
+    Snake -> Snake: Grow by 3 blocks
+  end
+  note right of Snake: Rule 1
+  alt Snake fills the entire board
+    Game -> Game: Player wins
+  end
+  note right of Snake: Rule 13
   alt Snake eats golden bonus block
     Snake -> Snake: Decrease speed by 5%
   end
@@ -73,14 +77,8 @@ loop Every frame
   end
 end
 
-note right of User: Rule 1
-note right of User: The goal of the game is to grow the length of the snake by making the snake eat food
-note right of User: until it fills the entire board.
-note right of User: Rule 10
-note right of User: Every time the snake eats a piece of food, its speed increases by 1%.
 note right of User: Rule 3
-note right of User: Every time the snake eats a piece of food, its body grows by one block which gets
-note right of User: attached to the end of the body.
+note right of User: Snake grows by end of its body.
 note right of User: Rule 6
 note right of User: The game board consists of k x k blocks, where k shall be given as input by the user.
 note right of User: Every block, including the food and body blocks of the snake, shall have a size of
@@ -90,9 +88,6 @@ note right of User: When the game starts, the board is initialised with a snake 
 note right of User: The snake is represented as a single green block, positioned at the leftmost and
 note right of User: bottommost block of the board. The initial direction shall be up. The piece of food
 note right of User: is represented as a single red block placed at a random position on the board.
-note right of User: Rule 8
-note right of User: When the user presses up, down, right, or left on the keyboard, the snake continues
-note right of User: to move to the corresponding direction.
 note right of User: Rule 9, 12, 13
 note right of User: Every time the snake eats a piece of food, a new piece of food shall be placed at a 
 note right of User: random position on the board. Blue and golden bonus foods also spawn at random

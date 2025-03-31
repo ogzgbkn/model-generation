@@ -1,0 +1,70 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Snake
+participant Food
+
+User -> Game: Start Game
+note right of Game: Rule 7
+Game -> Board: Initialize board with k x k blocks
+note right of Board: Rule 6
+note right of Board: Every block is 5 x 5 pixels
+Board -> Snake: Place snake at leftmost bottommost block
+note right of Snake: Initial direction is up
+Board -> Food: Place food at random position
+
+loop Every Move
+    User -> Game: Press direction key (up/down/left/right)
+    note right of Game: Rule 8
+    Game -> Snake: Move in the direction
+    alt Snake touches food
+        note right of Snake: Rule 2
+        Snake -> Snake: Grow by one block
+        note right of Snake: Rule 3
+        Game -> Food: Place new food at random position
+        note right of Food: Rule 9
+        Game -> Snake: Increase speed by 1%
+        note right of Snake: Rule 10
+        alt Snake has eaten 10 pieces of food
+            Food -> Board: Place blue bonus food at random position
+            note right of Food: Rule 12
+            alt Snake eats blue bonus food
+                Snake -> Snake: Grow by three blocks
+            end
+        end
+    end
+    alt Snake touches board side
+        note right of Snake: Rule 4
+        Game -> Game: Game Over
+    else Snake touches its own body
+        note right of Snake: Rule 5
+        Game -> Game: Game Over
+    end
+end
+
+loop Every 5 minutes
+    Board -> Food: Place golden bonus block at random position
+    note right of Food: Rule 13
+    alt Snake eats golden bonus block
+        Snake -> Snake: Decrease speed by 5%
+    end
+end
+
+User -> Game: Set difficulty (easy/hard)
+alt Easy
+    Game -> Snake: Set speed to 0.5 blocks/second
+else Hard
+    Game -> Snake: Set speed to 2 blocks/second
+end
+note right of Game: Rule 11
+
+User -> Game: Press 'p' to pause
+note right of Game: Rule 14
+Game -> Game: Pause game
+User -> Game: Press 'p' to resume
+Game -> Game: Resume game
+
+note right of User: Rule 1
+note right of User: The goal is to fill the board with the snake
+@enduml

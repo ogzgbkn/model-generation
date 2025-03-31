@@ -1,0 +1,75 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Snake
+participant Food
+
+User -> Game: Start Game
+Game -> Board: Initialize Board with k x k blocks
+note right of Board: Rule 6
+note right of Board: The board consists of k x k blocks.
+note right of Board: Each block is sized to fit the game.
+Game -> Snake: Initialize Snake at leftmost bottommost block
+note right of Snake: Rule 7
+note right of Snake: Snake starts as a green block.
+note right of Snake: Initial direction is up.
+Game -> Food: Place Food at random position
+note right of Food: Rule 7
+note right of Food: Food is a red block.
+
+User -> Snake: Move Snake (up/down/left/right)
+note right of Snake: Rule 8
+
+alt Snake touches Food
+    Snake -> Snake: Grow by 1 block
+    note right of Snake: Rule 3
+    Snake -> Food: Place new Food at random position
+    note right of Food: Rule 9
+    Snake -> Snake: Increase speed by 1%
+    note right of Snake: Rule 10
+else Snake touches Board side
+    Snake -> Game: Game Over
+    note right of Snake: Rule 4
+else Snake touches its own body
+    Snake -> Game: Game Over
+    note right of Snake: Rule 5
+end
+
+alt User sets difficulty
+    User -> Game: Set difficulty to easy/hard
+    note right of Game: Rule 11
+    alt Difficulty is easy
+        Game -> Snake: Set speed to 0.5 blocks/sec
+    else Difficulty is hard
+        Game -> Snake: Set speed to 2 blocks/sec
+    end
+end
+
+alt Snake eats many pieces of food
+    Food -> Food: Place blue bonus food at random position
+    note right of Food: Rule 12
+    alt Snake eats blue bonus food
+        Snake -> Snake: Grow by 3 blocks
+    end
+end
+
+alt Golden bonus block appears
+    Food -> Food: Place golden bonus block at random position
+    note right of Food: Rule 13
+    alt Snake eats golden bonus block
+        Snake -> Snake: Decrease speed by 5%
+    end
+end
+
+alt User presses 'p'
+    User -> Game: Pause Game
+    note right of Game: Rule 14
+    alt User presses 'p' again
+        User -> Game: Resume Game
+    end
+end
+
+note right of User: Rule 1
+note right of User: The goal is to fill the board with the snake.
+@enduml

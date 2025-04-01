@@ -1,0 +1,63 @@
+@startuml
+actor User
+participant Game
+participant Snake
+participant Board
+
+User -> Game: Start Game
+note right of Game: Rule 7
+Game -> Board: Initialize board with snake and food
+note right of Board: Rule 6
+note right of Board: k x k blocks, each 5x5 pixels
+
+alt User sets difficulty
+    User -> Game: Set difficulty to easy
+    Game -> Snake: Set speed to 0.5 blocks/sec
+    note right of Snake: Rule 11
+else User sets difficulty
+    User -> Game: Set difficulty to hard
+    Game -> Snake: Set speed to 2 blocks/sec
+    note right of Snake: Rule 11
+end
+
+loop Game is running
+    User -> Snake: Press up/down/left/right
+    note right of Snake: Rule 8
+    Snake -> Board: Move in direction
+    alt Snake touches food
+        note right of Snake: Rule 2
+        Snake -> Snake: Grow by 1 block
+        note right of Snake: Rule 3
+        Game -> Board: Place new food at random position
+        note right of Board: Rule 9
+        Snake -> Snake: Increase speed by 1%
+        note right of Snake: Rule 10
+        alt Snake has eaten 10 pieces of food
+            Board -> Board: Place blue bonus food
+            note right of Board: Rule 12
+        end
+    end
+    alt Snake touches board side
+        note right of Snake: Rule 4
+        Game -> Game: Game Over
+    else Snake's body is touched
+        note right of Snake: Rule 5
+        Game -> Game: Game Over
+    end
+    alt Every 5 minutes
+        Board -> Board: Place golden bonus block
+        note right of Board: Rule 13
+        alt Snake eats golden bonus block
+            Snake -> Snake: Decrease speed by 5%
+        end
+    end
+    alt User presses p
+        User -> Game: Pause game
+        note right of Game: Rule 14
+        User -> Game: Resume game
+    end
+end
+
+note right of User: Rule 1
+note right of User: The goal is to grow the snake until it fills the board.
+@enduml

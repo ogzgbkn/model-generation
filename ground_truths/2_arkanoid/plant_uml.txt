@@ -6,12 +6,12 @@ participant Paddle
 participant Ball
 participant Brick
 
+alt First level
+  note right of GameEngine: Rule 10
+  GameEngine -> Brick: Initialize
+end
 note right of User: Rule 1
 loop While level <= 33
-  alt First level
-    note right of GameEngine: Rule 10
-    GameEngine -> Brick: Initialize
-  end
   note right of GameEngine: Rule 11
   GameEngine -> Paddle: Reset position
   note right of GameEngine: Rule 4
@@ -36,8 +36,8 @@ loop While level <= 33
     alt Ball hits bottom border (falls off)
       note right of GameEngine: Rule 17
       GameEngine -> GameEngine: Lose life
-      note right of User: Rule 18
-      alt Lives remaining
+      note right of GameEngine: Rule 18
+      alt Life > 0
         GameEngine -> GameEngine: Restart level
       else
         GameEngine -> GameEngine: Game over
@@ -54,8 +54,8 @@ loop While level <= 33
       note right of Ball: Rule 12
       Ball -> Ball: Change direction
       Brick -> Brick: Reduce strength
-      alt Brick destroyed
-        GameEngine -> GameEngine: Update score
+      alt Brick strength becomes zero
+        GameEngine -> Brick: Remove
       end
     end
   end
@@ -64,33 +64,29 @@ loop While level <= 33
   note right of GameEngine: Rule 14, 15
   GameEngine -> Brick: Spawn new arrangement
   note right of GameEngine: Rule 13
-  GameEngine -> Ball: Increase speed
+  GameEngine -> Ball: Increase speed 1 pixel/sec
 end
 
-note right of GameEngine: Rule 2, 3
-note right of GameEngine: Board has size 200 pixels (width) x 300 pixels (height).
-note right of GameEngine: The bricks and the paddle has size 20 pixels x 10 pixels. The ball has diameter of 10 pixels.
-note right of GameEngine: Rule 7, 8
-note right of GameEngine: Each brick must be either blue, red, or gold and is sized single or double.
-note right of GameEngine: A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).
-note right of GameEngine: Rule 9
-note right of GameEngine: Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.
-note right of GameEngine: Rule 5, 12
-note right of GameEngine: The ball direction changes everytime with the same angle of reflection as the angle of incidence for collisions
-note right of GameEngine: with paddle, brick and board (except bottom border).
-note right of GameEngine: Rule 4, 11
-note right of GameEngine: Paddle position resets to center of the bottom border. Ball movement starts from the top left corner of
-note right of GameEngine: the board and moves downwards with a straight trajectory at a 45° angle and a speed of 5 pixels per second.
-note right of GameEngine: Rule 11
-note right of GameEngine: The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow
-note right of GameEngine: keys. The paddle always stays inside the board.
-note right of GameEngine: Rule 16
-note right of GameEngine: User has 3 lives.
-note right of GameEngine: Rule 10
-note right of GameEngine: The first level is initialized with 50 blue, single bricks randomly placed on the upper third of the board.
-note right of GameEngine: Rule 13
-note right of GameEngine: Every time the next level starts, the speed of the ball increases by 1 pixel per second.
-note right of GameEngine: Rule 14, 15
-note right of GameEngine: With the next level, add 2 red bricks and 1 gold brick to the prev. brick arrangement. Next level's bricks'
-note right of GameEngine: sizes (single or double) and locations (in the upper third of the board) are determined randomly.
+note right of User: Rule 2, 3
+note right of User: Board has size 200 pixels (width) x 300 pixels (height).
+note right of User: The bricks and the paddle has size 20 pixels x 10 pixels. The ball has diameter of 10 pixels.
+note right of User: Rule 7, 8
+note right of User: Each brick must be either blue, red, or gold and is sized single or double.
+note right of User: A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).
+note right of User: Rule 9
+note right of User: Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.
+note right of User: Rule 5, 12
+note right of User: The ball direction changes everytime with the same angle of reflection as the angle of incidence for collisions
+note right of User: Rule 4, 11
+note right of User: Paddle position resets to center of the bottom border. Ball movement starts from the top left corner of
+note right of User: the board and moves downwards with a straight trajectory at a 45° angle and a speed of 5 pixels per second.
+note right of User: Rule 11
+note right of User: The paddle only moves horizontally on the bottom of the board. The paddle always stays inside the board.
+note right of User: Rule 16
+note right of User: User has 3 lives.
+note right of User: Rule 10
+note right of User: The first level is initialized with 50 blue, single bricks randomly placed on the upper third of the board.
+note right of User: Rule 14, 15
+note right of User: With the next level, add 2 red bricks and 1 gold brick to the prev. brick arrangement. Next level's bricks'
+note right of User: sizes (single or double) and locations (in the upper third of the board) are determined randomly.
 @enduml

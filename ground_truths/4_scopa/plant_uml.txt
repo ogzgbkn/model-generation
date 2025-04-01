@@ -1,67 +1,68 @@
 @startuml
 actor Player
-participant Program
+participant GameEngine
 
-note right of Program: Rule 2
-Program -> Player: A game for 3 players
-note right of Program: Rule 2
-Program -> Program: Decide player turn order randomly
-note right of Program: Rule 4
-Program -> Program: Initialize the deck of 40 cards with 4 suits: Coins, Cups, Swords, and Clubs.
-note right of Program: Rule 5
-Program -> Program: Each suit has 10 cards. From 1 to 10.
+note right of GameEngine: Rule 2
+GameEngine -> GameEngine: Decide turn order randomly
 
-note right of Program: Rule 8
-Program -> Program: Shuffle deck
-Program -> Player: Deal 3 cards to each player
-Program -> Table: Place 4 cards
+loop Each round
+  note right of GameEngine: Rule 8
+  GameEngine -> GameEngine: Shuffle deck
+  GameEngine -> Player: 3 cards from the deck
+  GameEngine -> Table: 4 cards from the deck
 
-loop Not all cards are distributed
-  note right of Player: Rule 9
-  Program -> Player: Next player's turn starts
-  Player -> Player: Select card from hand
+  loop Cards exist in deck
+    note right of Player: Rule 9
+    GameEngine -> Player: Next player's turn
+    Player -> Player: Select a card from hand
 
-  alt Card matches a card on table
-    note right of Player: Rule 10
-    Player -> Player: Put matching card on his own discard pile
-  else Card matches sum of 2 or more cards on table
-    note right of Player: Rule 11
-    Player -> Player: Put matching cards on his own discard pile
-  else No match
-    note right of Player: Rule 12
-    Player -> Table: Add card to table
+    alt Card matches a card on table
+      note right of Player: Rule 10
+      Player -> Player: Put matching card on own discard pile
+    else Card matches sum of 2 or more cards on table
+      note right of Player: Rule 11
+      Player -> Player: Put matching cards on own discard pile
+    else No match
+      note right of Player: Rule 12
+      Player -> Table: Non-matching card
+    end
+    
+    note right of GameEngine: Rule 3
+    alt Player takes all cards from table
+      GameEngine -> GameEngine: Increase the player's points by 1
+    end
+
+    note right of GameEngine: Rule 13
+    alt Player has no cards left in hand
+      GameEngine -> Player: 3 cards from the deck
+    end
   end
 
-  alt Player takes all cards from table
-    note right of Player: Rule 3
-    Player -> Player: Earn special point
+  note right of GameEngine: Rule 14
+  GameEngine -> Player: The remaining cards on the table
+
+  note right of GameEngine: Rule 15, 16
+  GameEngine -> Player: Tally points
+
+  alt A player reaches the winning score of 8
+    note right of GameEngine: Rule 6
+    GameEngine -> GameEngine: End game
+  else No player reaches winning score
+    note right of GameEngine: Rule 7
+    GameEngine -> GameEngine: Start new round
   end
-
-  note right of Program: Rule 13
-  alt No cards left in hand
-    Program -> Player: Deal 3 new cards
-  end
 end
 
-note right of Program: Rule 14
-alt All cards distributed
-  Program -> Player: The player who last drawn cards takes remaining cards on table to his own discard pile
-end
-
-note right of Program: Rule 15
-Program -> Player: Tally points
-
-alt End of round
-  note right of Program: Rule 16
-  Program -> Program: {\n  "Line 1": "Players receive a point for each of the following rules depending on their discard pile:",\n  "Line 2": "Has most cards, has most coins cards, has the seven of Coins, has the highest sum"\n}
-  Program -> Player: Award points based on discard pile
-end
-
-alt A player reaches the winning score which is 8
-  note right of Program: Rule 6
-  Program -> Program: End game
-else No player reaches winning score
-  note right of Program: Rule 7
-  Program -> Program: Start new round
-end
+note right of Player: Rule 1
+note right of Player: A game for three players.
+note right of Player: Rule 4
+note right of Player: The game is played with a deck of 40 cards, divided into four suits: Coins, Cups,
+note right of Player: Swords, and Clubs.
+note right of Player: Rule 5
+note right of Player: Each suit has 10 cards. From 1 to 10.
+note right of Player: Rule 14
+note right of Player: The player who last drawn cards takes remaining cards on table to his own discard pile.
+note right of Player: Rule 16
+note right of Player: Players receive a point for each of the following rules depending on their discard pile:
+note right of Player: Has most cards, has most coins cards, has the seven of Coins, has the highest sum.
 @enduml

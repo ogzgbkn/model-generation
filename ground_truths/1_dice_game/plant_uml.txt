@@ -2,110 +2,116 @@
 actor Player
 participant GameSystem
 
-note right of GameSystem: Rule 1
-GameSystem -> Player: Initialize a dice throwing game for 3 players
-
 note right of Player: Rule 17
-Player -> GameSystem: Enter names
+Player -> GameSystem: Set name
 alt Name is "Computer"
   GameSystem -> Player: "Name cannot be Computer"
-  Player -> GameSystem: Enter valid name
+  Player -> GameSystem: Set valid name
 end
 
 note right of GameSystem: Rule 2
-GameSystem -> Player: Initialize points to 0
+GameSystem -> GameSystem: Set players' points to 0
 
 note right of GameSystem: Rule 11
-GameSystem -> Player: Set point colors (player 1: red, player 2: green, player 3: blue)
+GameSystem -> GameSystem: Set players' point colors
 
-note right of GameSystem: Rule 16
-GameSystem -> Player: Decide turn order randomly
+note right of GameSystem: Rule 3, 16
+GameSystem -> GameSystem: Decide turn order randomly
 
 note right of GameSystem: Rule 7
-loop 12 times
+loop 12 times (turns)
   note right of GameSystem: Rule 8
   alt One player has 10 more points than others
-  GameSystem -> Player: End game
+    note right of GameSystem: Rule 22
+    alt Two players have the same points
+      GameSystem -> GameSystem: Do nothing
+    else
+      GameSystem -> GameSystem: End loop
+    end
   end
-
-  note right of GameSystem: Rule 3
-  GameSystem -> Player: The next player's turn starts
   
   note right of GameSystem: Rule 20
-  alt Player skips
-    GameSystem -> Player: Skip to next player
+  alt Player decides to skip
+    GameSystem -> GameSystem: Skip to next player
   else
     note right of Player: Rule 4
     Player -> GameSystem: Throw dice
     
     note right of GameSystem: Rule 14
     alt Dice count is 2
-      GameSystem -> Player: Triple dice count
-    else Dice count is even but not 2
-      GameSystem -> Player: Halve dice count
+      GameSystem -> GameSystem: Triple dice count
+    else Dice count is even
+      GameSystem -> GameSystem: Halve dice count
     end
     
     note right of GameSystem: Rule 18
     alt Dice count is 5
-      Player -> GameSystem: Throw again
-      GameSystem -> Player: Multiply both dice counts
+      Player -> GameSystem: Throw dice
+      GameSystem -> GameSystem: Multiply both dice counts
     end
     
     note right of GameSystem: Rule 9
     alt Dice count is 1
-      Player -> GameSystem: Decide to re-roll
+      GameSystem -> Player: Re-roll?
+      alt Player decides to re-roll
+        Player -> GameSystem: Throw dice
+      end
     end
     
     note right of GameSystem: Rule 5
-    GameSystem -> Player: Add dice count to points
+    GameSystem -> GameSystem: Add dice count to player's points
     
     note right of GameSystem: Rule 19
     alt Points > 5
-      GameSystem -> Player: Change point color to yellow
+      GameSystem -> GameSystem: Change player's point color to yellow
     end
     
     note right of GameSystem: Rule 12
     alt Points > 11
-      GameSystem -> Player: Change point color to purple
+      GameSystem -> GameSystem: Change player's point color to purple
     end
     
     note right of GameSystem: Rule 21
-    alt Same value thrown three times in a row, by a player
-      GameSystem -> Player: Reset points to 0
+    alt Same value thrown three times in a row by the player
+      GameSystem -> GameSystem: Reset player's points to 0
     end
     
     note right of GameSystem: Rule 6
-    GameSystem -> Player: Print dice count and points
+    GameSystem -> GameSystem: Print dice count and points
     
     note right of GameSystem: Rule 15
     alt Points are equal
-      GameSystem -> Player: Print "Equality!"
+      GameSystem -> GameSystem: Print "Equality!"
     end
     
     note right of GameSystem: Rule 13
     alt Dice count is 6
-      GameSystem -> Player: Skip next player's turn
+      GameSystem -> GameSystem: Skip next player's turn
     end
   end
 end
 
-note right of GameSystem: Rule 22
-alt Two players have the same points
-  GameSystem -> Player: Continue the game until one gains more points
-end
-
 note right of GameSystem: Rule 24
-GameSystem -> Player: Determine winner by most points
+GameSystem -> GameSystem: Determine winner by most points
 
 note right of GameSystem: Rule 23
-GameSystem -> Player: Print players' points and winner
+GameSystem -> GameSystem: Print players' points and winner
 
 note right of GameSystem: Rule 10
-GameSystem -> Player: Send this message to the winner: "Congratulations " + player name + " you won the game! You are the best!"
+GameSystem -> Player: Message for the winner
 
 note right of Player: Rule 25
-Player -> GameSystem: Decide to play again
-alt Play again
-  GameSystem -> Player: Decide turn order by last game's points ascending
+GameSystem -> Player: Play again?
+alt Players decide to play again
+  GameSystem -> GameSystem: Decide turn order by last game's points ascending
+  GameSystem -> GameSystem: Restart game
 end
+
+note right of Player: Rule 1
+note right of Player: A dice throwing game for 3 players.
+note right of Player: Rule 11
+note right of Player: player 1: red, player 2: green, player 3: blue.
+note right of Player: Rule 10
+note right of Player: Winner message: "Congratulations " + player name + " you won the game! You are the best!"
+
 @enduml

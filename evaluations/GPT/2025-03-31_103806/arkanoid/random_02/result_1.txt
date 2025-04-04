@@ -1,0 +1,80 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Paddle
+participant Ball
+participant Brick
+
+User -> Game: Start Game
+note right of Game: Rule 1
+
+Game -> Board: Initialize Board
+note right of Board: Rule 2
+
+Game -> Brick: Initialize Bricks
+note right of Brick: Rule 10
+
+Game -> Paddle: Initialize Paddle
+note right of Paddle: Rule 11
+
+Game -> Ball: Initialize Ball
+note right of Ball: Rule 4
+
+loop Each Level
+    User -> Paddle: Move Paddle
+    note right of Paddle: Rule 5
+    Ball -> Board: Move Ball
+    alt Ball hits Paddle
+        Ball -> Ball: Change Direction
+        note right of Ball: Rule 12
+    else Ball hits Border
+        Ball -> Ball: Change Direction
+        note right of Ball: Rule 12
+    else Ball hits Brick
+        Ball -> Brick: Hit Brick
+        Brick -> Ball: Change Direction
+        note right of Ball: Rule 12
+        alt Brick is Blue
+            Brick -> Game: Destroy Brick
+            note right of Brick: Rule 9
+        else Brick is Red
+            Brick -> Game: Decrease Brick Strength
+            note right of Brick: Rule 9
+        else Brick is Gold
+            Brick -> Game: Decrease Brick Strength
+            note right of Brick: Rule 9
+        end
+    else Ball falls off Board
+        User -> Game: Lose Life
+        note right of Game: Rule 17
+        alt Lives Remaining
+            Game -> Level: Restart Level
+            note right of Level: Rule 18
+        else No Lives Remaining
+            Game -> User: Game Over
+            note right of Game: Rule 18
+            alt User Restarts
+                User -> Game: Start from Level 1
+                note right of Game: Rule 19
+            else User Ends Game
+                User -> Game: End Game
+                note right of Game: Rule 19
+            end
+        end
+    end
+    alt All Bricks Destroyed
+        Game -> Level: Complete Level
+        note right of Level: Rule 6
+        Game -> Level: Start Next Level
+        note right of Level: Rule 14
+        note right of Level: Rule 15
+        Ball -> Ball: Increase Speed
+        note right of Ball: Rule 13
+    end
+end
+
+note right of Game: Rule 3
+note right of Game: Bricks and paddle are 20x10 pixels.
+note right of Game: Ball has a diameter of 10 pixels.
+@enduml

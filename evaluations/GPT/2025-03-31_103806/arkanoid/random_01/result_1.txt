@@ -1,0 +1,73 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Paddle
+participant Ball
+participant Brick
+
+User -> Game: Start Game
+note right of Game: Rule 1
+
+Game -> Board: Initialize Board
+note right of Board: Rule 2
+
+Game -> Brick: Initialize Bricks
+note right of Brick: Rule 10
+
+Game -> Paddle: Initialize Paddle
+note right of Paddle: Rule 11
+
+Game -> Ball: Initialize Ball
+note right of Ball: Rule 4
+
+loop Each Level
+    User -> Paddle: Move Paddle
+    note right of Paddle: Rule 5
+    Ball -> Paddle: Hit Paddle
+    note right of Ball: Rule 12
+    Ball -> Brick: Hit Brick
+    alt Brick is Blue
+        Brick -> Game: Destroy Brick
+        note right of Brick: Rule 9
+    else Brick is Red
+        Brick -> Game: Damage Brick
+        note right of Brick: Rule 9
+    else Brick is Gold
+        Brick -> Game: Damage Brick
+        note right of Brick: Rule 9
+    end
+    alt All Bricks Destroyed
+        Game -> User: Level Complete
+        note right of Game: Rule 6
+        Game -> Game: Start Next Level
+        note right of Game: Rule 14
+        note right of Game: Rule 15
+    else Ball Falls Off Board
+        User -> Game: Lose Life
+        note right of Game: Rule 17
+        alt Lives Remaining
+            Game -> Game: Restart Level
+            note right of Game: Rule 18
+        else No Lives Remaining
+            Game -> User: Game Over
+            note right of Game: Rule 18
+            User -> Game: Restart or End
+            note right of Game: Rule 19
+        end
+    end
+end
+
+note right of Game: Rule 3
+note right of Game: Bricks and paddle are 20x10 pixels.
+note right of Game: Ball has a diameter of 10 pixels.
+note right of Game: Rule 7
+note right of Game: Bricks can be blue, red, or gold.
+note right of Game: Rule 8
+note right of Game: Single bricks are 20x10 pixels.
+note right of Game: Double bricks are 60x10 pixels.
+note right of Game: Rule 13
+note right of Game: Ball speed increases each level.
+note right of Game: Rule 16
+note right of Game: User starts with 3 lives.
+@enduml

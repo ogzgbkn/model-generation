@@ -1,0 +1,76 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Ball
+participant Paddle
+participant Brick
+
+User -> Game: Start Game
+note right of Game: Rule 1
+
+loop for each level (1 to 33)
+  Game -> Board: Initialize Level
+  note right of Board: Rule 2
+  note right of Board: Rule 10
+  note right of Board: Rule 14
+  note right of Board: Rule 15
+  Board -> Brick: Place Bricks
+  note right of Brick: Rule 7
+  note right of Brick: Rule 8
+  note right of Brick: Rule 9
+  Board -> Paddle: Place Paddle
+  note right of Paddle: Rule 11
+  Board -> Ball: Place Ball
+  note right of Ball: Rule 4
+  note right of Ball: Rule 13
+
+  alt User has lives remaining
+    loop until level is completed or user loses all lives
+      User -> Paddle: Move Paddle
+      note right of Paddle: Rule 5
+      Ball -> Board: Move Ball
+      alt Ball hits Paddle or Board border or Brick
+        Ball -> Ball: Change Direction
+        note right of Ball: Rule 12
+        alt Ball hits Brick
+          Ball -> Brick: Hit Brick
+          Brick -> Game: Update Brick State
+          note right of Game: Rule 6
+        end
+      else Ball falls off bottom
+        Ball -> Game: Lose Life
+        note right of Game: Rule 17
+        alt User has lives remaining
+          Game -> Board: Restart Level
+          note right of Board: Rule 18
+        else User has no lives
+          Game -> User: Game Over
+          note right of Game: Rule 18
+        end
+      end
+    end
+  else User has no lives
+    Game -> User: Game Over
+    note right of Game: Rule 18
+  end
+
+  alt Level completed
+    Game -> Board: Initialize Next Level
+  end
+end
+
+alt Game Over
+  User -> Game: Decide to Play Again
+  alt User wants to play again
+    Game -> Game: Restart from Level 1
+  else User does not want to play again
+    Game -> User: End Game
+  end
+end
+
+note right of Game: Rule 3
+note right of Game: The board is 200 pixels wide and 300 pixels high.
+note right of Game: Bricks and paddle are 20x10 pixels.
+note right of Game: Ball has a diameter of 10 pixels.
+@enduml

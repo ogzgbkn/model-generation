@@ -1,0 +1,72 @@
+@startuml
+actor User
+participant Game
+participant Board
+participant Ball
+participant Paddle
+participant Brick
+
+User -> Game: Start Game
+note right of Game: Rule 1
+
+loop until 33 levels completed
+  Game -> Board: Initialize Level
+  note right of Board: Rule 2
+  note right of Board: Rule 10
+  note right of Board: Rule 14
+  note right of Board: Rule 15
+  Board -> Ball: Place Ball at Top Left
+  note right of Ball: Rule 4
+  Board -> Paddle: Place Paddle at Center Bottom
+  note right of Paddle: Rule 11
+  loop until level completed or lives exhausted
+    User -> Paddle: Move Paddle
+    note right of Paddle: Rule 5
+    Ball -> Paddle: Check Collision
+    alt Ball hits Paddle
+      Ball -> Ball: Change Direction
+      note right of Ball: Rule 12
+    end
+    Ball -> Board: Check Collision with Borders
+    alt Ball hits Border
+      Ball -> Ball: Change Direction
+      note right of Ball: Rule 12
+    else Ball falls off Bottom
+      User -> Game: Lose Life
+      note right of Game: Rule 17
+      alt Lives remaining
+        Game -> Board: Restart Level
+        note right of Board: Rule 18
+      else No lives remaining
+        Game -> User: Game Over
+        note right of Game: Rule 18
+        User -> Game: Play Again?
+        alt User wants to play again
+          Game -> Game: Restart from Level 1
+          note right of Game: Rule 19
+        else User does not want to play again
+          Game -> User: End Game
+        end
+      end
+    end
+    Ball -> Brick: Check Collision
+    alt Ball hits Brick
+      Brick -> Brick: Reduce Hit Points
+      note right of Brick: Rule 9
+      alt Brick destroyed
+        Brick -> Board: Remove Brick
+        note right of Board: Rule 6
+      end
+      Ball -> Ball: Change Direction
+      note right of Ball: Rule 12
+    end
+  end
+  Game -> Ball: Increase Speed
+  note right of Ball: Rule 13
+end
+
+note right of Game: Rule 3
+note right of Game: The board is 200 pixels wide and 300 pixels tall.
+note right of Game: Bricks and paddle are 20x10 pixels.
+note right of Game: Ball has a diameter of 10 pixels.
+@enduml

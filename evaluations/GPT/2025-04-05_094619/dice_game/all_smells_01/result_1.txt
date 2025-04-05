@@ -1,0 +1,84 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant System
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+
+System -> Player1: Enter name
+alt Name is "Computer"
+    System -> Player1: Print "Name cannot be Computer"
+    System -> Player1: Ask for name again
+end
+
+System -> Player2: Enter name
+alt Name is "Computer"
+    System -> Player2: Print "Name cannot be Computer"
+    System -> Player2: Ask for name again
+end
+
+System -> Player3: Enter name
+alt Name is "Computer"
+    System -> Player3: Print "Name cannot be Computer"
+    System -> Player3: Ask for name again
+end
+
+note right of System: Rule 16
+System -> System: Decide turn order
+
+loop 12 turns or significant lead
+    alt Player's turn
+        Player1 -> System: Throw dice
+        System -> Player1: Dice count
+        alt Dice count is 1
+            System -> Player1: Decide to re-roll
+        end
+        alt Dice count is 2
+            System -> Player1: Triple dice count
+        else Dice count is even
+            System -> Player1: Halve dice count
+        end
+        alt Dice count is high
+            Player1 -> System: Throw again
+            System -> Player1: Multiply both dice counts
+        end
+        alt Dice count is 6
+            System -> Player1: End turn
+        else
+            System -> Player1: Add to points
+        end
+        alt Player skips turn
+            System -> Player1: Skip turn
+        end
+        alt Same value multiple times
+            System -> Player1: Reset points to 0
+        end
+        System -> Player1: Print dice count and points
+        alt Points above 5
+            System -> Player1: Change point color to purple
+        end
+        alt Points sufficient to win
+            System -> Player1: Change point color to purple
+        end
+    end
+    alt Points are equal
+        System -> System: Print "Equality!"
+    end
+    alt Two players have same points
+        System -> System: Game cannot end
+    end
+end
+
+alt Game ends
+    System -> System: Print players' points and winner
+    System -> Player1: Congratulations to winner
+end
+
+note right of System: Rule 11
+note right of System: Player 1: Red, Player 2: Green, Player 3: Blue
+note right of System: Rule 24
+note right of System: Rule 25
+
+@enduml

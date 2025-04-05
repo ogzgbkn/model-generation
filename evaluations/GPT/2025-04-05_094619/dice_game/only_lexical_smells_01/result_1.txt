@@ -1,0 +1,81 @@
+@startuml
+actor Player
+participant System
+
+Player -> System: Enter names
+note right of System: Rule 17
+alt Name is "Computer"
+    System -> Player: "Name cannot be Computer"
+    Player -> System: Enter valid name
+end
+
+System -> Player: Randomize turn order
+note right of System: Rule 16
+
+loop 12 turns or significant lead
+    Player -> System: Throw dice
+    note right of Player: Rule 4
+    alt Dice count is 1
+        Player -> Player: Decide to re-roll
+        note right of Player: Rule 9
+    end
+    alt Dice count is 2
+        System -> System: Triple dice count
+        note right of System: Rule 14
+    else Dice count is even but not 2
+        System -> System: Halve dice count
+        note right of System: Rule 14
+    end
+    alt Dice count is high
+        Player -> System: Throw again
+        System -> System: Multiply both dice counts
+        note right of System: Rule 18
+    end
+    Player -> System: Add dice count to points
+    note right of System: Rule 5
+    alt Points above 5
+        System -> System: Change point color to yellow
+        note right of System: Rule 19
+    end
+    alt Points sufficient to win
+        System -> System: Change point color to purple
+        note right of System: Rule 12
+    end
+    alt Points are equal
+        System -> System: Print "Equality!"
+        note right of System: Rule 15
+    end
+    System -> Player: Print dice count and points
+    note right of System: Rule 6
+    alt Player throws 6
+        System -> System: Skip next player's turn
+        note right of System: Rule 13
+    end
+    alt Player skips turn
+        note right of Player: Rule 20
+    end
+    alt Player throws same value multiple times
+        System -> System: Reset points to 0
+        note right of System: Rule 21
+    end
+end
+
+alt Game ends
+    System -> Player: Print winner and points
+    note right of System: Rule 23
+    alt Players decide to play again
+        System -> System: Order players in a certain way
+        note right of System: Rule 25
+    end
+end
+
+note right of Player: Rule 1
+note right of Player: Rule 2
+note right of Player: Rule 3
+note right of Player: Rule 7
+note right of Player: Rule 8
+note right of Player: Rule 10
+note right of Player: Rule 11
+note right of Player: Rule 22
+note right of Player: Rule 24
+@enduml

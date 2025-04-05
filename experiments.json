@@ -2,8 +2,8 @@
     {
         "name": "no_smells_01",
         "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
+        "group": "dice_game",
+        "game": "dice_game",
         "code_language": "java",
         "iterations": 3,
         "llm": {
@@ -18,7 +18,7 @@
             },
             {
                 "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making the ball change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks on the board by hitting them with the ball.\n7. Each brick must be either blue, red, or gold and is sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks randomly placed on the upper third of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle always stays inside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the same angle of reflection as the angle of incidence.\n13. Every time the next level starts, the speed of the ball increases by 1 pixel per second.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level adds two red bricks and one gold brick.\n15. The program shall generate the sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) randomly.\n16. The user has 3 lives.\n17. The user loses a life every time the ball falls off the bottom of the board.\n18. When the user loses a life but still has lives remaining, the level restarts. Once the user loses all lives, the game is over.\n19. When a game is over, the user shall decide if they want to play again. If they want to play again, the new game starts from level 1. Otherwise, the game ends."
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has 10 more points than every other player.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. The winner will receive the message: \"Congratulations \" + player name + \" you won the game! You are the best!\".\n11. In the beginning, the player point colors shall be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points get above 11, his point color shall turn purple.\n13. If the current player throws a 6, the next player's turn is skipped.\n14. If the dice count is 2, it shall be tripled. If the dice count is even but not 2, it shall be halved.\n15. If the points turn equal at any point in the game, the game shall print: \"Equality!\".\n16. The program shall decide the player's turn order randomly at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is 5, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn yellow.\n20. In each turn, the player must decide if he wants to skip his turn.\n21. If a player throws the same value three times in a row, his points are reset to 0.\n22. If two players have the same amount of points, one player must gain more points than the others before the game can end.\n23. After a game has ended, the system shall print the players' points and the winner.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered by their points in the last game ascending."
             }
         ],
         "requirements": [
@@ -40,16 +40,22 @@
             16,
             17,
             18,
-            19
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
         ],
         "requirements_smelly": [],
-        "timestamp": "2025-03-31_103806"
+        "timestamp": "2025-04-05_094619"
     },
     {
         "name": "no_smells_01",
         "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
+        "group": "scopa",
+        "game": "scopa",
         "code_language": "java",
         "iterations": 3,
         "llm": {
@@ -64,7 +70,7 @@
             },
             {
                 "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. If the snake touches a board side the game is over.\n5. If the snake touches its own body the game is over.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size of 5 x 5 pixels.\n7. When the game starts, the board is initialised with a snake and a piece of food. The snake is represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The piece of food is represented as a single red block placed at a random position on the board.\n8. When the user presses up, down, right, or left on the keyboard, the snake continues to move to the corresponding direction.\n9. Every time the snake eats a piece of food, a new piece of food shall be placed at a random position on the board.\n10. Every time the snake eats a piece of food, its speed increases by 1%.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second. If the user selects \u201chard\u201d, the snake initially moves with a speed of 2 blocks per second.\n12. After the snake has eaten 10 pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Every 5 minutes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses p again."
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, and Clubs).\n5. Every suit has 10 cards, from 1 to 10.\n6. The primary objective of Scopa is to reach a score of 8. The player who first reaches the limit wins the game.\n7. Players shall be able to play multiple rounds to reach the winning score.\n8. First, the program shuffles the deck. Then, each player receives three cards. Finally, four cards are placed on the table.\n9. In each turn of the game, the player has to select a card from his hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts the matching card on his discard pile.\n11. If the value of the selected card during a player's turn matches the sum of the values of two or more cards on the table, the player puts the matching cards on his discard pile.\n12. If the selected card doesn't match any card on the table, the players' card gets added to the existing cards on the table.\n13. When a player has no cards left on his hand, he receives three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last had drawn cards will take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the winning score, the game ends. If not, a new round begins.\n16. At the end of each round, the players receive a point for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
             }
         ],
         "requirements": [
@@ -81,16 +87,18 @@
             11,
             12,
             13,
-            14
+            14,
+            15,
+            16
         ],
         "requirements_smelly": [],
-        "timestamp": "2025-03-31_103806"
+        "timestamp": "2025-04-05_094619"
     },
     {
-        "name": "all_smells_01",
+        "name": "no_smells_01",
         "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
+        "group": "pong",
+        "game": "pong",
         "code_language": "java",
         "iterations": 3,
         "llm": {
@@ -105,16 +113,14 @@
             },
             {
                 "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making it change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks.\n7. Bricks can have a color (blue, red, gold) and can be sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (60 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, yellow bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks that are placed in the brick section of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle cannot go outside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the correct angle of reflection.\n13. Every time the next level starts, the speed of the ball increases by a sufficient amount.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level removes two red bricks and one gold brick.\n15. The sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) are randomly generated.\n16. 3 lives are given to a user.\n17. The user loses a life every time the ball falls of the side of the board.\n18. When the user loses a life but still has lives remaining, the level should restart if possible. Once the user loses all lives, the game is over.\n19. When a game is over, it can be started again from level 1 or ended."
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The board is a rectangle consisting of 120 x 80 blocks with the longer side being on the horizontal axis. Each block has a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board and can only move vertically in a straight line.\n8. When the game starts, the paddles shall be located in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 1 blocks.\n10. The goal is to score points by kicking the ball past the opponent's paddle. The first player to reach 10 points wins and the game ends.\n11. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. After a player has won, the game should show \"Player 1 wins!\" or \"Player 2 wins!\" as a large text on the board.\n13. After a player scores a point, the game resets to the same conditions as when the game initially started. Instead of moving the ball to the left, the ball shall move to the side of the player who lost the last round.\n14. The ball's speed increases by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 1 player mode, the player controlls the left paddle, while the right paddle is controlled by the computer. In the 2 player mode, both paddles are controlled by the players.\n16. A dashed line separating the two sides of the board shall be drawn in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.\n18. The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.\n19. Every time the ball hits the top or bottom of the board, or a paddle, the game shall make a beep sound.\n20. Player 1 controls their paddle by pressing w and s for up and down respectively. Player 2 controls their paddle by pressing the up and down arrow keys for up and down respectively."
             }
         ],
         "requirements": [
             1,
             2,
             3,
-            4
-        ],
-        "requirements_smelly": [
+            4,
             5,
             6,
             7,
@@ -129,15 +135,17 @@
             16,
             17,
             18,
-            19
+            19,
+            20
         ],
-        "timestamp": "2025-03-31_103806"
+        "requirements_smelly": [],
+        "timestamp": "2025-04-05_094619"
     },
     {
         "name": "all_smells_01",
         "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
+        "group": "dice_game",
+        "game": "dice_game",
         "code_language": "java",
         "iterations": 3,
         "llm": {
@@ -152,7 +160,60 @@
             },
             {
                 "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. The snake must not touch a board side.\n5. The game is over as soon as the snake's body is touched.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size such that there are enough blocks to play the game correctly.\n7. When the game starts, the board is initialised with a snake and a piece of food. It shall be represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The other is represented as a single red block placed at a random position on the board.\n8. The snake could be moved by pressing up, down, right, or left on the keyboard.\n9. Every time the snake eats a piece of food,  a new one shall appear.\n10. Every time the snake eats a piece of food, its speed increases by 10 milliseconds.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second.\n12. After the snake has eaten many pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Sometimes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses q again."
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has significantly more points than the others.\n9. If and only if the dice count is 1, it must be decided if the player re-rolls the dice instead.\n10. There will be some sort of congratulations for the winner.\n11. The player point colors shall always be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points are sufficient to win, his point color shall turn purple.\n13. If the current player throws a 6, his turn must not continue.\n14. If the dice count is 2, it shall be tripled. If the dice count is even, it shall be halved.\n15. The game shall check the players' points at any point in the game. If they turn equal, it shall print: \"Equality!\".\n16. The players' turn order must be decided at the beginning of the game.\n17. Names shall be enred for each player. If \"Computeter\" is entered, the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is high, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn purple.\n20. In each turn, the player could skip his turn.\n21. If a player throws the same value multiple times in a row, his points are reset to 0.\n22. If two players have the same amount of points, the game cannot end until one player has more points than the other.\n23. If needed, the system can print the players' points and the winner after a game has ended.\n24. After the game has ended, one player shall be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered in a certain way."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "requirements_smelly": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "all_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, Hearts, and Clubs).\n5. Every suit has 10 cards, from 1 to 12.\n6. The primary objective of Scopa is to reach a certain goal. The player who first reaches the limit wins the game.\n7. It could be fun to be able to play multiple round until reaching the winning score.\n8. The card deck gets shuffled. Then, each player receives some cards. Finally, four cards are placed on the table.\n9. In each turn of the game, a card must be selected from the player's hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts it on his discard pile.\n11. If the value of the selected card during a player's turn matches the value of one card on the table, the matching cards are put on the player's discard pile.\n12. If the selected card doesn't match any card on the table, the player must do something with the card anyway.\n13. When a player has no cards left on his hand, he could potentially receive three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last drew cards could take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the predetermined score, the game ends.\n16. At the end of each round, the players receive a reasonable amount of points for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
             }
         ],
         "requirements": [
@@ -171,334 +232,17 @@
             11,
             12,
             13,
-            14
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "random_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making the ball change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks.\n7. Bricks can have a color (blue, red, gold) and can be sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (60 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks that are placed in the brick section of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle cannot go outside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the correct angle of reflection.\n13. Every time the next level starts, the speed of the ball increases by a sufficient amount.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level removes two red bricks and one gold brick.\n15. The sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) are randomly generated.\n16. 3 lives are given to a user.\n17. The user loses a life every time the ball falls of the side of the board.\n18. When the user loses a life but still has lives remaining, the level should restart if possible. Once the user loses all lives, the game is over.\n19. When a game is over, it can be started again from level 1 or ended."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            9
-        ],
-        "requirements_smelly": [
-            6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
             14,
-            15,
-            16,
-            17,
-            18,
-            19
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "random_02",
-        "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making it change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks.\n7. Bricks can have a color (blue, red, gold) and can be sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (60 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, yellow bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks that are placed in the brick section of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle cannot go outside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the correct angle of reflection.\n13. Every time the next level starts, the speed of the ball increases by a sufficient amount.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level removes two red bricks and one gold brick.\n15. The sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) are randomly generated.\n16. 3 lives are given to a user.\n17. The user loses a life every time the ball falls of the side of the board.\n18. When the user loses a life but still has lives remaining, the level restarts. Once the user loses all lives, the game is over.\n19. When a game is over, it can be started again from level 1 or ended."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            18
-        ],
-        "requirements_smelly": [
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            19
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "random_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. The snake must not touch a board side.\n5. If the snake touches its own body the game is over.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size of 5 x 5 pixels.\n7. When the game starts, the board is initialised with a snake and a piece of food. The snake is represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The piece of food is represented as a single red block placed at a random position on the board.\n8. The snake could be moved by pressing up, down, right, or left on the keyboard.\n9. Every time the snake eats a piece of food, a new piece of food shall be placed at a random position on the board.\n10. Every time the snake eats a piece of food, its speed increases by 10 milliseconds.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second.\n12. After the snake has eaten 10 pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Sometimes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses p again."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            5,
-            6,
-            7,
-            9,
-            12,
-            14
-        ],
-        "requirements_smelly": [
-            4,
-            8,
-            10,
-            11,
-            13
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "random_02",
-        "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. The snake must not touch a board side.\n5. If the snake touches its own body the game is over.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size such that there are enough blocks to play the game correctly.\n7. When the game starts, the board is initialised with a snake and a piece of food. The snake is represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The piece of food is represented as a single red block placed at a random position on the board.\n8. The snake could be moved by pressing up, down, right, or left on the keyboard.\n9. Every time the snake eats a piece of food, a new piece of food shall be placed at a random position on the board.\n10. Every time the snake eats a piece of food, its speed increases by 1%.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second. If the user selects \u201chard\u201d, the snake initially moves with a speed of 2 blocks per second.\n12. After the snake has eaten 10 pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Sometimes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses p again."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            5,
-            7,
-            9,
-            10,
-            11,
-            12,
-            14
-        ],
-        "requirements_smelly": [
-            4,
-            6,
-            8,
-            13
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "only_lexical_smells_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making the ball change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks on the board by hitting them with the ball.\n7. Bricks can have a color (blue, red, gold) and can be sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks randomly placed on the upper third of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle always stays inside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the correct angle of reflection.\n13. Every time the next level starts, the speed of the ball increases by a sufficient amount.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level adds two red bricks and one gold brick.\n15. The program shall generate the sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) randomly.\n16. The user has 3 lives.\n17. The user loses a life every time the ball falls off the bottom of the board.\n18. When the user loses a life but still has lives remaining, the level should restart if possible. Once the user loses all lives, the game is over.\n19. When a game is over, the user shall decide if they want to play again. If they want to play again, the new game starts from level 1. Otherwise, the game ends."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            8,
-            9,
-            10,
-            11,
-            14,
-            15,
-            16,
-            17,
-            19
-        ],
-        "requirements_smelly": [
-            7,
-            12,
-            13,
-            18
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "only_semantic_smells_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making the ball change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks.\n7. Each brick must be either blue, red, or gold and is sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (60 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, yellow bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks that are placed in the brick section of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle always stays inside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the same angle of reflection as the angle of incidence.\n13. Every time the next level starts, the speed of the ball increases by 1 pixel per second.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level removes two red bricks and one gold brick.\n15. The program shall generate the sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) randomly.\n16. The user has 3 lives.\n17. The user loses a life every time the ball falls of the side of the board.\n18. When the user loses a life but still has lives remaining, the level restarts. Once the user loses all lives, the game is over.\n19. When a game is over, it can be started again from level 1 or ended."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            7,
-            11,
-            12,
-            13,
-            15,
-            16,
-            18
-        ],
-        "requirements_smelly": [
-            6,
-            8,
-            9,
-            10,
-            14,
-            17,
-            19
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "only_syntactic_smells_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "arkanoid",
-        "game": "arkanoid",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to complete 33 levels successfully.\n2. The board is 200 pixels wide horizontally and 300 pixels wide vertically.\n3. The bricks and the paddle are rectangular blocks with a width of 20 pixels and height of 10 pixels. The ball has a diameter of 10 pixels.\n4. At the beginning of each level, the ball starts from the top left corner of the board and moves downwards with a straight trajectory at a 45\u00b0 angle and a speed of 5 pixels per second.\n5. At each level, the user moves a paddle in order to hit a ball, making it change its direction upward.\n6. To successfully complete a level, the user needs to break all bricks on the board by hitting them with the ball.\n7. Each brick must be either blue, red, or gold and is sized single or double.\n8. A brick is sized single (20 x 10 pixels) or double (40 x 10 pixels).\n9. Blue bricks are destroyed with one hit, red bricks require two hits, gold bricks require three hits.\n10. The first level gets initialised with 50 blue, single bricks randomly placed on the upper third of the board.\n11. The paddle only moves horizontally on the bottom of the board, controlled by the user by left and right arrow keys. The paddle cannot go outside the board. When each level starts the paddle resets to the center of the bottom border.\n12. The ball direction changes every time the ball hits the paddle or the border of the board (except for the bottom border) or a brick, with the same angle of reflection as the angle of incidence.\n13. Every time the next level starts, the speed of the ball increases by 1 pixel per second.\n14. When the user finishes a level, the next level with a different brick arrangement and increased difficulty begins. Each level adds two red bricks and one gold brick.\n15. The sizes of the new level's bricks (single or double) and the brick arrangement (where in the upper third of the board the bricks will spawn) are randomly generated.\n16. 3 lives are given to a user.\n17. The user loses a life every time the ball falls off the bottom of the board.\n18. When the user loses a life but still has lives remaining, the level restarts. Once the user loses all lives, the game is over.\n19. When a game is over, the user shall decide if they want to play again. If they want to play again, the new game starts from level 1. Otherwise, the game ends."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            6,
-            7,
-            8,
-            9,
-            10,
-            12,
-            13,
-            14,
-            17,
-            18,
-            19
-        ],
-        "requirements_smelly": [
-            5,
-            11,
             15,
             16
         ],
-        "timestamp": "2025-03-31_103806"
+        "timestamp": "2025-04-05_094619"
     },
     {
-        "name": "only_lexical_smells_01",
+        "name": "all_smells_01",
         "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
+        "group": "pong",
+        "game": "pong",
         "code_language": "java",
         "iterations": 3,
         "llm": {
@@ -513,7 +257,7 @@
             },
             {
                 "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. If the snake touches a board side the game is over.\n5. If the snake touches its own body the game is over.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size such that there are enough blocks to play the game correctly.\n7. When the game starts, the board is initialised with a snake and a piece of food. The snake is represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The piece of food is represented as a single red block placed at a random position on the board.\n8. The snake could be moved by pressing up, down, right, or left on the keyboard.\n9. Every time the snake eats a piece of food, a new piece of food shall be placed at a random position on the board.\n10. Every time the snake eats a piece of food, its speed increases by 1%.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second. If the user selects \u201chard\u201d, the snake initially moves with a speed of 2 blocks per second.\n12. After the snake has eaten many pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Sometimes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses p again."
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The blocks composing the rectangular board shall have a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board.\n8. When the game starts, the paddles shall not be located anywhere but in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 2 blocks.\n10. The goal is score points by kicking the ball to the goal. The first player to get many points wins and the game ends.\n11. The paddle of player 1 is on the right side and the paddle of player 2 is on the left side. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. The game should always show the correct winning message.\n13. After a player scores a point, the game resets to the normal conditions. Instead of moving the ball to the left, the ball shall move to one side depending on what is fair considering who lost the last round.\n14. The ball's speed shall be increased by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 2 player mode, both paddles are controlled by the players.\n16. If possible, a dashed line shall separate the two sides of the board in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and use the lowest number of blocks necessary to display the numbers.\n18. The background of the board can be black, and everything else can be white.\n19. Every time the ball hits the top or bottom of the board, it shall make a beep sound.\n20. The first player's paddle is controlled by pressing w and s for up and down respectively. The second player's paddle is controlled by pressing the up and down arrow keys for up and down respectively."
             }
         ],
         "requirements": [
@@ -521,103 +265,750 @@
             2,
             3,
             4,
-            5,
-            7,
-            9,
-            10,
-            11,
-            14
+            5
         ],
         "requirements_smelly": [
             6,
-            8,
-            12,
-            13
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "only_semantic_smells_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. If the snake touches a board side the game is over.\n5. If the snake touches its own body the game is over.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size of 5 x 5 pixels.\n7. When the game starts, the board is initialised with a snake and a piece of food. The snake is represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The piece of food is represented as a single red block placed at a random position on the board.\n8. When the user presses up, down, right, or left on the keyboard, the snake continues to move to the corresponding direction.\n9. Every time the snake eats a piece of food,  a new one shall appear.\n10. Every time the snake eats a piece of food, its speed increases by 10 milliseconds.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second.\n12. After the snake has eaten 10 pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Every 5 minutes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses q again."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
             7,
-            8,
-            12,
-            13
-        ],
-        "requirements_smelly": [
-            9,
-            10,
-            11,
-            14
-        ],
-        "timestamp": "2025-03-31_103806"
-    },
-    {
-        "name": "only_syntactic_smells_01",
-        "description": "Tracing with a random number of smells.",
-        "group": "snake",
-        "game": "snake",
-        "code_language": "java",
-        "iterations": 3,
-        "llm": {
-            "type": "GPT",
-            "model": "gpt-4o",
-            "temperature": 0
-        },
-        "prompts": [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
-            },
-            {
-                "role": "user",
-                "content": "===== REQUIREMENTS =====\n1. The goal of the game is to grow the length of the snake by making the snake eat food until it fills the entire board.\n2. The snake eats food when it touches the food (namely every time the snake passes over food on the board).\n3. Every time the snake eats a piece of food, its body grows by one block which gets attached to the end of the body.\n4. The snake must not touch a board side.\n5. The game is over as soon as the snake's body is touched.\n6. The game board consists of k x k blocks, where k shall be given as input by the user. Every block, including the food and body blocks of the snake, shall have a size of 5 x 5 pixels.\n7. When the game starts, the board is initialised with a snake and a piece of food. It shall be represented as a single green block, positioned at the leftmost and bottommost block of the board. The initial direction shall be up. The other is represented as a single red block placed at a random position on the board.\n8. When the user presses up, down, right, or left on the keyboard, the snake continues to move to the corresponding direction.\n9. Every time the snake eats a piece of food, a new piece of food shall be placed at a random position on the board.\n10. Every time the snake eats a piece of food, its speed increases by 1%.\n11. The user can set the difficulty to easy or hard. If the user selects \u201ceasy\u201d, the snake initially moves with a speed of 0.5 blocks per second. If the user selects \u201chard\u201d, the snake initially moves with a speed of 2 blocks per second.\n12. After the snake has eaten 10 pieces of food, a blue bonus piece of food should appear instead of the normal piece of food, at a random position on the board. When the snake eats that piece, three blocks shall be attached to the snake's body.\n13. Every 5 minutes, a golden bonus block shall appear additionally to the food block, at a random position on the board. If the snake eats the bonus block, the speed shall decrease by 5%.\n14. If the user presses p on the keyboard, the game shall pause until the user presses p again."
-            }
-        ],
-        "requirements": [
-            1,
-            2,
-            3,
-            6,
             8,
             9,
             10,
             11,
             12,
             13,
-            14
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has significantly more points than the others.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. The winner will receive the message: \"Congratulations \" + player name + \" you won the game! You are the best!\".\n11. In the beginning, the player point colors shall be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points get above 11, his point color shall turn purple.\n13. If the current player throws a 6, the next player's turn is skipped.\n14. If the dice count is 2, it shall be tripled. If the dice count is even but not 2, it shall be halved.\n15. If the points turn equal at any point in the game, the game shall print: \"Equality!\".\n16. The players' turn order must be decided at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is 5, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn yellow.\n20. In each turn, the player must decide if he wants to skip his turn.\n21. If a player throws the same value three times in a row, his points are reset to 0.\n22. If two players have the same amount of points, the game cannot end until one player has more points than the other.\n23. After a game has ended, the system shall print the players' points and the winner.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered in a certain way."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            17,
+            18,
+            19,
+            20,
+            21,
+            23,
+            24
+        ],
+        "requirements_smelly": [
+            8,
+            16,
+            22,
+            25
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_02",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has significantly more points than the others.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. There will be some sort of congratulations for the winner.\n11. The player point colors shall always be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points are sufficient to win, his point color shall turn purple.\n13. If the current player throws a 6, his turn must not continue.\n14. If the dice count is 2, it shall be tripled. If the dice count is even, it shall be halved.\n15. The game shall check the players' points at any point in the game. If they turn equal, it shall print: \"Equality!\".\n16. The players' turn order must be decided at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is high, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn purple.\n20. In each turn, the player could skip his turn.\n21. If a player throws the same value multiple times in a row, his points are reset to 0.\n22. If two players have the same amount of points, the game cannot end until one player has more points than the other.\n23. If needed, the system can print the players' points and the winner after a game has ended.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered in a certain way."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            17,
+            24
+        ],
+        "requirements_smelly": [
+            8,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            25
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, and Clubs).\n5. Every suit has 10 cards, from 1 to 10.\n6. The primary objective of Scopa is to reach a certain goal. The player who first reaches the limit wins the game.\n7. It could be fun to be able to play multiple round until reaching the winning score.\n8. First, the program shuffles the deck. Then, each player receives three cards. Finally, four cards are placed on the table.\n9. In each turn of the game, the player has to select a card from his hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts it on his discard pile.\n11. If the value of the selected card during a player's turn matches the value of one card on the table, the matching cards are put on the player's discard pile.\n12. If the selected card doesn't match any card on the table, the players' card gets added to the existing cards on the table.\n13. When a player has no cards left on his hand, he could potentially receive three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last had drawn cards will take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the winning score, the game ends. If not, a new round begins.\n16. At the end of each round, the players receive a point for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            9,
+            12,
+            14,
+            15,
+            16
+        ],
+        "requirements_smelly": [
+            6,
+            7,
+            10,
+            11,
+            13
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_02",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, Hearts, and Clubs).\n5. Every suit has 10 cards, from 1 to 12.\n6. The primary objective of Scopa is to reach a certain goal. The player who first reaches the limit wins the game.\n7. It could be fun to be able to play multiple round until reaching the winning score.\n8. The card deck gets shuffled. Then, each player receives some cards. Finally, four cards are placed on the table.\n9. In each turn of the game, a card must be selected from the player's hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts it on his discard pile.\n11. If the value of the selected card during a player's turn matches the sum of the values of two or more cards on the table, the player puts the matching cards on his discard pile.\n12. If the selected card doesn't match any card on the table, the players' card gets added to the existing cards on the table.\n13. When a player has no cards left on his hand, he could potentially receive three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last drew cards could take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the winning score, the game ends. If not, a new round begins.\n16. At the end of each round, the players receive a reasonable amount of points for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            11,
+            12,
+            15
         ],
         "requirements_smelly": [
             4,
             5,
-            7
+            6,
+            7,
+            8,
+            9,
+            10,
+            13,
+            14,
+            16
         ],
-        "timestamp": "2025-03-31_103806"
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "pong",
+        "game": "pong",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The board is a rectangle consisting of 120 x 80 blocks with the longer side being on the horizontal axis. Each block has a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board and can only move vertically in a straight line.\n8. When the game starts, the paddles shall be located in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 1 blocks.\n10. The goal is to score points by kicking the ball past the opponent's paddle. The first player to reach 10 points wins and the game ends.\n11. The paddle of player 1 is on the right side and the paddle of player 2 is on the left side. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. After a player has won, the game should show \"Player 1 wins!\" or \"Player 2 wins!\" as a large text on the board.\n13. After a player scores a point, the game resets to the same conditions as when the game initially started. Instead of moving the ball to the left, the ball shall move to the side of the player who lost the last round.\n14. The ball's speed increases by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 1 player mode, the player controlls the left paddle, while the right paddle is controlled by the computer. In the 2 player mode, both paddles are controlled by the players.\n16. A dashed line separating the two sides of the board shall be drawn in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.\n18. The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.\n19. Every time the ball hits the top or bottom of the board, or a paddle, the game shall make a beep sound.\n20. Player 1 controls their paddle by pressing w and s for up and down respectively. Player 2 controls their paddle by pressing the up and down arrow keys for up and down respectively."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+        ],
+        "requirements_smelly": [
+            11
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "random_02",
+        "description": "Tracing with a random number of smells.",
+        "group": "pong",
+        "game": "pong",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The board is a rectangle consisting of 120 x 80 blocks with the longer side being on the horizontal axis. Each block has a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board and can only move vertically in a straight line.\n8. When the game starts, the paddles shall not be located anywhere but in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 1 blocks.\n10. The goal is to score points by kicking the ball past the opponent's paddle. The first player to reach 10 points wins and the game ends.\n11. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. After a player has won, the game should show \"Player 1 wins!\" or \"Player 2 wins!\" as a large text on the board.\n13. After a player scores a point, the game resets to the same conditions as when the game initially started. Instead of moving the ball to the left, the ball shall move to the side of the player who lost the last round.\n14. The ball's speed increases by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 1 player mode, the player controlls the left paddle, while the right paddle is controlled by the computer. In the 2 player mode, both paddles are controlled by the players.\n16. A dashed line separating the two sides of the board shall be drawn in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.\n18. The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.\n19. Every time the ball hits the top or bottom of the board, or a paddle, the game shall make a beep sound.\n20. Player 1 controls their paddle by pressing w and s for up and down respectively. Player 2 controls their paddle by pressing the up and down arrow keys for up and down respectively."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+        ],
+        "requirements_smelly": [
+            8
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_lexical_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has significantly more points than the others.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. The winner will receive the message: \"Congratulations \" + player name + \" you won the game! You are the best!\".\n11. In the beginning, the player point colors shall be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points are sufficient to win, his point color shall turn purple.\n13. If the current player throws a 6, the next player's turn is skipped.\n14. If the dice count is 2, it shall be tripled. If the dice count is even but not 2, it shall be halved.\n15. If the points turn equal at any point in the game, the game shall print: \"Equality!\".\n16. The program shall decide the player's turn order randomly at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is high, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn yellow.\n20. In each turn, the player could skip his turn.\n21. If a player throws the same value multiple times in a row, his points are reset to 0.\n22. If two players have the same amount of points, one player must gain more points than the others before the game can end.\n23. If needed, the system can print the players' points and the winner after a game has ended.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered in a certain way."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15,
+            16,
+            17,
+            19,
+            22,
+            24
+        ],
+        "requirements_smelly": [
+            8,
+            12,
+            18,
+            20,
+            21,
+            23,
+            25
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_semantic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has 10 more points than every other player.\n9. If and only if the dice count is 1, the player must decide if he wants to re-roll the dice instead.\n10. There will be some sort of congratulations for the winner.\n11. The player point colors shall always be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points get above 11, his point color shall turn purple.\n13. If the current player throws a 6, the next player's turn is skipped.\n14. If the dice count is 2, it shall be tripled. If the dice count is even, it shall be halved.\n15. If the points turn equal at any point in the game, the game shall print: \"Equality!\".\n16. The program shall decide the player's turn order randomly at the beginning of the game.\n17. The players shall enter their names. If they enter \"Computer\", the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is 5, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn purple.\n20. In each turn, the player must decide if he wants to skip his turn.\n21. If a player throws the same value three times in a row, his points are reset to 0.\n22. If two players have the same amount of points, one player must gain more points than the others before the game can end.\n23. After a game has ended, the system shall print the players' points and the winner.\n24. After the game has ended, one player shall be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered by their points in the last game ascending."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            12,
+            13,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            22,
+            23,
+            25
+        ],
+        "requirements_smelly": [
+            10,
+            11,
+            14,
+            19,
+            24
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_syntactic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "dice_game",
+        "game": "dice_game",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A dice-throwing game for three players.\n2. Every player starts with 0 points.\n3. The players take turns.\n4. In each turn, a player must throw a dice.\n5. The dice count gets added to the player's points.\n6. After each turn, the system prints the dice count and the player points.\n7. The game ends after 12 turns.\n8. The game also terminates if one player has 10 more points than every other player.\n9. If and only if the dice count is 1, it must be decided if the player re-rolls the dice instead.\n10. The winner will receive the message: \"Congratulations \" + player name + \" you won the game! You are the best!\".\n11. In the beginning, the player point colors shall be red, green, and blue for player 1, player 2, and player 3 respectively.\n12. If a player's points get above 11, his point color shall turn purple.\n13. If the current player throws a 6, his turn must not continue.\n14. If the dice count is 2, it shall be tripled. If the dice count is even but not 2, it shall be halved.\n15. The game shall check the players' points at any point in the game. If they turn equal, it shall print: \"Equality!\".\n16. The players' turn order must be decided at the beginning of the game.\n17. Names shall be enred for each player. If \"Computeter\" is entered, the system shall print \"Name cannot be Computer\" and ask for the name again.\n18. If the dice count is 5, throw again and multiply both dice counts.\n19. When a player's points get above 5 points, his point color shall turn yellow.\n20. In each turn, the player must decide if he wants to skip his turn.\n21. If a player throws the same value three times in a row, his points are reset to 0.\n22. If two players have the same amount of points, the game cannot end until one player has more points than the other.\n23. After a game has ended, the system shall print the players' points and the winner.\n24. The player with the most points after the game has ended will be the winner.\n25. If the players decide to play again, instead of choosing the player order randomly, the players shall be ordered by their points in the last game ascending."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            10,
+            11,
+            12,
+            14,
+            18,
+            19,
+            20,
+            21,
+            23,
+            24,
+            25
+        ],
+        "requirements_smelly": [
+            9,
+            13,
+            15,
+            16,
+            17,
+            22
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_lexical_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, and Clubs).\n5. Every suit has 10 cards, from 1 to 10.\n6. The primary objective of Scopa is to reach a score of 8. The player who first reaches the limit wins the game.\n7. It could be fun to be able to play multiple round until reaching the winning score.\n8. First, the program shuffles the deck. Then, each player receives three cards. Finally, four cards are placed on the table.\n9. In each turn of the game, the player has to select a card from his hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts the matching card on his discard pile.\n11. If the value of the selected card during a player's turn matches the sum of the values of two or more cards on the table, the player puts the matching cards on his discard pile.\n12. If the selected card doesn't match any card on the table, the players' card gets added to the existing cards on the table.\n13. When a player has no cards left on his hand, he could potentially receive three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last drew cards could take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the winning score, the game ends. If not, a new round begins.\n16. At the end of each round, the players receive a reasonable amount of points for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            8,
+            9,
+            10,
+            11,
+            12,
+            15
+        ],
+        "requirements_smelly": [
+            7,
+            13,
+            14,
+            16
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_semantic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, Hearts, and Clubs).\n5. Every suit has 10 cards, from 1 to 12.\n6. The primary objective of Scopa is to reach a certain goal. The player who first reaches the limit wins the game.\n7. Players shall be able to play multiple rounds to reach the winning score.\n8. The card deck gets shuffled. Then, each player receives some cards. Finally, four cards are placed on the table.\n9. In each turn of the game, the player has to select a card from his hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts the matching card on his discard pile.\n11. If the value of the selected card during a player's turn matches the sum of the values of two or more cards on the table, the player puts the matching cards on his discard pile.\n12. If the selected card doesn't match any card on the table, the player must do something with the card anyway.\n13. When a player has no cards left on his hand, he receives three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last had drawn cards will take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the predetermined score, the game ends.\n16. At the end of each round, the players receive a point for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            7,
+            9,
+            10,
+            11,
+            13,
+            14,
+            16
+        ],
+        "requirements_smelly": [
+            4,
+            5,
+            6,
+            8,
+            12,
+            15
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_syntactic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "scopa",
+        "game": "scopa",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. A game for three players.\n2. The program shall decide the players\u2019 turn order randomly at the beginning of the game.\n3. Every time a player takes all the cards from the table during his turn, he earns a special point.\n4. The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, and Clubs).\n5. Every suit has 10 cards, from 1 to 10.\n6. The primary objective of Scopa is to reach a score of 8. The player who first reaches the limit wins the game.\n7. Players shall be able to play multiple rounds to reach the winning score.\n8. First, the program shuffles the deck. Then, each player receives three cards. Finally, four cards are placed on the table.\n9. In each turn of the game, a card must be selected from the player's hand.\n10. If the value of the selected card during a player's turn matches the value of one card on the table, the player puts it on his discard pile.\n11. If the value of the selected card during a player's turn matches the value of one card on the table, the matching cards are put on the player's discard pile.\n12. If the selected card doesn't match any card on the table, the players' card gets added to the existing cards on the table.\n13. When a player has no cards left on his hand, he receives three new cards from the deck.\n14. Once all the cards have been distributed to the players, the round comes to an end. If there are any cards left on the table, the player who last had drawn cards will take them on his discard pile.\n15. After the round has ended, all players tally up their points. If any player reaches the winning score, the game ends. If not, a new round begins.\n16. At the end of each round, the players receive a point for each of the following rules applied to the discard piles of each player: the player with the most cards, the player with the most coins cards, the player who has the seven of Coins, the player with the highest sum of their cards."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            12,
+            13,
+            14,
+            15,
+            16
+        ],
+        "requirements_smelly": [
+            9,
+            10,
+            11
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_lexical_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "pong",
+        "game": "pong",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The board is a rectangle consisting of 120 x 80 blocks with the longer side being on the horizontal axis. Each block has a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board and can only move vertically in a straight line.\n8. When the game starts, the paddles shall be located in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 1 blocks.\n10. The goal is to score points by kicking the ball past the opponent's paddle. The first player to reach 10 points wins and the game ends.\n11. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. The game should always show the correct winning message.\n13. After a player scores a point, the game resets to the normal conditions. Instead of moving the ball to the left, the ball shall move to one side depending on what is fair considering who lost the last round.\n14. The ball's speed increases by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 1 player mode, the player controlls the left paddle, while the right paddle is controlled by the computer. In the 2 player mode, both paddles are controlled by the players.\n16. If possible, a dashed line shall separate the two sides of the board in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and use the lowest number of blocks necessary to display the numbers.\n18. The background of the board can be black, and everything else can be white.\n19. Every time the ball hits the top or bottom of the board, or a paddle, the game shall make a beep sound.\n20. Player 1 controls their paddle by pressing w and s for up and down respectively. Player 2 controls their paddle by pressing the up and down arrow keys for up and down respectively."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            14,
+            15,
+            19,
+            20
+        ],
+        "requirements_smelly": [
+            12,
+            13,
+            16,
+            17,
+            18
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_semantic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "pong",
+        "game": "pong",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The blocks composing the rectangular board shall have a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board.\n8. When the game starts, the paddles shall be located in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 2 blocks.\n10. The goal is score points by kicking the ball to the goal. The first player to get many points wins and the game ends.\n11. The paddle of player 1 is on the right side and the paddle of player 2 is on the left side. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. After a player has won, the game should show \"Player 1 wins!\" or \"Player 2 wins!\" as a large text on the board.\n13. After a player scores a point, the game resets to the same conditions as when the game initially started. Instead of moving the ball to the left, the ball shall move to the side of the player who lost the last round.\n14. The ball's speed increases by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 2 player mode, both paddles are controlled by the players.\n16. A dashed line separating the two sides of the board shall be drawn in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.\n18. The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.\n19. Every time the ball hits the top or bottom of the board, or a paddle, the game shall make a beep sound.\n20. Player 1 controls their paddle by pressing w and s for up and down respectively. Player 2 controls their paddle by pressing the up and down arrow keys for up and down respectively."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            12,
+            13,
+            14,
+            16,
+            17,
+            18,
+            19,
+            20
+        ],
+        "requirements_smelly": [
+            6,
+            7,
+            9,
+            10,
+            11,
+            15
+        ],
+        "timestamp": "2025-04-05_094619"
+    },
+    {
+        "name": "only_syntactic_smells_01",
+        "description": "Tracing with a random number of smells.",
+        "group": "pong",
+        "game": "pong",
+        "code_language": "java",
+        "iterations": 3,
+        "llm": {
+            "type": "GPT",
+            "model": "gpt-4o",
+            "temperature": 0
+        },
+        "prompts": [
+            {
+                "role": "system",
+                "content": "You are a helpful assistant that generates a sequence diagram from the given requirements so that I can provide it to Planttext to\nvisualize it.\n\nInput: A list of game requirements. Each requirement will be labeled (e.g., 1., 2., etc.). Your task is to generate a PlantUML sequence diagram that:\n1. Represents the requirements in sequence diagram format.\n2. Includes sticky notes indicating which part of the diagram corresponds to each requirement. Each sticky note must follow this format: `note right of [Actor/Participant]: Rule [Number]`.\n3. You can use alt/end or alt/else/end blocks for conditional branching to visually represent alternative flows. Alt blocks can be nested.\n4. Some requirements may contain extra details (such as UI information, numerical data, component sizes or shapes) that are not directly related to system behavior or game mechanics. Append\nthese extra details as additional notes at the end of the diagram (just before the `@enduml` tag). Use newline with a new note component if there are too much information so that the diagram\ndoes not get too wide. Use the following syntax:\nnote right of <leftmost_participant/actor>: Rule <RuleID>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\nnote right of <leftmost_participant/actor>: <Extra information/detail>\n\nOutput: Only the JSON that containes the PlantUML sequence diagram. Do not add any explanations or comments.\n\nExample Input:\n1. The game is played by 2 players.\n2. In each turn, a player rolls a die. Then the other player rolls a die.\n3. The player who rolls a 6 gets 1 point.\n4. The player who rolls a 3 gets 2 points.\n5. If 2 players run the same die value, they both get 1 points. This rule overrules the rules about rolling 3 or 6.\n6. The player who reaches 10 points first, wins the game.\n7. A die is a classic white die which has values from 1 to 6.\n8. The game board has size 50 cm x 50 cm and it has borders that prevent dice to go out. The players roll the die into this board. If a die goes out, the roll is repeated. \n\nExample Output: Return a JSON object with the following structure:\n{\n  \"output\": \"@startuml\n<PlantUML diagram description that defines game mechanics comes here>\nnote right of Player: Rule 7\nnote right of Player: A die is a classic white die with values from 1 to 6\nnote right of Player: Rule 8\nnote right of Player: The game board has size 50 cm x 50 cm.\nnote right of Player: The players roll the dice into the game board.\nnote right of Player: Its borders prevent dice to go out.\n@enduml\"\n}\n\n"
+            },
+            {
+                "role": "user",
+                "content": "===== REQUIREMENTS =====\n1. The game is a game for two players.\n2. There are two paddles which are rectangular blocks with a size of 1 x 4 blocks.\n3. The ball direction changes every time the ball hits a paddle, or the top or bottom of the board.\n4. When the ball changes its direction, the new direction shall be computed with the same angle of reflection as the angle of incidence.\n5. When the game starts, the ball shall move in a straight line from the center of the screen toward the left side of the board with a speed of 5 pixels/sec.\n6. The board is a rectangle consisting of 120 x 80 blocks with the longer side being on the horizontal axis. Each block has a size of 10 x 10 pixels.\n7. The paddles are located on the left and right side of the board and can only move vertically in a straight line.\n8. When the game starts, the paddles shall not be located anywhere but in the middle of the vertical sides.\n9. The ball is a square with a size of 1 x 1 blocks.\n10. The goal is to score points by kicking the ball past the opponent's paddle. The first player to reach 10 points wins and the game ends.\n11. Player 1 controls the left paddle, and player 2 controls the right paddle.\n12. After a player has won, the game should show \"Player 1 wins!\" or \"Player 2 wins!\" as a large text on the board.\n13. After a player scores a point, the game resets to the same conditions as when the game initially started. Instead of moving the ball to the left, the ball shall move to the side of the player who lost the last round.\n14. The ball's speed shall be increased by 10% of its current speed every time the ball hits the top or bottom of the board, or a paddle.\n15. The player(s) can select between a 1 player mode, and a 2 player mode. In the 1 player mode, the player controlls the left paddle, while the right paddle is controlled by the computer. In the 2 player mode, both paddles are controlled by the players.\n16. A dashed line separating the two sides of the board shall be drawn in the horizontal center of the board.\n17. Both on the left and right side of the board, there should be numbers representing the current scores of both players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.\n18. The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.\n19. Every time the ball hits the top or bottom of the board, it shall make a beep sound.\n20. The first player's paddle is controlled by pressing w and s for up and down respectively. The second player's paddle is controlled by pressing the up and down arrow keys for up and down respectively."
+            }
+        ],
+        "requirements": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            17,
+            18
+        ],
+        "requirements_smelly": [
+            8,
+            14,
+            19,
+            20
+        ],
+        "timestamp": "2025-04-05_094619"
     }
 ]

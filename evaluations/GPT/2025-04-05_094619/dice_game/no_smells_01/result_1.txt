@@ -1,0 +1,93 @@
+@startuml
+actor Player
+participant System
+
+note right of Player: Rule 1
+Player -> System: Enter names
+alt Name is "Computer"
+  System -> Player: "Name cannot be Computer"
+  note right of System: Rule 17
+else
+  System -> Player: Accept name
+end
+
+System -> Player: Randomize turn order
+note right of System: Rule 16
+
+loop 12 times
+  note right of Player: Rule 3
+  Player -> System: Decide to skip turn?
+  alt Skip turn
+    note right of Player: Rule 20
+  else
+    Player -> System: Throw dice
+    note right of Player: Rule 4
+    System -> Player: Show dice count
+    note right of System: Rule 6
+    alt Dice count is 1
+      Player -> System: Decide to re-roll?
+      note right of Player: Rule 9
+    end
+    alt Dice count is 2
+      System -> Player: Triple dice count
+      note right of System: Rule 14
+    else Dice count is even but not 2
+      System -> Player: Halve dice count
+      note right of System: Rule 14
+    else Dice count is 5
+      Player -> System: Throw again
+      System -> Player: Multiply both dice counts
+      note right of System: Rule 18
+    else Dice count is 6
+      System -> Player: Skip next player's turn
+      note right of System: Rule 13
+    end
+    System -> Player: Add dice count to points
+    note right of System: Rule 5
+    alt Points above 5
+      System -> Player: Change point color to yellow
+      note right of System: Rule 19
+    end
+    alt Points above 11
+      System -> Player: Change point color to purple
+      note right of System: Rule 12
+    end
+    alt Points are equal
+      System -> Player: "Equality!"
+      note right of System: Rule 15
+    end
+    alt Same value three times in a row
+      System -> Player: Reset points to 0
+      note right of System: Rule 21
+    end
+  end
+end
+
+alt One player has 10 more points than others
+  note right of System: Rule 8
+end
+
+System -> Player: Print players' points
+System -> Player: Determine winner
+alt Two players have the same points
+  note right of System: Rule 22
+else
+  System -> Player: "Congratulations " + player name + " you won the game! You are the best!"
+  note right of System: Rule 10
+end
+
+System -> Player: Print players' points and winner
+note right of System: Rule 23
+
+alt Players decide to play again
+  System -> Player: Order players by last game's points ascending
+  note right of System: Rule 25
+end
+
+note right of Player: Rule 2
+note right of Player: Every player starts with 0 points
+note right of Player: Rule 7
+note right of Player: The game ends after 12 turns
+note right of Player: Rule 11
+note right of Player: Player point colors: red, green, blue
+@enduml

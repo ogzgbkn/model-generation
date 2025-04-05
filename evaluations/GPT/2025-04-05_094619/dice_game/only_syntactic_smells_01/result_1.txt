@@ -1,0 +1,89 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant System
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+Player1 -> System: Enter name
+alt Name is "Computer"
+  System -> Player1: Name cannot be Computer
+  Player1 -> System: Enter name again
+end
+Player2 -> System: Enter name
+alt Name is "Computer"
+  System -> Player2: Name cannot be Computer
+  Player2 -> System: Enter name again
+end
+Player3 -> System: Enter name
+alt Name is "Computer"
+  System -> Player3: Name cannot be Computer
+  Player3 -> System: Enter name again
+end
+System -> Player1: Choose turn order
+System -> Player2: Choose turn order
+System -> Player3: Choose turn order
+note right of Player1: Rule 16
+
+loop 12 turns
+  alt Player decides to skip
+    Player1 -> System: Skip turn
+  else
+    Player1 -> System: Roll dice
+    System -> Player1: Dice count
+    alt Dice count is 1
+      Player1 -> System: Decide to re-roll
+    end
+    alt Dice count is 2
+      System -> Player1: Triple dice count
+    else Dice count is even but not 2
+      System -> Player1: Halve dice count
+    end
+    alt Dice count is 5
+      Player1 -> System: Roll again
+      System -> Player1: Multiply both dice counts
+    end
+    alt Dice count is 6
+      System -> Player1: End turn
+    else
+      System -> Player1: Add dice count to points
+    end
+    System -> Player1: Print dice count and points
+    note right of Player1: Rule 6
+    alt Points > 5
+      System -> Player1: Change point color to yellow
+    end
+    alt Points > 11
+      System -> Player1: Change point color to purple
+    end
+    alt Points are equal
+      System -> Player1: Print "Equality!"
+    end
+    alt Same value three times in a row
+      System -> Player1: Reset points to 0
+    end
+  end
+end
+alt One player has 10 more points than others
+  System -> Player1: End game
+else
+  System -> Player1: End game after 12 turns
+end
+alt Two players have the same points
+  System -> Player1: Continue game
+end
+System -> Player1: Print players' points and winner
+note right of Player1: Rule 23
+System -> Player1: "Congratulations " + player name + " you won the game! You are the best!"
+note right of Player1: Rule 10
+alt Players decide to play again
+  System -> Player1: Order players by last game points ascending
+end
+note right of Player1: Rule 25
+
+note right of Player1: Rule 11
+note right of Player1: Player 1's points are red
+note right of Player1: Player 2's points are green
+note right of Player1: Player 3's points are blue
+@enduml

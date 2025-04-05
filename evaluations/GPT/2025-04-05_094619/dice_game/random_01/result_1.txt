@@ -1,0 +1,95 @@
+@startuml
+actor Player
+participant System
+
+Player -> System: Enter names
+note right of System: Rule 17
+alt Name is "Computer"
+    System -> Player: "Name cannot be Computer"
+    Player -> System: Enter valid name
+end
+
+System -> Player: Decide turn order
+note right of System: Rule 16
+
+loop 12 times
+    Player -> System: Decide to skip turn
+    note right of Player: Rule 20
+    alt Player skips turn
+        note right of System: Player skips turn
+    else Player does not skip turn
+        Player -> System: Throw dice
+        note right of Player: Rule 4
+        alt Dice count is 1
+            Player -> System: Decide to re-roll
+            note right of Player: Rule 9
+        end
+        alt Dice count is 2
+            System -> System: Triple dice count
+            note right of System: Rule 14
+        else Dice count is even but not 2
+            System -> System: Halve dice count
+            note right of System: Rule 14
+        end
+        alt Dice count is 5
+            Player -> System: Throw again
+            System -> System: Multiply both dice counts
+            note right of System: Rule 18
+        end
+        alt Dice count is 6
+            note right of System: Rule 13
+            System -> Player: Skip next player's turn
+        end
+        System -> System: Add dice count to player's points
+        note right of System: Rule 5
+        alt Player's points > 5
+            System -> System: Change point color to yellow
+            note right of System: Rule 19
+        end
+        alt Player's points > 11
+            System -> System: Change point color to purple
+            note right of System: Rule 12
+        end
+        alt Player throws same value three times
+            System -> System: Reset player's points to 0
+            note right of System: Rule 21
+        end
+        alt Points are equal
+            System -> System: Print "Equality!"
+            note right of System: Rule 15
+        end
+        System -> System: Print dice count and player points
+        note right of System: Rule 6
+    end
+end
+
+alt Game ends after 12 turns
+    note right of System: Rule 7
+else One player has significantly more points
+    note right of System: Rule 8
+end
+
+alt Two players have the same amount of points
+    note right of System: Rule 22
+else Determine winner
+    System -> Player: "Congratulations " + player name + " you won the game! You are the best!"
+    note right of System: Rule 10
+end
+
+System -> System: Print players' points and winner
+note right of System: Rule 23
+
+alt Players decide to play again
+    System -> System: Order players in a certain way
+    note right of System: Rule 25
+end
+
+note right of Player: Rule 1
+note right of Player: A dice-throwing game for three players
+note right of Player: Rule 2
+note right of Player: Every player starts with 0 points
+note right of Player: Rule 3
+note right of Player: The players take turns
+note right of Player: Rule 11
+note right of Player: Player point colors: red, green, blue
+@enduml

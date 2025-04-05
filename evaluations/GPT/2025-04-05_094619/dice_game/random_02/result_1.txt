@@ -1,0 +1,166 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant System
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+
+System -> Player1: Enter name
+alt Name is "Computer"
+    System -> Player1: Print "Name cannot be Computer"
+    System -> Player1: Enter name again
+end
+System -> Player2: Enter name
+alt Name is "Computer"
+    System -> Player2: Print "Name cannot be Computer"
+    System -> Player2: Enter name again
+end
+System -> Player3: Enter name
+alt Name is "Computer"
+    System -> Player3: Print "Name cannot be Computer"
+    System -> Player3: Enter name again
+end
+
+note right of System: Rule 17
+
+System -> System: Decide turn order
+note right of System: Rule 16
+
+loop 12 turns or significant lead
+    alt Player1's turn
+        Player1 -> System: Throw dice
+        System -> Player1: Dice count
+        alt Dice count is 1
+            Player1 -> Player1: Decide to re-roll
+        end
+        alt Dice count is 2
+            System -> Player1: Triple dice count
+        else Dice count is even
+            System -> Player1: Halve dice count
+        end
+        alt Dice count is high
+            Player1 -> System: Throw again
+            System -> Player1: Multiply both dice counts
+        end
+        alt Dice count is 6
+            System -> Player1: End turn
+        else
+            Player1 -> System: Add to points
+        end
+        alt Player1 skips turn
+            System -> Player1: Skip
+        end
+        System -> System: Check for equality
+        alt Points are equal
+            System -> System: Print "Equality!"
+        end
+        System -> Player1: Print dice count and points
+        alt Points > 5
+            System -> Player1: Change point color to purple
+        end
+        alt Points sufficient to win
+            System -> Player1: Change point color to purple
+        end
+        alt Same value multiple times
+            System -> Player1: Reset points to 0
+        end
+    end
+    alt Player2's turn
+        Player2 -> System: Throw dice
+        System -> Player2: Dice count
+        alt Dice count is 1
+            Player2 -> Player2: Decide to re-roll
+        end
+        alt Dice count is 2
+            System -> Player2: Triple dice count
+        else Dice count is even
+            System -> Player2: Halve dice count
+        end
+        alt Dice count is high
+            Player2 -> System: Throw again
+            System -> Player2: Multiply both dice counts
+        end
+        alt Dice count is 6
+            System -> Player2: End turn
+        else
+            Player2 -> System: Add to points
+        end
+        alt Player2 skips turn
+            System -> Player2: Skip
+        end
+        System -> System: Check for equality
+        alt Points are equal
+            System -> System: Print "Equality!"
+        end
+        System -> Player2: Print dice count and points
+        alt Points > 5
+            System -> Player2: Change point color to purple
+        end
+        alt Points sufficient to win
+            System -> Player2: Change point color to purple
+        end
+        alt Same value multiple times
+            System -> Player2: Reset points to 0
+        end
+    end
+    alt Player3's turn
+        Player3 -> System: Throw dice
+        System -> Player3: Dice count
+        alt Dice count is 1
+            Player3 -> Player3: Decide to re-roll
+        end
+        alt Dice count is 2
+            System -> Player3: Triple dice count
+        else Dice count is even
+            System -> Player3: Halve dice count
+        end
+        alt Dice count is high
+            Player3 -> System: Throw again
+            System -> Player3: Multiply both dice counts
+        end
+        alt Dice count is 6
+            System -> Player3: End turn
+        else
+            Player3 -> System: Add to points
+        end
+        alt Player3 skips turn
+            System -> Player3: Skip
+        end
+        System -> System: Check for equality
+        alt Points are equal
+            System -> System: Print "Equality!"
+        end
+        System -> Player3: Print dice count and points
+        alt Points > 5
+            System -> Player3: Change point color to purple
+        end
+        alt Points sufficient to win
+            System -> Player3: Change point color to purple
+        end
+        alt Same value multiple times
+            System -> Player3: Reset points to 0
+        end
+    end
+end
+
+System -> System: Determine winner
+alt Two players have same points
+    System -> System: Game cannot end
+else
+    System -> System: Print winner
+    System -> System: Congratulations
+end
+
+note right of System: Rule 10
+note right of System: Rule 23
+note right of System: Rule 24
+
+note right of Player1: Rule 11
+note right of Player1: Rule 12
+note right of Player1: Rule 19
+
+note right of System: Rule 22
+note right of System: Rule 25
+@enduml

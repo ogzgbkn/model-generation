@@ -4,9 +4,11 @@ participant GameSystem
 
 note right of Player: Rule 17
 Player -> GameSystem: Set name
-alt Name is "Computer"
-  GameSystem -> Player: "Name cannot be Computer"
-  Player -> GameSystem: Set valid name
+loop Name not valid
+  alt Name = "Computer"
+    GameSystem -> Player: "Name cannot be Computer"
+    Player -> GameSystem: Set name
+  end
 end
 
 note right of GameSystem: Rule 2
@@ -19,7 +21,7 @@ note right of GameSystem: Rule 3, 16
 GameSystem -> GameSystem: Decide turn order randomly
 
 note right of GameSystem: Rule 7
-loop 12 times (turns)
+loop Turn <= 12
   note right of GameSystem: Rule 8
   alt One player has 10 more points than others
     note right of GameSystem: Rule 22
@@ -89,6 +91,7 @@ loop 12 times (turns)
       GameSystem -> GameSystem: Skip next player's turn
     end
   end
+  GameSystem -> GameSystem: Increase turn count
 end
 
 note right of GameSystem: Rule 24
@@ -98,7 +101,7 @@ note right of GameSystem: Rule 23
 GameSystem -> GameSystem: Print players' points and winner
 
 note right of GameSystem: Rule 10
-GameSystem -> Player: Message for the winner
+GameSystem -> Player: Send message to the winner
 
 note right of Player: Rule 25
 GameSystem -> Player: Play again?

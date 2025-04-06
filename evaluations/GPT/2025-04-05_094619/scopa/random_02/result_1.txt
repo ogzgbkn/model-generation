@@ -1,0 +1,65 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant Game
+
+Player1 -> Game: Start Game
+note right of Game: Rule 1
+
+Game -> Game: Randomize turn order
+note right of Game: Rule 2
+
+Game -> Game: Shuffle deck
+Game -> Game: Distribute cards to players
+Game -> Game: Place four cards on table
+note right of Game: Rule 8
+
+loop Each Turn
+  alt Player takes all cards from table
+    Player1 -> Game: Earn special point
+    note right of Player1: Rule 3
+  end
+
+  Player1 -> Game: Select card from hand
+  alt Card matches a card on table
+    Player1 -> Game: Put card on discard pile
+    note right of Player1: Rule 10
+  else Card matches sum of cards on table
+    Player1 -> Game: Put matching cards on discard pile
+    note right of Player1: Rule 11
+  else No match
+    Player1 -> Game: Add card to table
+    note right of Player1: Rule 12
+  end
+
+  alt Player has no cards left
+    Game -> Player1: Give three new cards from deck
+    note right of Player1: Rule 13
+  end
+end
+
+alt All cards distributed
+  Game -> Player1: Last player takes remaining cards
+  note right of Player1: Rule 14
+end
+
+Game -> Game: Tally points
+alt Player reaches winning score
+  Game -> Player1: Player wins the game
+  note right of Player1: Rule 6
+else No player reaches winning score
+  Game -> Game: Start new round
+  note right of Game: Rule 15
+end
+
+Game -> Game: Calculate points for discard piles
+note right of Game: Rule 16
+
+note right of Game: Rule 4
+note right of Game: The game is played with a deck of 40 cards.
+note right of Game: Rule 5
+note right of Game: Every suit has 10 cards, from 1 to 12.
+note right of Game: Rule 7
+note right of Game: Play multiple rounds until reaching the winning score.
+@enduml

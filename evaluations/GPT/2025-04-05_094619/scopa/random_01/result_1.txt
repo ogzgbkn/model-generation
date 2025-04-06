@@ -1,0 +1,70 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant Game
+
+note right of Game: Rule 1
+
+Game -> Game: Decide turn order randomly
+note right of Game: Rule 2
+
+Game -> Game: Shuffle the deck
+Game -> Player1: Deal 3 cards
+Game -> Player2: Deal 3 cards
+Game -> Player3: Deal 3 cards
+Game -> Table: Place 4 cards
+note right of Game: Rule 8
+
+alt Player's turn
+  Player1 -> Table: Select a card
+  alt Card matches a card on the table
+    Player1 -> Player1: Put matching cards on discard pile
+    note right of Player1: Rule 10
+  else Card does not match
+    Player1 -> Table: Add card to table
+    note right of Player1: Rule 12
+  end
+end
+
+alt Player takes all cards from the table
+  Player1 -> Player1: Earn a special point
+  note right of Player1: Rule 3
+end
+
+alt Player has no cards left
+  Game -> Player1: Deal 3 new cards
+  note right of Player1: Rule 13
+end
+
+alt All cards distributed
+  Game -> Player1: Take remaining table cards
+  note right of Player1: Rule 14
+end
+
+Game -> Player1: Tally points
+Game -> Player2: Tally points
+Game -> Player3: Tally points
+note right of Game: Rule 15
+
+alt Player reaches winning score
+  Game -> Game: End game
+else No player reaches winning score
+  Game -> Game: Start new round
+end
+
+Player1 -> Player1: Calculate points for most cards
+Player1 -> Player1: Calculate points for most coins
+Player1 -> Player1: Calculate points for seven of Coins
+Player1 -> Player1: Calculate points for highest sum
+note right of Player1: Rule 16
+
+note right of Game: Rule 4
+note right of Game: The game is played with a deck of 40 cards.
+note right of Game: Rule 5
+note right of Game: Each suit has 10 cards, from 1 to 10.
+note right of Game: Rule 6
+note right of Game: The primary objective is to reach a certain goal.
+note right of Game: Rule 7
+note right of Game: Play multiple rounds until reaching the winning score.
+@enduml

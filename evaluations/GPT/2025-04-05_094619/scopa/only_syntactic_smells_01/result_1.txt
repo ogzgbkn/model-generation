@@ -1,0 +1,55 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant Game
+
+note right of Game: Rule 1
+
+Game -> Game: Decide turn order randomly
+note right of Game: Rule 2
+
+Game -> Game: Shuffle deck
+Game -> Player1: Deal 3 cards
+Game -> Player2: Deal 3 cards
+Game -> Player3: Deal 3 cards
+Game -> Table: Place 4 cards
+note right of Game: Rule 8
+
+alt Player's turn
+  Player1 -> Game: Select card from hand
+  note right of Player1: Rule 9
+  alt Card matches a card on the table
+    Player1 -> Player1: Put matching cards on discard pile
+    note right of Player1: Rule 11
+  else Card does not match
+    Player1 -> Table: Add card to table
+    note right of Player1: Rule 12
+  end
+  alt No cards left in hand
+    Game -> Player1: Deal 3 new cards
+    note right of Player1: Rule 13
+  end
+end
+
+alt End of round
+  Game -> Players: Tally points
+  note right of Game: Rule 15
+  alt Player reaches winning score
+    Game -> Game: End game
+    note right of Game: Rule 6
+  else No player reaches winning score
+    Game -> Game: Start new round
+  end
+end
+
+note right of Game: Rule 3
+note right of Game: Rule 4
+note right of Game: Rule 5
+note right of Game: Rule 7
+note right of Game: Rule 10
+note right of Game: Rule 14
+note right of Game: Rule 16
+note right of Game: The game is played with a deck of 40 cards, divided into four suits (Coins, Cups, Swords, and Clubs).
+note right of Game: Every suit has 10 cards, from 1 to 10.
+@enduml

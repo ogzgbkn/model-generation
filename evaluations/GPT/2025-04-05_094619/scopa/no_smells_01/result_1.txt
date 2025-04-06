@@ -1,0 +1,75 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant Program
+
+note right of Program: Rule 1
+
+Program -> Program: Decide turn order randomly
+note right of Program: Rule 2
+
+Program -> Program: Shuffle deck
+Program -> Player1: Deal 3 cards
+Program -> Player2: Deal 3 cards
+Program -> Player3: Deal 3 cards
+Program -> Table: Place 4 cards
+note right of Program: Rule 8
+
+alt Player's turn
+  Player1 -> Table: Select card from hand
+  note right of Player1: Rule 9
+  alt Card matches a card on table
+    Player1 -> DiscardPile: Put matching card
+    note right of Player1: Rule 10
+  else Card matches sum of cards on table
+    Player1 -> DiscardPile: Put matching cards
+    note right of Player1: Rule 11
+  else No match
+    Player1 -> Table: Add card to table
+    note right of Player1: Rule 12
+  end
+end
+
+alt Player takes all cards from table
+  Player1 -> Player1: Earn special point
+  note right of Player1: Rule 3
+end
+
+alt No cards left in hand
+  Program -> Player1: Deal 3 new cards
+  note right of Program: Rule 13
+end
+
+alt All cards distributed
+  note right of Program: Rule 14
+  alt Cards left on table
+    Player1 -> DiscardPile: Take remaining cards
+  end
+end
+
+Program -> Players: Tally points
+alt Player reaches winning score
+  note right of Program: Rule 15
+  Program -> Players: End game
+else No player reaches winning score
+  Program -> Players: Start new round
+end
+
+alt End of round
+  note right of Program: Rule 16
+  Player1 -> Player1: Receive points for most cards
+  Player2 -> Player2: Receive points for most coins
+  Player3 -> Player3: Receive points for seven of Coins
+  Player1 -> Player1: Receive points for highest sum
+end
+
+note right of Program: Rule 4
+note right of Program: The game is played with a deck of 40 cards.
+note right of Program: Rule 5
+note right of Program: Each suit has 10 cards, from 1 to 10.
+note right of Program: Rule 6
+note right of Program: The primary objective is to reach a score of 8.
+note right of Program: Rule 7
+note right of Program: Players can play multiple rounds to reach the score.
+@enduml

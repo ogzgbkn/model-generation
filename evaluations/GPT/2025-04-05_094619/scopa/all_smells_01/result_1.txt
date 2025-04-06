@@ -1,0 +1,67 @@
+@startuml
+actor Player1
+actor Player2
+actor Player3
+participant Game
+
+note right of Game: Rule 1
+
+Game -> Game: Decide turn order randomly
+note right of Game: Rule 2
+
+Game -> Game: Shuffle deck
+Game -> Player1: Deal cards
+Game -> Player2: Deal cards
+Game -> Player3: Deal cards
+Game -> Table: Place four cards
+note right of Game: Rule 8
+
+loop Each player's turn
+  alt Player takes all cards from table
+    Player1 -> Player1: Earn special point
+    note right of Player1: Rule 3
+  end
+
+  Player1 -> Table: Select card from hand
+  alt Card matches a card on table
+    Player1 -> Player1: Put matching cards on discard pile
+    note right of Player1: Rule 11
+  else Card does not match
+    Player1 -> Table: Do something with the card
+    note right of Player1: Rule 12
+  end
+
+  alt No cards left in hand
+    Player1 -> Game: Receive three new cards
+    note right of Player1: Rule 13
+  end
+end
+
+alt All cards distributed
+  Game -> Player1: Take remaining cards on table
+  note right of Game: Rule 14
+end
+
+Game -> Player1: Tally points
+Game -> Player2: Tally points
+Game -> Player3: Tally points
+note right of Game: Rule 15
+
+alt Player reaches predetermined score
+  Game -> Game: End game
+end
+
+Game -> Player1: Calculate points for discard pile
+Game -> Player2: Calculate points for discard pile
+Game -> Player3: Calculate points for discard pile
+note right of Game: Rule 16
+
+note right of Game: Rule 4
+note right of Game: The game is played with a deck of 40 cards.
+note right of Game: Rule 5
+note right of Game: Every suit has 10 cards, from 1 to 12.
+note right of Game: Rule 6
+note right of Game: The primary objective of Scopa is to reach a certain goal.
+note right of Game: Rule 7
+note right of Game: It could be fun to play multiple rounds until reaching the winning score.
+@enduml

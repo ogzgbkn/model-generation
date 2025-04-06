@@ -5,14 +5,15 @@ participant GameEngine
 note right of GameEngine: Rule 2
 GameEngine -> GameEngine: Decide turn order randomly
 
+note right of Table: Rule 7
 loop Each round
   note right of GameEngine: Rule 8
   GameEngine -> GameEngine: Shuffle deck
-  GameEngine -> Player: 3 cards from the deck
-  GameEngine -> Table: 4 cards from the deck
+  GameEngine -> Player: Deal 3 cards from the deck to player
+  GameEngine -> Table: Deal 4 cards from the deck to table
 
   loop Cards exist in deck
-    note right of Player: Rule 9
+    note right of GameEngine: Rule 9
     GameEngine -> Player: Next player's turn
     Player -> Player: Select a card from hand
 
@@ -24,30 +25,31 @@ loop Each round
       Player -> Player: Put matching cards on own discard pile
     else No match
       note right of Player: Rule 12
-      Player -> Table: Non-matching card
+      Player -> Table: Add non-matching card to table
     end
     
     note right of GameEngine: Rule 3
     alt Player takes all cards from table
-      GameEngine -> GameEngine: Increase the player's points by 1
+      GameEngine -> Player: Give player a special point
     end
 
     note right of GameEngine: Rule 13
-    alt Player has no cards left in hand
-      GameEngine -> Player: 3 cards from the deck
+    alt Number of cards of a player = 0
+      GameEngine -> Player: Deal 3 cards from the deck to player
     end
   end
 
   note right of GameEngine: Rule 14
-  GameEngine -> Player: The remaining cards on the table
+  GameEngine -> Player: Give the remaining cards on the table
 
   note right of GameEngine: Rule 15, 16
   GameEngine -> Player: Tally points
 
-  alt A player reaches the winning score of 8
+  alt Point of a player >= 8
     note right of GameEngine: Rule 6
+    GameEngine -> GameEngine: Declare the player as winner
     GameEngine -> GameEngine: End game
-  else No player reaches winning score
+  else
     note right of GameEngine: Rule 7
     GameEngine -> GameEngine: Start new round
   end

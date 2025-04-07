@@ -8,21 +8,14 @@ participant Ball
 participant LeftPaddle
 participant RightPaddle
 
-note right of Game: Rule 1, 2
-Game -> LeftPaddle: Initiate left paddle on the left side of the board with size 1 x 4 blocks
-Game -> RightPaddle: Initiate right paddle on the right side of the board with size 1 x 4 blocks
-note right of Game: Rule 7
-Game -> LeftPaddle: Left paddle can only move vertically
-Game -> RightPaddle: Right paddle can only move vertically
-
 note right of Game: Rule 11
 Game -> Player1: Control LeftPaddle
-Player1 -> Game: Select The Player Mode
+Game -> Player1: Select the player mode
 
 note right of Game: Rule 11, 15
-alt 1 player mode
+alt 1 player mode selected
   Game -> Computer: Control RightPaddle
-else 2 player mode
+else 2 player mode selected
   Game -> Player2: Control RightPaddle
 end
 
@@ -31,58 +24,73 @@ Player1 -> LeftPaddle: Control with 'w' and 's'
 note right of Player2: Rule 20
 Player2 -> RightPaddle: Control with arrow keys
 
-note right of Game: Rule 6
-Game -> Board: Initialize 80 x 120 blocks board (Longer side is horizontal axis. 1 block is 10 x 10 pixels)
-note right of Game: Rule 18
-Game -> Board: Set the background color of the board to black; the colors of the ball, the paddles, the center line and the score numbers to white.
 note right of Game: Rule 16
-Game -> Board: Draw a dashed line to the horizontal center of the board to seperate 2 sides.
-note right of Game: Rule 17
-Game -> Board: Initialize score boards on each side on top of the board with sizes 4 x 6 blocks. Score boards show the scores of players.
+Game -> Board: Draw a dashed line
 
 note right of Game: Rule 8
 Game -> LeftPaddle: Set position to middle
 Game -> RightPaddle: Set position to middle
 
-note right of Game: Rule 9
-Game -> Ball: Initialize with size 1 x 1
 note right of Game: Rule 5
-Game -> Ball: Initialize on the center. Move to left at 5 pixels/sec
+Game -> Ball: Move to left from center with 5 pixels/sec
 
 note right of LeftPaddle: Rule 10
 loop No player scored 10 points
-  alt Ball hits LeftPaddle or RightPaddle
-    note right of Ball: Rule 3, 4
-    Ball -> Ball: Change direction with the same angle of incidence
-    note right of Ball: Rule 14
-    Ball -> Ball: Increase speed by 10%
-    note right of Game: Rule 19
-    Game -> Game: Make beep sound
-  else Ball hits top or bottom
-    note right of Ball: Rule 3, 4
-    Ball -> Ball: Change direction with the same angle of incidence
-    note right of Ball: Rule 14
-    Ball -> Ball: Increase speed by 10%
-    note right of Game: Rule 19
-    Game -> Game: Make beep sound
-  else Ball passes LeftPaddle or RightPaddle
-    note right of Game: Rule 10
-    Game -> Game: Update score
-    note right of Game: Rule 13
-    Game -> Game: Reset the game to its initial condition
-    note right of Ball: Rule 13
-    alt Player1 scores
-      Ball -> Ball: Move right in the beginning of the game
-    else Player2 scores
-      Ball -> Ball: Move left in the beginning of the game
+  note right of Ball: Rule 13
+  alt Player1 scored
+    Ball -> Ball: Move to right
+  else Player2 scored
+    Ball -> Ball: Move to left
+  end
+  loop Ball is alive
+    alt Ball hits LeftPaddle or RightPaddle
+      note right of Ball: Rule 3, 4
+      Ball -> Ball: Change direction
+      note right of Ball: Rule 14
+      Ball -> Ball: Increase speed by 10%
+      note right of Game: Rule 19
+      Game -> Game: Make beep sound
+    else Ball hits top or bottom of the board
+      note right of Ball: Rule 3, 4
+      Ball -> Ball: Change direction
+      note right of Ball: Rule 14
+      Ball -> Ball: Increase speed by 10%
+      note right of Game: Rule 19
+      Game -> Game: Make beep sound
+    else Ball passes LeftPaddle or RightPaddle
+      note right of Game: Rule 10
+      Game -> Game: Update player's score
+      note right of Game: Rule 13
+      Game -> Game: Reset the game to its initial condition
     end
   end
 end
 
 note right of Ball: Rule 12
 alt Player1 wins
-  Game -> Board: Display "Player 1 wins!" as a large text on the board
+  Game -> Board: Display "Player 1 wins!"
 else Player2 wins
-  Game -> Board: Display "Player 2 wins!" as a large text on the board
+  Game -> Board: Display "Player 2 wins!"
 end
+
+note right of Player1: Rule 2
+note right of Player1: The paddles have size 1 x 4 blocks.
+note right of Player1: Rule 7
+note right of Player1: The paddles are located on the left and right side of the board and can only move vertically.
+note right of Player1: Rule 4
+note right of Player1: The ball changes its direction everytime with the same angle of reflection as the angle of incidence.
+note right of Player1: Rule 9
+note right of Player1: The ball is a square with a size of 1 x 1 blocks.
+note right of Player1: Rule 6
+note right of Player1: The board is a rectangle consisting of 120 (width) x 80 (height) blocks. Each block has a size of 10 x 10 pixels.
+note right of Player1: Rule 12
+note right of Player1: Winner message is displayed on the board as a large text.
+note right of Player1: Rule 16
+note right of Player1: Dashed line is in the horizontal center of the board and it seperates the two sides of the board.
+note right of Player1: Rule 17
+note right of Player1: Both on the left and right side of the board, there should be numbers representing the current scores of both
+note right of Player1: players. The numbers shall be placed at the top of the board vertically and have a size of 4 x 6 blocks.
+note right of Player1: Rule 18
+note right of Player1: The background of the board shall be black, while the ball, the paddles, the center line, and the score numbers shall be white.
+
 @enduml

@@ -1,0 +1,55 @@
+@startuml
+actor Player1
+actor Player2
+participant Game
+
+Player1 -> Game: Start Game
+note right of Game: Rule 5
+alt 1 Player Mode
+  note right of Game: Rule 15
+  Player1 -> Game: Control Left Paddle
+else 2 Player Mode
+  Player1 -> Game: Control Left Paddle
+  Player2 -> Game: Control Right Paddle
+end
+
+Game -> Ball: Initialize Ball at Center
+note right of Ball: Rule 5
+Ball -> Game: Move Left at 5 pixels/sec
+
+loop Until Game Ends
+  alt Ball Hits Paddle or Top/Bottom
+    note right of Ball: Rule 3
+    Ball -> Game: Change Direction
+    note right of Game: Rule 4
+    Game -> Ball: Increase Speed by 10%
+    note right of Ball: Rule 14
+    alt Ball Hits Top/Bottom
+      Game -> Sound: Beep
+      note right of Sound: Rule 19
+    end
+  end
+
+  alt Ball Reaches Goal
+    Game -> Player: Update Score
+    note right of Game: Rule 10
+    Game -> Ball: Reset Ball
+    note right of Ball: Rule 13
+  end
+end
+
+Game -> Player: Display Winning Message
+note right of Game: Rule 12
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+note right of Player1: Rule 6
+note right of Player1: Rule 7
+note right of Player1: Rule 8
+note right of Player1: Rule 9
+note right of Player1: Rule 11
+note right of Player1: Rule 16
+note right of Player1: Rule 17
+note right of Player1: Rule 18
+note right of Player1: Rule 20
+@enduml

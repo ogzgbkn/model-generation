@@ -1,0 +1,68 @@
+@startuml
+actor Player1
+actor Player2
+actor Computer
+participant Game
+
+Player1 -> Game: Select game mode
+note right of Game: Rule 15
+alt 1 player mode
+    Player1 -> Game: Control left paddle
+    note right of Player1: Rule 11
+    Computer -> Game: Control right paddle
+else 2 player mode
+    Player1 -> Game: Control left paddle
+    Player2 -> Game: Control right paddle
+    note right of Player2: Rule 11
+end
+
+Game -> Game: Initialize board
+note right of Game: Rule 6
+note right of Game: Rule 16
+note right of Game: Rule 18
+
+Game -> Game: Initialize paddles
+note right of Game: Rule 2
+note right of Game: Rule 7
+note right of Game: Rule 8
+
+Game -> Game: Initialize ball
+note right of Game: Rule 9
+note right of Game: Rule 5
+
+loop Until a player wins
+    Game -> Game: Ball moves
+    alt Ball hits paddle or top/bottom
+        Game -> Game: Change ball direction
+        note right of Game: Rule 3
+        note right of Game: Rule 4
+        Game -> Game: Increase ball speed
+        note right of Game: Rule 14
+        Game -> Game: Make beep sound
+        note right of Game: Rule 19
+    end
+    alt Ball passes paddle
+        Game -> Game: Score point
+        note right of Game: Rule 10
+        Game -> Game: Reset game
+        note right of Game: Rule 13
+    end
+end
+
+alt Player 1 wins
+    Game -> Game: Display "Player 1 wins!"
+    note right of Game: Rule 12
+else Player 2 wins
+    Game -> Game: Display "Player 2 wins!"
+    note right of Game: Rule 12
+end
+
+note right of Player1: Rule 17
+note right of Player1: Numbers represent scores
+note right of Player1: Placed at the top of the board
+note right of Player1: Size of 4 x 6 blocks
+
+note right of Player1: Rule 20
+note right of Player1: Player 1 uses 'w' and 's' keys
+note right of Player2: Player 2 uses arrow keys
+@enduml

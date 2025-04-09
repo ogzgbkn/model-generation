@@ -1,0 +1,70 @@
+@startuml
+actor Player1
+actor Player2
+participant Game
+participant Ball
+participant Paddle1
+participant Paddle2
+
+Player1 -> Game: Start Game
+note right of Game: Rule 5
+Game -> Ball: Initialize position and direction
+Ball -> Paddle1: Move towards left
+note right of Ball: Rule 13
+alt Ball hits Paddle1 or Paddle2
+  Ball -> Ball: Change direction
+  note right of Ball: Rule 3
+  note right of Ball: Rule 4
+  Ball -> Game: Increase speed by 10%
+  note right of Ball: Rule 14
+  Game -> Game: Play beep sound
+  note right of Game: Rule 19
+else Ball hits top or bottom
+  Ball -> Ball: Change direction
+  note right of Ball: Rule 3
+  note right of Ball: Rule 4
+  Ball -> Game: Increase speed by 10%
+  note right of Ball: Rule 14
+  Game -> Game: Play beep sound
+  note right of Game: Rule 19
+end
+alt Ball reaches goal
+  Game -> Player1: Update score
+  note right of Game: Rule 10
+  alt Player1 wins
+    Game -> Game: Display "Player 1 wins!"
+    note right of Game: Rule 12
+  else Player2 wins
+    Game -> Game: Display "Player 2 wins!"
+    note right of Game: Rule 12
+  end
+  Game -> Game: Reset game
+  note right of Game: Rule 13
+end
+
+note right of Player1: Rule 1
+note right of Player1: Rule 15
+note right of Player1: Rule 20
+note right of Player1: Player 1 uses 'w' and 's' keys
+note right of Player1: Player 2 uses arrow keys
+note right of Player1: Rule 2
+note right of Player1: Paddles are 1 x 4 blocks
+note right of Player1: Rule 6
+note right of Player1: Blocks are 10 x 10 pixels
+note right of Player1: Rule 7
+note right of Player1: Paddles on left and right sides
+note right of Player1: Rule 8
+note right of Player1: Paddles start in middle
+note right of Player1: Rule 9
+note right of Player1: Ball is 1 x 2 blocks
+note right of Player1: Rule 11
+note right of Player1: Player 1 controls left paddle
+note right of Player1: Player 2 controls right paddle
+note right of Player1: Rule 16
+note right of Player1: Dashed line in center
+note right of Player1: Rule 17
+note right of Player1: Scores at top of board
+note right of Player1: Rule 18
+note right of Player1: Background is black
+note right of Player1: Ball, paddles, line, scores are white
+@enduml

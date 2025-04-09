@@ -1,0 +1,68 @@
+@startuml
+actor Player1
+actor Player2
+actor Computer
+participant Game
+
+Player1 -> Game: Select game mode
+note right of Game: Rule 15
+alt 1 player mode
+  Game -> Player1: Control left paddle
+  Game -> Computer: Control right paddle
+else 2 player mode
+  Game -> Player1: Control left paddle
+  Game -> Player2: Control right paddle
+end
+
+Player1 -> Game: Start game
+note right of Game: Rule 5
+Game -> Game: Ball moves from center to left
+
+alt Ball hits paddle or top/bottom
+  Game -> Game: Change ball direction
+  note right of Game: Rule 3
+  note right of Game: Rule 4
+  Game -> Game: Increase ball speed by 10%
+  note right of Game: Rule 14
+  alt Ball hits top/bottom
+    Game -> Game: Beep sound
+    note right of Game: Rule 19
+  end
+end
+
+alt Ball passes paddle
+  Game -> Game: Score point
+  note right of Game: Rule 10
+  alt Player1 scores
+    Game -> Game: Reset game
+    note right of Game: Rule 13
+    Game -> Game: Ball moves to right
+  else Player2 scores
+    Game -> Game: Reset game
+    note right of Game: Rule 13
+    Game -> Game: Ball moves to left
+  end
+end
+
+alt Player reaches 10 points
+  Game -> Game: Display winner message
+  note right of Game: Rule 12
+end
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+note right of Player1: Rule 6
+note right of Player1: Rule 7
+note right of Player1: Rule 8
+note right of Player1: Rule 9
+note right of Player1: Rule 11
+note right of Player1: Rule 16
+note right of Player1: Rule 17
+note right of Player1: Rule 18
+note right of Player1: Rule 20
+note right of Player1: The board is a rectangle of 120 x 80 blocks.
+note right of Player1: Each block is 10 x 10 pixels.
+note right of Player1: Paddles are 1 x 4 blocks.
+note right of Player1: Ball is 1 x 1 block.
+note right of Player1: Scores are 4 x 6 blocks.
+@enduml

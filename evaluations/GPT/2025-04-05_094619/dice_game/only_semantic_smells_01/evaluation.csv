@@ -1,0 +1,27 @@
+Requirement ID,Smell Type,Smell Sub-type,Completeness,Completeness-Reasons,Correctness,Correctness-Reasons
+1,,,0,1.6,0,2.7
+2,,,0,1.3,0,2.7
+3,,,1,,1,
+4,,,1,,1,
+5,,,1,,1,
+6,,,1,,0,2.3.2
+7,,,1,,1,
+8,,,1,,0,"2.3.3, 2.5.3"
+9,,,0,"1.3, 1.5",1,
+10,semantic,ambiguities,0,1.6,1,
+11,semantic,logical_inconsistencies,0,1.6.1,1,
+12,,,1,,1,
+13,,,1,,1,
+14,semantic,numerical_discrepancies,1,,1,
+15,,,1,,1,
+16,,,1,,1,
+17,,,0,1.4,0,2.3.2
+18,,,1,,1,
+19,semantic,logical_inconsistencies,1,,0,2.3.1
+20,,,1,,1,
+21,,,1,,1,
+22,,,0,"1.3, 1.5",0,2.7
+23,,,1,,0,2.3.2
+24,semantic,ambiguities,0,1.3,0,2.7
+25,,,0,"1.3, 1.3.1",1,
+Total,,,16,,16,

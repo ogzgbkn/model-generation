@@ -1,0 +1,64 @@
+@startuml
+actor Player1
+actor Player2
+actor Computer
+participant Game
+
+Player1 -> Game: Select game mode
+note right of Player1: Rule 15
+alt 1 player mode
+  Game -> Computer: Activate AI for right paddle
+else 2 player mode
+  Player2 -> Game: Control right paddle
+end
+
+Player1 -> Game: Start game
+note right of Player1: Rule 5
+Game -> Game: Initialize ball at center
+Game -> Game: Initialize paddles at middle
+note right of Game: Rule 8
+
+loop Until a player wins
+  Game -> Game: Ball moves
+  alt Ball hits paddle or top/bottom
+    Game -> Game: Change ball direction
+    note right of Game: Rule 3
+    Game -> Game: Compute new direction
+    note right of Game: Rule 4
+    Game -> Game: Increase ball speed by 10%
+    note right of Game: Rule 14
+    Game -> Game: Make beep sound
+    note right of Game: Rule 19
+  end
+  alt Ball passes paddle
+    Game -> Game: Score point
+    note right of Game: Rule 10
+    Game -> Game: Reset game
+    note right of Game: Rule 13
+  end
+end
+
+alt Player 1 wins
+  Game -> Game: Display "Player 1 wins!"
+else Player 2 wins
+  Game -> Game: Display "Player 2 wins!"
+end
+
+note right of Player1: Rule 1
+note right of Player1: Rule 2
+note right of Player1: Rule 6
+note right of Player1: Rule 7
+note right of Player1: Rule 9
+note right of Player1: Rule 11
+note right of Player1: Rule 12
+note right of Player1: Rule 16
+note right of Player1: Rule 17
+note right of Player1: Rule 18
+note right of Player1: Rule 20
+note right of Player1: The board is a rectangle of 120 x 80 blocks.
+note right of Player1: Each block is 10 x 10 pixels.
+note right of Player1: Paddles are 1 x 4 blocks.
+note right of Player1: Ball is 1 x 1 block.
+note right of Player1: Background is black.
+note right of Player1: Ball, paddles, center line, and scores are white.
+@enduml

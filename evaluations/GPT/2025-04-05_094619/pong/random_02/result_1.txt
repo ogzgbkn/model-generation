@@ -1,0 +1,89 @@
+@startuml
+actor Player1
+actor Player2
+actor Computer
+participant Game
+participant Board
+participant Paddle1
+participant Paddle2
+participant Ball
+
+note right of Player1: Rule 1
+note right of Player2: Rule 1
+
+Player1 -> Game: Select 1 player mode
+alt 1 player mode
+  Game -> Paddle1: Assign control to Player1
+  Game -> Paddle2: Assign control to Computer
+else 2 player mode
+  Player2 -> Game: Select 2 player mode
+  Game -> Paddle1: Assign control to Player1
+  Game -> Paddle2: Assign control to Player2
+end
+
+Game -> Board: Initialize board
+note right of Board: Rule 6
+note right of Board: Rule 16
+note right of Board: Rule 18
+
+Game -> Paddle1: Place in middle of left side
+note right of Paddle1: Rule 2
+note right of Paddle1: Rule 7
+note right of Paddle1: Rule 8
+
+Game -> Paddle2: Place in middle of right side
+note right of Paddle2: Rule 2
+note right of Paddle2: Rule 7
+note right of Paddle2: Rule 8
+
+Game -> Ball: Place in center
+note right of Ball: Rule 9
+
+Game -> Ball: Move left at 5 pixels/sec
+note right of Ball: Rule 5
+
+alt Ball hits paddle or top/bottom
+  Ball -> Ball: Change direction
+  note right of Ball: Rule 3
+  note right of Ball: Rule 4
+  Ball -> Game: Increase speed by 10%
+  note right of Ball: Rule 14
+  Game -> Board: Beep sound
+  note right of Board: Rule 19
+end
+
+alt Ball passes Paddle1
+  Game -> Player2: Increment score
+  note right of Game: Rule 10
+  alt Player2 wins
+    Game -> Board: Display "Player 2 wins!"
+    note right of Board: Rule 12
+  else Continue game
+    Game -> Ball: Reset position and move right
+    note right of Ball: Rule 13
+  end
+else Ball passes Paddle2
+  Game -> Player1: Increment score
+  note right of Game: Rule 10
+  alt Player1 wins
+    Game -> Board: Display "Player 1 wins!"
+    note right of Board: Rule 12
+  else Continue game
+    Game -> Ball: Reset position and move left
+    note right of Ball: Rule 13
+  end
+end
+
+Player1 -> Paddle1: Press w/s to move
+note right of Paddle1: Rule 20
+Player2 -> Paddle2: Press up/down to move
+note right of Paddle2: Rule 20
+
+note right of Board: Rule 17
+note right of Board: Numbers represent scores
+note right of Board: Numbers are 4 x 6 blocks
+
+note right of Board: Rule 18
+note right of Board: Background is black
+note right of Board: Ball, paddles, line, scores are white
+@enduml

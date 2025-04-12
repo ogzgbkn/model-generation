@@ -2,17 +2,9 @@ import os
 import csv
 from collections import defaultdict
 
+from helpers import get_num_of_requirements
 from validations import validate_row, validate_last_row
-
-def get_num_of_requirements(game_name):
-    games = {
-        'dice_game': 25,
-        'arkanoid': 19,
-        'snake': 14,
-        'scopa': 16,
-        'pong': 20
-    }
-    return games[game_name]
+from diagram_generators import create_non_smelly_score_percentages, create_non_smelly_reason_counts
 
 
 def process_csv_file(results_dict, file_path):
@@ -31,8 +23,6 @@ def process_csv_file(results_dict, file_path):
 
     # Store game_name and variant_name in variables as required:
     print(f"Processing file: {file_path}")
-    print(f"Game Name: {game_name}")
-    print(f"Variant Name: {variant_name}")
 
     # Open and process the CSV file line by line
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -40,7 +30,7 @@ def process_csv_file(results_dict, file_path):
         for line_num, row in enumerate(reader, 1):
             if line_num != 1 and line_num <= num_of_requirements + 1:
                 # Unpack the validated row into the expected fields:
-                req_id, smell_type, completeness, completeness_reasons, correctness, correctness_reasons = validate_row(row, line_num, file_path)
+                req_id, smell_type, smell_sub_type, completeness, completeness_reasons, correctness, correctness_reasons = validate_row(row, line_num, file_path)
                 if 'random' not in variant_name:
                     results_dict_variant_name = variant_name.removesuffix('_01')
                 else:
@@ -48,6 +38,7 @@ def process_csv_file(results_dict, file_path):
                 eval_result = {
                     'requirement_id': req_id,
                     'smell_type': smell_type,
+                    'smell_sub_type': smell_sub_type,
                     'completeness': completeness,
                     'completeness_reasons': completeness_reasons,
                     'correctness': correctness,
@@ -57,8 +48,8 @@ def process_csv_file(results_dict, file_path):
             # Last line of the CSV that shows the completeness and correctness results
             elif line_num == num_of_requirements + 2:
                 total_str, total_completeness, total_correctness = validate_last_row(row, line_num, file_path)
-                results_dict[game_name][results_dict_variant_name]['Total'] = {
-                    'Total': total_str,
+                results_dict[game_name][results_dict_variant_name]['total'] = {
+                    'total': total_str,
                     'completeness': total_completeness,
                     'correctness': total_correctness,
                 }
@@ -74,7 +65,12 @@ def analyze_evaluations(target_path):
             if file == 'evaluation.csv':
                 file_path = os.path.join(root, file)
                 process_csv_file(results_dict, file_path)
-    test_var = ''
+    return results_dict
+
+
+def draw_diagrams(evals_info):
+    create_non_smelly_score_percentages(evals_info)
+    create_non_smelly_reason_counts(evals_info)
 
 
 if __name__ == '__main__':
@@ -90,5 +86,6 @@ if __name__ == '__main__':
 
     if os.path.exists(target_path):
         evals_info = analyze_evaluations(target_path)
+        draw_diagrams(evals_info)
     else:
         print(f"The directory '{target_path}' does not exist.")

@@ -6,7 +6,7 @@ def validate_row(row, line_num, file_path):
     Returns True if the row is valid, False otherwise.
     """
     # Check for exactly 6 columns:
-    if len(row) != 6:
+    if len(row) != 7:
         print(f"Validation error in {file_path} at line {line_num}: Expected 6 columns, got {len(row)}.")
         return False
 
@@ -25,8 +25,16 @@ def validate_row(row, line_num, file_path):
         raise Exception(f"Validation warning in {file_path} at line {line_num}: Smell type '{smell_type}' is not a valid smell type.")
     # SMELL TYPE VALIDATION ENDS
 
+    # SMELL SUB TYPE VALIDATION STARTS
+    smell_sub_type = row[2].strip()
+    if smell_sub_type not in ['subjective_language', 'optional_parts', 'weak_verbs',
+                              'passive_voice', 'negative', 'vague_pronouns',
+                              'logical_inconsistencies', 'numerical_discrepancies', 'ambiguities','']:
+        raise Exception(f"Validation warning in {file_path} at line {line_num}: Smell sub type '{smell_sub_type}' is not a valid smell sub type.")
+    # SMELL SUB TYPE VALIDATION ENDS
+
     # COMPLETENESS VALIDATION STARTS
-    completeness = row[2].strip()
+    completeness = row[3].strip()
     try:
         int_completeness = int(completeness)
     except ValueError:
@@ -34,7 +42,7 @@ def validate_row(row, line_num, file_path):
     # COMPLETENESS VALIDATION ENDS
 
     # COMPLETENESS REASONS VALIDATION STARTS
-    completeness_reasons_raw = row[3].strip()
+    completeness_reasons_raw = row[4].strip()
     if completeness_reasons_raw != '':
         completeness_reasons = completeness_reasons_raw.replace('"', '')
         completeness_reasons_list = completeness_reasons.split(',')
@@ -43,7 +51,7 @@ def validate_row(row, line_num, file_path):
     # COMPLETENESS REASONS VALIDATION ENDS
 
     # CORRECTNESS VALIDATION STARTS
-    correctness = row[4].strip()
+    correctness = row[5].strip()
     try:
         int_correctness = int(correctness)
     except ValueError:
@@ -51,7 +59,7 @@ def validate_row(row, line_num, file_path):
     # CORRECTNESS VALIDATION ENDS
 
     # CORRECTNESS REASONS VALIDATION STARTS
-    correctness_reasons_raw = row[5].strip()
+    correctness_reasons_raw = row[6].strip()
     if correctness_reasons_raw != '':
         correctness_reasons = correctness_reasons_raw.replace('"', '')
         correctness_reasons_list = correctness_reasons.split(',')
@@ -59,12 +67,12 @@ def validate_row(row, line_num, file_path):
         correctness_reasons_list = []
     # CORRECTNESS REASONS VALIDATION ENDS
 
-    return int_req, smell_type, int_completeness, completeness_reasons_list, int_correctness, correctness_reasons_list
+    return int_req, smell_type, smell_sub_type, int_completeness, completeness_reasons_list, int_correctness, correctness_reasons_list
 
 
 def validate_last_row(row, line_num, file_path):
     # Check for exactly 6 columns:
-    if len(row) != 6:
+    if len(row) != 7:
         print(f"Validation error in {file_path} at line {line_num}: Expected 6 columns, got {len(row)}.")
         return False
     

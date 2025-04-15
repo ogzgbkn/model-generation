@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from helpers import get_num_of_requirements
 from validations import validate_row, validate_last_row
-from diagram_generators import create_non_smelly_score_percentages, create_non_smelly_reason_counts
+from rq1_diagram_generators import create_non_smelly_score_percentages, create_non_smelly_reason_counts
 
 
 def process_csv_file(results_dict, file_path):

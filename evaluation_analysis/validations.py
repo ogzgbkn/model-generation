@@ -44,7 +44,7 @@ def validate_row(row, line_num, file_path):
     # COMPLETENESS REASONS VALIDATION STARTS
     completeness_reasons_raw = row[4].strip()
     if completeness_reasons_raw != '':
-        completeness_reasons = completeness_reasons_raw.replace('"', '')
+        completeness_reasons = completeness_reasons_raw.replace('"', '').replace(' ', '')
         completeness_reasons_list = completeness_reasons.split(',')
     else:
         completeness_reasons_list = []
@@ -61,7 +61,7 @@ def validate_row(row, line_num, file_path):
     # CORRECTNESS REASONS VALIDATION STARTS
     correctness_reasons_raw = row[6].strip()
     if correctness_reasons_raw != '':
-        correctness_reasons = correctness_reasons_raw.replace('"', '')
+        correctness_reasons = correctness_reasons_raw.replace('"', '').replace(' ', '')
         correctness_reasons_list = correctness_reasons.split(',')
     else:
         correctness_reasons_list = []

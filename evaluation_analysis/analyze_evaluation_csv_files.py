@@ -4,7 +4,9 @@ from collections import defaultdict
 
 from helpers import get_num_of_requirements
 from validations import validate_row, validate_last_row
-from rq1_diagram_generators import create_non_smelly_score_percentages, create_non_smelly_reason_counts
+from rq1_diagram_generators import generate_rq1_diagrams
+from rq2_diagram_generators import generate_rq2_diagrams
+from general_diagram_generators import generate_general_diagrams
 
 
 def process_csv_file(results_dict, file_path):
@@ -44,7 +46,7 @@ def process_csv_file(results_dict, file_path):
                     'correctness': correctness,
                     'correctness_reasons': correctness_reasons,
                 }
-                results_dict[game_name][results_dict_variant_name][req_id] = eval_result
+                results_dict[game_name][results_dict_variant_name][str(req_id)] = eval_result
             # Last line of the CSV that shows the completeness and correctness results
             elif line_num == num_of_requirements + 2:
                 total_str, total_completeness, total_correctness = validate_last_row(row, line_num, file_path)
@@ -69,8 +71,9 @@ def analyze_evaluations(target_path):
 
 
 def draw_diagrams(evals_info):
-    create_non_smelly_score_percentages(evals_info)
-    create_non_smelly_reason_counts(evals_info)
+    generate_general_diagrams(evals_info)
+    generate_rq1_diagrams(evals_info)
+    generate_rq2_diagrams(evals_info)
 
 
 if __name__ == '__main__':

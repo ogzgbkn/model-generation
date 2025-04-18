@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from helpers import get_num_of_requirements
+from general_diagram_generators import create_reason_counts
+
+
+def generate_rq1_diagrams(evals_info):
+    create_non_smelly_score_percentages(evals_info)
+    create_reason_counts(evals_info, context = 'Non-smelly Variants Only', requested_variants = ['no_smells'], directory = 'rq1')
+
 
 def create_non_smelly_score_percentages(evals_info):
     percentages_dict = {}
@@ -50,7 +57,7 @@ def create_non_smelly_score_percentages(evals_info):
 
     # Labels and title
     ax.set_ylabel('Percentage')
-    ax.set_title('Completeness vs. Correctness Percentages)')
+    ax.set_title('Completeness vs. Correctness Percentages (Non-smelly Variants Only)')
 
     # Correctly center tick labels under each group
     ax.set_xticks(group_centers)
@@ -70,50 +77,4 @@ def create_non_smelly_score_percentages(evals_info):
     plt.tight_layout()
     
     os.makedirs("diagrams", exist_ok=True)
-    plt.savefig("diagrams/non_smelly_completeness_correctness_percentages.png", dpi=300, bbox_inches='tight')
-
-
-def create_non_smelly_reason_counts(evals_info):
-    reasons_dict = {
-        'completeness_reasons': {},
-        'correctness_reasons': {},
-    }
-
-    # Next 3 for loops goes through all evaluations
-    for game, results in evals_info.items():
-        for variant_name, variant_results in results.items():
-            for req_id_str, req_result in variant_results.items():
-                
-                reason_types = ['completeness_reasons', 'correctness_reasons']
-                for reason_type in reason_types:
-                    if reason_type in req_result and req_result[reason_type]:
-                        for reason in req_result[reason_type]:
-                            if reason in reasons_dict[reason_type]:
-                                reasons_dict[reason_type][reason] = reasons_dict[reason_type][reason] + 1
-                            else:
-                                reasons_dict[reason_type][reason] = 1
-    
-    # Plot and save diagrams
-    plot_top_10_reasons(reasons_dict['completeness_reasons'], "Top 10 Completeness Reasons", "completeness_reasons.png")
-    plot_top_10_reasons(reasons_dict['correctness_reasons'], "Top 10 Correctness Reasons", "correctness_reasons.png")
-
-
-def plot_top_10_reasons(reason_dict, title, filename):
-    # Sort and get top 10
-    sorted_items = sorted(reason_dict.items(), key=lambda x: x[1], reverse=True)[:10]
-    labels, values = zip(*sorted_items)
-
-    plt.figure(figsize=(8, 6))
-    plt.bar(labels, values, color='skyblue')
-    plt.ylim(0, 150)
-    plt.yticks(range(0, 151, 10))  # Set y-axis ticks at every 10 units
-
-    plt.grid(axis='y', linestyle=':', linewidth=1, alpha=0.7)  # Horizontal dotted lines
-    plt.title(title)
-    plt.xlabel('Reason Code')
-    plt.ylabel('Count')
-    plt.tight_layout()
-
-    os.makedirs("diagrams", exist_ok=True)
-    plt.savefig(os.path.join("diagrams", filename), dpi=300)
-    plt.close()
+    plt.savefig("diagrams/rq1/completeness_correctness_percentages.png", dpi=300, bbox_inches='tight')

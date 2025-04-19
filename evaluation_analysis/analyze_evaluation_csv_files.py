@@ -6,6 +6,7 @@ from helpers import get_num_of_requirements
 from validations import validate_row, validate_last_row
 from rq1_diagram_generators import generate_rq1_diagrams
 from rq2_diagram_generators import generate_rq2_diagrams
+from rq3_diagram_generators import generate_rq3_diagrams
 from general_diagram_generators import generate_general_diagrams
 
 
@@ -74,6 +75,7 @@ def draw_diagrams(evals_info):
     generate_general_diagrams(evals_info)
     generate_rq1_diagrams(evals_info)
     generate_rq2_diagrams(evals_info)
+    generate_rq3_diagrams(evals_info)
 
 
 if __name__ == '__main__':

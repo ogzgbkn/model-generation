@@ -5,7 +5,7 @@ import numpy as np
 
 def generate_rq2_diagrams(evals_info):
     create_score_percentages(evals_info, 'completeness_correctness_percentages_smell_based')
-    create_score_percentages(evals_info, 'completeness_correctness_percentages_smell_based_no_2_7', no_completeness_evals_incl = False, context = 'Implemented Requirements Only')
+    create_score_percentages(evals_info, 'completeness_correctness_percentages_smell_based_no_2_7', no_completeness_evals_incl = False, context = 'Generated Requirements Only')
 
 
 def create_score_percentages(evals_info, file_name, no_completeness_evals_incl = True, context = None):
@@ -109,5 +109,5 @@ def create_score_percentages(evals_info, file_name, no_completeness_evals_incl =
 
     plt.tight_layout()
     
-    os.makedirs("diagrams/rq2", exist_ok=True)
-    plt.savefig(f"diagrams/rq2/{file_name}", dpi=300, bbox_inches='tight')
+    os.makedirs("evaluation_analysis/diagrams/rq2", exist_ok=True)
+    plt.savefig(f"evaluation_analysis/diagrams/rq2/{file_name}", dpi=300, bbox_inches='tight')

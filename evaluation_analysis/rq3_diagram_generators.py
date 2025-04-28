@@ -1,6 +1,7 @@
 import os
 import math
 import matplotlib.pyplot as plt
+# plt.set_loglevel('debug')
 import numpy as np
 
 def generate_rq3_diagrams(evals_info):
@@ -9,11 +10,11 @@ def generate_rq3_diagrams(evals_info):
     create_smell_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_type_based')
     create_smell_type_based_score_percentages(scores_dict_without_2_7,
                                               'completeness_correctness_percentages_smell_type_based_no_2_7',
-                                              'Implemented Requirements Only')
+                                              'Generated Requirements Only')
     create_smell_sub_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_sub_type_based')
     create_smell_sub_type_based_score_percentages(scores_dict_without_2_7,
                                                   'completeness_correctness_percentages_smell_sub_type_based_no_2_7',
-                                                  'Implemented Requirements Only')
+                                                  'Generated Requirements Only')
 
 
 def extract_smell_type_based_info(evals_info, no_completeness_evals_incl = True):
@@ -158,9 +159,14 @@ def create_smell_type_based_score_percentages(scores_dict, file_name, context = 
     ax.set_ylabel('Percentage')
     ax.set_title(chart_title)
 
+    sample_sizes = aggregate_sample_sizes(scores_dict, ordered_keys)
+
+    # Build new x-tick labels with sample size
+    xtick_labels = [f"{key}\n(n={sample_sizes[key]})" for key in ordered_keys]
+
     # Correctly center tick labels under each group
     ax.set_xticks(group_centers)
-    ax.set_xticklabels(ordered_keys, rotation=45, ha='center')  # <== ha='center' is key here
+    ax.set_xticklabels(xtick_labels, rotation=45, ha='center')  # <== ha='center' is key here
 
     ax.set_ylim(0, 100)
     ax.set_yticks(np.arange(0, 101, 10))
@@ -175,8 +181,8 @@ def create_smell_type_based_score_percentages(scores_dict, file_name, context = 
 
     plt.tight_layout()
     
-    os.makedirs("diagrams/rq3", exist_ok=True)
-    plt.savefig(f"diagrams/rq3/{file_name}", dpi=300, bbox_inches='tight')
+    os.makedirs("evaluation_analysis/diagrams/rq3", exist_ok=True)
+    plt.savefig(f"evaluation_analysis/diagrams/rq3/{file_name}", dpi=300, bbox_inches='tight')
 
 
 def compute_avg(group_dict):
@@ -196,7 +202,7 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
     # Create one diagram per smell type
     for smell_type, subtypes in scores_dict.items():
         if smell_type in ['lexical', 'semantic', 'syntactic']:
-            labels, comp_values, corr_values = calculate_percentages(smell_type, subtypes)
+            labels, comp_values, corr_values, smell_counts = calculate_percentages(smell_type, subtypes)
 
             if context:
                 chart_title = f'Completeness vs. Correctness Percentages - {smell_type} ({context})'
@@ -224,7 +230,7 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
 
             # Correctly center tick labels under each group
             ax.set_xticks(group_centers)
-            ax.set_xticklabels(labels, rotation=45, ha='center')  # <== ha='center' is key here
+            ax.set_xticklabels([item + f'\n(n={smell_counts[index]})' for index, item in enumerate(labels)], rotation=45, ha='center')  # <== ha='center' is key here
 
             ax.set_ylim(0, 100)
             ax.set_yticks(np.arange(0, 101, 10))
@@ -239,12 +245,13 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
 
             plt.tight_layout()
             
-            os.makedirs("diagrams/rq3", exist_ok=True)
-            plt.savefig(f"diagrams/rq3/{smell_type}_{file_name}", dpi=300, bbox_inches='tight')
+            os.makedirs("evaluation_analysis/diagrams/rq3", exist_ok=True)
+            plt.savefig(f"evaluation_analysis/diagrams/rq3/{smell_type}_{file_name}", dpi=300, bbox_inches='tight')
 
 
 def calculate_percentages(smell_type, group_dict):
     labels = []
+    smell_counts = []
     completeness = []
     correctness = []
     total_c = total_k = total_count = 0
@@ -258,6 +265,7 @@ def calculate_percentages(smell_type, group_dict):
             corr = metrics['correctness'] / count * 100
 
         labels.append(subtype)
+        smell_counts.append(count)
         completeness.append(comp)
         correctness.append(corr)
 
@@ -275,10 +283,23 @@ def calculate_percentages(smell_type, group_dict):
     # Prepend type name and averages
     type_name = smell_type  # crude way, can be improved
     labels.insert(0, type_name)
+    smell_counts.insert(0, total_count)
     completeness.insert(0, avg_comp)
     correctness.insert(0, avg_corr)
 
-    return labels, completeness, correctness
+    return labels, completeness, correctness, smell_counts
 
 
+def aggregate_sample_sizes(scores_dict, ordered_keys):
+    sample_sizes = {}
+    for key in ordered_keys:
+        if 'count' in scores_dict[key]:
+            sample_sizes[key] = scores_dict[key]['count']
+        else:
+            for sub_smell_type, value in scores_dict[key].items():
+                if key not in sample_sizes:
+                    sample_sizes[key] = value['count']
+                else:
+                    sample_sizes[key] = sample_sizes[key] + value['count']
 
+    return sample_sizes

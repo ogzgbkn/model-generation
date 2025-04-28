@@ -1,14 +1,15 @@
 import os
 import matplotlib.pyplot as plt
+import csv
 import numpy as np
 
 from helpers import get_num_of_requirements
-from general_diagram_generators import create_reason_counts
+from general_diagram_generators import create_reason_counts, calc_normalized_reason_counts_general
 
 
 def generate_rq1_diagrams(evals_info):
     create_non_smelly_score_percentages(evals_info)
-    create_reason_counts(evals_info, context = 'Non-smelly Variants Only', requested_variants = ['no_smells'], directory = 'rq1')
+    create_reason_counts(evals_info, calc_normalized_reason_counts_no_smells, context = 'Non-smelly Variants Only', requested_variants = ['no_smells'], directory = 'rq1')
 
 
 def create_non_smelly_score_percentages(evals_info):
@@ -76,5 +77,9 @@ def create_non_smelly_score_percentages(evals_info):
 
     plt.tight_layout()
     
-    os.makedirs("diagrams", exist_ok=True)
-    plt.savefig("diagrams/rq1/completeness_correctness_percentages.png", dpi=300, bbox_inches='tight')
+    os.makedirs("evaluation_analysis/diagrams/rq1", exist_ok=True)
+    plt.savefig("evaluation_analysis/diagrams/rq1/completeness_correctness_percentages.png", dpi=300, bbox_inches='tight')
+
+
+def calc_normalized_reason_counts_no_smells(reasons_dict):
+    return calc_normalized_reason_counts_general(reasons_dict, all_evals = False)

@@ -202,7 +202,7 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
     # Create one diagram per smell type
     for smell_type, subtypes in scores_dict.items():
         if smell_type in ['lexical', 'semantic', 'syntactic']:
-            labels, comp_values, corr_values, smell_counts = calculate_percentages(smell_type, subtypes)
+            labels, comp_values, corr_values, smell_counts = calculate_percentages(smell_type, subtypes, scores_dict['non-smelly'])
 
             if context:
                 chart_title = f'Completeness vs. Correctness Percentages - {smell_type} ({context})'
@@ -237,7 +237,7 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
             ax.legend()
 
             # Vertical separator after '<smell_type>'
-            separator_x = group_centers[0] + bar_width + group_spacing / 2
+            separator_x = group_centers[1] + bar_width + group_spacing / 2
             ax.axvline(separator_x, color='gray', linestyle='--', linewidth=1)
 
             # Optional: Horizontal grid
@@ -249,7 +249,7 @@ def create_smell_sub_type_based_score_percentages(scores_dict, file_name, contex
             plt.savefig(f"evaluation_analysis/diagrams/rq3/{smell_type}_{file_name}", dpi=300, bbox_inches='tight')
 
 
-def calculate_percentages(smell_type, group_dict):
+def calculate_percentages(smell_type, group_dict, non_smelly_scores):
     labels = []
     smell_counts = []
     completeness = []
@@ -286,6 +286,12 @@ def calculate_percentages(smell_type, group_dict):
     smell_counts.insert(0, total_count)
     completeness.insert(0, avg_comp)
     correctness.insert(0, avg_corr)
+
+    # Inserting non-smelly bars to the very beginning as success criteria
+    labels.insert(0, 'non-smelly')
+    smell_counts.insert(0, non_smelly_scores['count'])
+    completeness.insert(0, non_smelly_scores['completeness'] / non_smelly_scores['count'] * 100)
+    correctness.insert(0, non_smelly_scores['correctness'] / non_smelly_scores['count'] * 100)
 
     return labels, completeness, correctness, smell_counts
 

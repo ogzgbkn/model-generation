@@ -89,7 +89,7 @@ def calc_normalized_reason_counts_general(reasons_dict, all_evals = True):
                         reason_counts[reason] = int(value)
                         # There are 7 variants for each game
                         if all_evals:
-                            reason_counts[reason] * 7
+                            reason_counts[reason] = reason_counts[reason] * 7
 
     for reason, count in reasons_dict['completeness_reasons'].items():
         reason_prefix = reason[0:3]

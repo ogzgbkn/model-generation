@@ -83,7 +83,7 @@ class Reason:
                                 else:
                                     critical_type = 'critical_reasons'
                                 # 2.7 can be critical or non critical depending on the completeness reasons
-                                if 'correctness_reasons' in req_result and req_result['correctness_reasons'] == ['2.7']:
+                                if reason == '2.7' and 'correctness_reasons' in req_result and req_result['correctness_reasons'] == ['2.7']:
                                     if 'completeness_reasons' in req_result and req_result['completeness_reasons']:
                                         completeness_reasons_set = set(req_result['completeness_reasons'])
                                         if completeness_reasons_set.issubset(set(self.non_critical_completeness_reasons)):

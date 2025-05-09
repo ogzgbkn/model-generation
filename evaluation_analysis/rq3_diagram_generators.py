@@ -1,11 +1,14 @@
 import os
 import math
 import matplotlib.pyplot as plt
+from scipy.stats import chi2_contingency
 # plt.set_loglevel('debug')
 import numpy as np
+import pandas as pd
+
 
 def generate_rq3_diagrams(evals_info):
-    scores_dict = extract_smell_type_based_info(evals_info)
+    """ scores_dict = extract_smell_type_based_info(evals_info)
     scores_dict_without_2_7 = extract_smell_type_based_info(evals_info, no_completeness_evals_incl = False)
     create_smell_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_type_based')
     create_smell_type_based_score_percentages(scores_dict_without_2_7,
@@ -14,7 +17,8 @@ def generate_rq3_diagrams(evals_info):
     create_smell_sub_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_sub_type_based')
     create_smell_sub_type_based_score_percentages(scores_dict_without_2_7,
                                                   'completeness_correctness_percentages_smell_sub_type_based_no_2_7',
-                                                  'Generated Requirements Only')
+                                                  'Generated Requirements Only') """
+    create_statistical_test(evals_info)
 
 
 def extract_smell_type_based_info(evals_info, no_completeness_evals_incl = True):
@@ -309,3 +313,352 @@ def aggregate_sample_sizes(scores_dict, ordered_keys):
                     sample_sizes[key] = sample_sizes[key] + value['count']
 
     return sample_sizes
+
+
+def create_statistical_test(evals_info):
+
+    # Sample data creation
+    smell_types = ["lexical", "semantic", "syntactic", ""]
+    subtypes = {
+        "lexical": ["subjective_language", "optional_parts", "weak_verbs"],
+        "semantic": ["logical_inconsistencies", "numerical_discrepancies", "ambiguities"],
+        "syntactic": ["passive_voice", "negative", "vague_pronouns"],
+        "": [""]
+    }
+    records = []
+
+    for game, variants in evals_info.items():
+        for variant, requirements in variants.items():
+            for req_id, details in requirements.items():
+                # Considering only generated requirements
+                if req_id != 'total' and details['correctness_reasons'] != ['2.7']:
+                    record = {
+                        'game': game,
+                        'variant': variant,
+                        'req_id': req_id,
+                        'smell_type': details['smell_type'],
+                        'smell_sub_type': details['smell_sub_type'],
+                        'completeness': details['completeness'],
+                        'correctness': details['correctness']
+                    }
+                    records.append(record)
+
+    df = pd.DataFrame(records)
+    
+    # Run the analysis
+    print("Analyzing relationship between smells and quality metrics...")
+    results = analyze_smells(df)
+
+    # Create interpretable table
+    interpretation_table = create_interpretable_table(results)
+    # print("\nDetailed Interpretation Table:")
+    pd.set_option('display.max_colwidth', None)  # Display full text in columns
+    # print(interpretation_table[["Test", "Metric", "p-value", "Cramer's V", "Effect Size", "Interpretation"]])
+    
+    # Save the interpretation table to CSV for better viewing
+    interpretation_table.to_csv("smell_analysis_results.csv", index=False)
+    # print("\nDetailed results saved to 'smell_analysis_results.csv'")
+
+    pass
+    
+    """ # Display results
+    results_table = display_results(results)
+    print("\nResults Summary:")
+    print(results_table)
+    
+    # Create a more readable summary table
+    summary = pd.pivot_table(
+        results_table, 
+        values=["p-value", "Cramer's V"], 
+        index=["Test", "Type"], 
+        columns=["Metric"]
+    )
+    
+    print("\nSummary Table:")
+    print(summary)
+    
+    # Plot results
+    plot_results(results, "completeness")
+    plot_results(results, "correctness")
+    
+    # Print detailed contingency tables for significant findings
+    print("\nDetailed Contingency Tables for Significant Findings:")
+    for r in results:
+        if r["p_value"] < 0.05:
+            print(f"\n{r['test_name']} - {r['metric'].capitalize()}")
+            print(f"p-value: {r['p_value']:.4f}, Cramer's V: {r['cramers_v']:.4f}")
+            print(r["contingency"]) """
+
+    """ records = []
+    for game, variants in evals_info.items():
+        for variant, requirements in variants.items():
+            for req_id, details in requirements.items():
+                # Considering only generated requirements
+                if req_id != 'total' and details['correctness_reasons'] != ['2.7']:
+                    record = {
+                        'game': game,
+                        'variant': variant,
+                        'req_id': req_id,
+                        'smell_type': details['smell_type'],
+                        'smell_sub_type': details['smell_sub_type'],
+                        'completeness': details['completeness'],
+                        'correctness': details['correctness']
+                    }
+                    records.append(record)
+
+    df = pd.DataFrame(records)
+
+    df['has_smell']       = df['smell_type'] != ''
+    df['lexical_flag']    = df['smell_type'] == 'lexical'
+    df['syntactic_flag']  = df['smell_type'] == 'syntactic'
+    df['semantic_flag']   = df['smell_type'] == 'semantic'
+
+    cont_comp_smell = pd.crosstab(df['has_smell'], df['completeness'])
+    # Rows: False (clean) / True (smelly)
+    # Columns: 0 (incomplete) / 1 (complete)
+
+    cont_corr_smell = pd.crosstab(df['has_smell'], df['correctness'])
+    # Same layout: 0 = incorrect, 1 = correct
+
+    # Completeness vs. any smell
+    chi2_c, p_c, _, expected_c = chi2_contingency(cont_comp_smell)
+
+    # Correctness vs. any smell
+    chi2_k, p_k, _, expected_k = chi2_contingency(cont_corr_smell)
+
+    print(f"Completeness vs. smell: p = {p_c:.3f}")
+    print(f"Correctness vs. smell:  p = {p_k:.3f}") """
+
+
+def analyze_smells(df):
+    """
+    Analyze all smell types and subtypes in relation to completeness and correctness
+    """
+    results = []
+    
+    # Get unique smell types and subtypes
+    smell_types = [type_name for type_name in df['smell_type'].unique() if type_name != ""]
+    
+    # Tests to run
+    tests = [
+        # Any smell vs no smell
+        {"name": "Has any smell", "col": "smell_type", "val": "", "type": "overall"},
+        
+        # Individual smell types
+        *[{"name": f"Smell type: {s_type}", "col": "smell_type", "val": s_type, "type": "type"} 
+          for s_type in smell_types],
+        
+        # Subtypes for each smell type
+        *[{"name": f"Subtype: {subtype}", "col": "smell_sub_type", "val": subtype, "type": "subtype"}
+          for smell_type in smell_types
+          for subtype in df[df['smell_type'] == smell_type]['smell_sub_type'].unique() 
+          if subtype != ""]
+    ]
+    
+    # Run tests for both completeness and correctness
+    for metric in ['completeness', 'correctness']:
+        for test in tests:
+            if test["type"] == "overall":
+                # For overall test, we're checking if having ANY smell affects scores
+                # So we invert the condition (smell_type = "" means no smell)
+                modified_df = create_valid_df(df, test["col"], test["val"], negate = True)
+                result = run_chi_squared_test(modified_df, test["col"], test["val"], metric, negate = True)
+            else:
+                modified_df = create_valid_df(df, test["col"], test["val"])
+                result = run_chi_squared_test(modified_df, test["col"], test["val"], metric)
+            
+            results.append({
+                "test_name": test["name"],
+                "test_type": test["type"],
+                "metric": metric,
+                "chi_squared": result["chi2"],
+                "p_value": result["p_value"],
+                "cramers_v": result["cramers_v"],
+                "contingency": result["contingency"]
+            })
+    
+    return results
+
+
+def run_chi_squared_test(df, condition_col, condition_value, score_col, negate=False):
+    """
+    Run chi-squared test to check if having a particular smell type affects scores
+    
+    Parameters:
+    df (DataFrame): The data
+    condition_col (str): Column to check condition (e.g., 'smell_type')
+    condition_value (str or list): Value(s) to check in condition_col
+    score_col (str): Column with scores to analyze ('completeness' or 'correctness')
+    negate (bool): Whether to negate the condition (for testing "any smell" vs "no smell")
+    
+    Returns:
+    dict: Results containing chi2, p-value, cramer's v, and contingency table
+    """
+    # Create condition based on input
+    if negate:
+        # For "Has any smell" test (smell_type != "")
+        condition = df[condition_col] != condition_value
+        label_true = "Has Smell"
+        label_false = "No Smell"
+    elif isinstance(condition_value, list):
+        # For multiple possible values
+        condition = df[condition_col].isin(condition_value)
+        label_true = f"Has {condition_value}"
+        label_false = f"No {condition_value}"
+    else:
+        # For specific smell type
+        condition = df[condition_col] == condition_value
+        label_true = f"Has {condition_value}" if condition_value else "No Smell"
+        label_false = f"No {condition_value}" if condition_value else "Has Smell"
+    
+    # df_modified = create_valid_df(df, condition_col, condition_value, negate)
+
+    # Create contingency table
+    contingency = pd.crosstab(condition, df[score_col] == 0)
+    
+    # Rename for clarity
+    contingency.index = [label_true, label_false]
+    contingency.columns = ["Score = 1", "Score = 0"]
+    
+    # Calculate chi-squared test
+    chi2, p, dof, expected = chi2_contingency(contingency)
+
+    if condition_value == 'ambiguities':
+        print(contingency)
+
+    # Minimum dimension minus 1
+    n = contingency.values.sum()
+    min_dim = min(contingency.shape) - 1
+    cramers_v = np.sqrt(chi2 / (n * min_dim))
+
+    return {
+        "chi2": chi2,
+        "p_value": p,
+        "dof": dof,
+        "cramers_v": cramers_v,
+        "contingency": contingency
+    }
+
+
+def create_valid_df(df, condition_col, condition_value, negate = False):
+    """
+    Filter df for chi-squared testing.
+
+    If negate=True:
+        return df unchanged.
+
+    If negate=False:
+        keep only rows where
+          - df[condition_col] == condition_value
+            (the specific smell type you want to test)
+        OR
+          - df[condition_col] == "" 
+            (non-smelly evaluations)
+    """
+    if negate:
+        # test "any smell vs. no smell": use the full data
+        return df.copy()
+
+    # otherwise: only the target smell vs truly non-smelly
+    mask_target   = df[condition_col] == condition_value
+    mask_non_smell = df['smell_type'] == ""
+    filtered_df = df[mask_target | mask_non_smell].copy()
+    return filtered_df
+
+
+def create_interpretable_table(results):
+    """
+    Create a table that interprets statistical results in plain language
+    
+    Parameters:
+    results (list): Results from analyze_smells function
+    
+    Returns:
+    DataFrame: Formatted table with statistical interpretations
+    """
+    interpretation_data = []
+    
+    for r in results:
+        # Determine statistical significance
+        if r["p_value"] < 0.01:
+            significance = "Strong evidence"
+            sig_symbol = "***"
+        elif r["p_value"] < 0.05:
+            significance = "Evidence"
+            sig_symbol = "**"
+        elif r["p_value"] < 0.1:
+            significance = "Weak evidence"
+            sig_symbol = "*"
+        else:
+            significance = "No evidence"
+            sig_symbol = ""
+        
+        # Determine effect size based on Cramer's V
+        if r["cramers_v"] < 0.1:
+            effect = "Negligible"
+        elif r["cramers_v"] < 0.3:
+            effect = "Small"
+        elif r["cramers_v"] < 0.5:
+            effect = "Medium"
+        else:
+            effect = "Large"
+        
+        # Get percentages from contingency table
+        # For rows where condition is True (Has Smell or Has specific smell type)
+        try:
+            total_with_condition = r["contingency"].iloc[0].sum()
+            zeros_with_condition = r["contingency"].iloc[0, 1]
+            percent_zeros_with = round((zeros_with_condition / total_with_condition) * 100, 1) if total_with_condition > 0 else 0
+            
+            total_without_condition = r["contingency"].iloc[1].sum()
+            zeros_without_condition = r["contingency"].iloc[1, 1]
+            percent_zeros_without = round((zeros_without_condition / total_without_condition) * 100, 1) if total_without_condition > 0 else 0
+            
+            # Calculate difference in percentages
+            diff = percent_zeros_with - percent_zeros_without
+        except:
+            percent_zeros_with = "N/A"
+            percent_zeros_without = "N/A"
+            diff = "N/A"
+        
+        # Create interpretation
+        if r["p_value"] < 0.05:
+            # For smells, positive diff means more zeros (worse scores) which is the expected direction
+            if diff > 0:
+                direction = f"increases zeros by {abs(diff):.1f}% (negative impact)"
+            else:
+                direction = f"unexpectedly decreases zeros by {abs(diff):.1f}% (positive impact)"
+            
+            interpretation = f"{significance} ({sig_symbol}) that {r['test_name']} {direction}. Effect size: {effect} ({r['cramers_v']:.3f})"
+        else:
+            interpretation = f"No statistically significant effect on {r['metric']} scores (p={r['p_value']:.3f})"
+        
+        interpretation_data.append({
+            "Test": r["test_name"],
+            "Metric": r["metric"].capitalize(),
+            "p-value": r["p_value"],
+            "Significant": "Yes" if r["p_value"] < 0.05 else "No",
+            "Cramer's V": r["cramers_v"],
+            "Effect Size": effect,
+            "% Zeros (With)": percent_zeros_with,
+            "% Zeros (Without)": percent_zeros_without,
+            "Difference": diff if isinstance(diff, (int, float)) else diff,
+            "Impact": "Negative" if isinstance(diff, (int, float)) and diff > 0 else 
+                    ("Positive" if isinstance(diff, (int, float)) and diff < 0 else "None"),
+            "Interpretation": interpretation
+        })
+    
+    # Create DataFrame
+    df_interpretation = pd.DataFrame(interpretation_data)
+    
+    # Sort by test type and significance
+    test_type_order = {"Has any smell": 0, "Smell type:": 1, "Subtype:": 2}
+    df_interpretation["Type Order"] = df_interpretation["Test"].apply(
+        lambda x: next((order for key, order in test_type_order.items() if x.startswith(key)), 3)
+    )
+    
+    df_interpretation = df_interpretation.sort_values(
+        by=["Type Order", "p-value"]
+    ).drop(columns=["Type Order"])
+    
+    return df_interpretation

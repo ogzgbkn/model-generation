@@ -57,7 +57,8 @@ def process_csv_file(results_dict, file_path):
                     'correctness': total_correctness,
                 }
             else:
-                print(f"Skipping invalid row at line {line_num} in {file_path}.")
+                pass
+                # print(f"Skipping invalid row at line {line_num} in {file_path}.")
 
 
 def analyze_evaluations(target_path):

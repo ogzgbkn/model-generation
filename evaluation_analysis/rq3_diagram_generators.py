@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def generate_rq3_diagrams(evals_info):
-    """ scores_dict = extract_smell_type_based_info(evals_info)
+    scores_dict = extract_smell_type_based_info(evals_info)
     scores_dict_without_2_7 = extract_smell_type_based_info(evals_info, no_completeness_evals_incl = False)
     create_smell_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_type_based')
     create_smell_type_based_score_percentages(scores_dict_without_2_7,
@@ -17,7 +17,7 @@ def generate_rq3_diagrams(evals_info):
     create_smell_sub_type_based_score_percentages(scores_dict, 'completeness_correctness_percentages_smell_sub_type_based')
     create_smell_sub_type_based_score_percentages(scores_dict_without_2_7,
                                                   'completeness_correctness_percentages_smell_sub_type_based_no_2_7',
-                                                  'Generated Requirements Only') """
+                                                  'Generated Requirements Only')
     create_statistical_test(evals_info)
 
 
@@ -360,74 +360,6 @@ def create_statistical_test(evals_info):
     # print("\nDetailed results saved to 'smell_analysis_results.csv'")
 
     pass
-    
-    """ # Display results
-    results_table = display_results(results)
-    print("\nResults Summary:")
-    print(results_table)
-    
-    # Create a more readable summary table
-    summary = pd.pivot_table(
-        results_table, 
-        values=["p-value", "Cramer's V"], 
-        index=["Test", "Type"], 
-        columns=["Metric"]
-    )
-    
-    print("\nSummary Table:")
-    print(summary)
-    
-    # Plot results
-    plot_results(results, "completeness")
-    plot_results(results, "correctness")
-    
-    # Print detailed contingency tables for significant findings
-    print("\nDetailed Contingency Tables for Significant Findings:")
-    for r in results:
-        if r["p_value"] < 0.05:
-            print(f"\n{r['test_name']} - {r['metric'].capitalize()}")
-            print(f"p-value: {r['p_value']:.4f}, Cramer's V: {r['cramers_v']:.4f}")
-            print(r["contingency"]) """
-
-    """ records = []
-    for game, variants in evals_info.items():
-        for variant, requirements in variants.items():
-            for req_id, details in requirements.items():
-                # Considering only generated requirements
-                if req_id != 'total' and details['correctness_reasons'] != ['2.7']:
-                    record = {
-                        'game': game,
-                        'variant': variant,
-                        'req_id': req_id,
-                        'smell_type': details['smell_type'],
-                        'smell_sub_type': details['smell_sub_type'],
-                        'completeness': details['completeness'],
-                        'correctness': details['correctness']
-                    }
-                    records.append(record)
-
-    df = pd.DataFrame(records)
-
-    df['has_smell']       = df['smell_type'] != ''
-    df['lexical_flag']    = df['smell_type'] == 'lexical'
-    df['syntactic_flag']  = df['smell_type'] == 'syntactic'
-    df['semantic_flag']   = df['smell_type'] == 'semantic'
-
-    cont_comp_smell = pd.crosstab(df['has_smell'], df['completeness'])
-    # Rows: False (clean) / True (smelly)
-    # Columns: 0 (incomplete) / 1 (complete)
-
-    cont_corr_smell = pd.crosstab(df['has_smell'], df['correctness'])
-    # Same layout: 0 = incorrect, 1 = correct
-
-    # Completeness vs. any smell
-    chi2_c, p_c, _, expected_c = chi2_contingency(cont_comp_smell)
-
-    # Correctness vs. any smell
-    chi2_k, p_k, _, expected_k = chi2_contingency(cont_corr_smell)
-
-    print(f"Completeness vs. smell: p = {p_c:.3f}")
-    print(f"Correctness vs. smell:  p = {p_k:.3f}") """
 
 
 def analyze_smells(df):
@@ -523,8 +455,8 @@ def run_chi_squared_test(df, condition_col, condition_value, score_col, negate=F
     # Calculate chi-squared test
     chi2, p, dof, expected = chi2_contingency(contingency)
 
-    if condition_value == 'ambiguities':
-        print(contingency)
+    """ if condition_value == 'lexical':
+        print(contingency) """
 
     # Minimum dimension minus 1
     n = contingency.values.sum()

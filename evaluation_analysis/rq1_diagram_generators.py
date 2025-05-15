@@ -9,8 +9,8 @@ from general_diagram_generators import create_reason_counts, calc_normalized_rea
 
 def generate_rq1_diagrams(evals_info):
     create_non_smelly_score_percentages(evals_info)
-    create_reason_counts(evals_info, calc_normalized_reason_counts_no_smells, context = 'Non-smelly Variants Only', requested_variants = ['no_smells'], directory = 'rq1')
-    create_non_smelly_score_percentages_both_comp_corr_true(evals_info, directory = 'rq1', file_name = 'completeness_correctness_percentages_both_true.png', context = 'Non-smelly Variants Only')
+    create_reason_counts(evals_info, calc_normalized_reason_counts_no_smells, context = 'No Smells Variants Only', requested_variants = ['no_smells'], directory = 'rq1')
+    create_non_smelly_score_percentages_both_comp_corr_true(evals_info, directory = 'rq1', file_name = 'completeness_correctness_percentages_both_true.png', context = 'No Smells Variants Only')
     create_non_smelly_critical_and_non_critical_reasons_percentage(evals_info)
 
 
@@ -60,7 +60,7 @@ def create_non_smelly_score_percentages(evals_info):
 
     # Labels and title
     ax.set_ylabel('Percentage')
-    ax.set_title('Completeness vs. Correctness Percentages (Non-smelly Variants Only)')
+    ax.set_title('Completeness vs. Correctness Percentages (No Smells Variants Only)')
 
     # Correctly center tick labels under each group
     ax.set_xticks(group_centers)
@@ -176,7 +176,7 @@ def create_non_smelly_critical_and_non_critical_reasons_percentage(evals_info):
 
     # Labels and title
     ax.set_ylabel('Percentage')
-    ax.set_title('Critical vs. Non-Critical Reasons Percentages (Non-smelly Variants Only)')
+    ax.set_title('Critical vs. Non-Critical Reasons Percentages (No Smells Variants Only)')
 
     # Correctly center tick labels under each group
     ax.set_xticks(group_centers)

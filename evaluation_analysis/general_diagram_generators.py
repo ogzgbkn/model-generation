@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def generate_general_diagrams(evals_info):
-    create_reason_counts(evals_info, calc_normalized_reason_counts_general, directory = 'general')
+    create_reason_counts(evals_info, calc_normalized_reason_counts_general, context = 'All Evaluations', directory = 'general')
 
 
 def create_reason_counts(evals_info, normalizer_func, context = None, requested_variants = None, directory = ''):

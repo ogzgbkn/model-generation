@@ -73,15 +73,18 @@ def create_score_percentages(evals_info, file_name, no_completeness_evals_incl =
     percentages_dict = {
         'all': {
             'completeness_percentage': all_completeness_percentage,
-            'correctness_percentage': all_correctness_percentage
+            'correctness_percentage': all_correctness_percentage,
+            'count': all_count
         },
         'non-smelly': {
             'completeness_percentage': (scores_dict['non-smelly']['completeness'] / scores_dict['non-smelly']['count']) * 100,
-            'correctness_percentage': (scores_dict['non-smelly']['correctness'] / scores_dict['non-smelly']['count']) * 100
+            'correctness_percentage': (scores_dict['non-smelly']['correctness'] / scores_dict['non-smelly']['count']) * 100,
+            'count': scores_dict['non-smelly']['count']
         },
         'smelly': {
             'completeness_percentage': (scores_dict['smelly']['completeness'] / scores_dict['smelly']['count']) * 100,
-            'correctness_percentage': (scores_dict['smelly']['correctness'] / scores_dict['smelly']['count']) * 100
+            'correctness_percentage': (scores_dict['smelly']['correctness'] / scores_dict['smelly']['count']) * 100,
+            'count': scores_dict['smelly']['count']
         }
     }
 
@@ -91,13 +94,16 @@ def create_score_percentages(evals_info, file_name, no_completeness_evals_incl =
     
     comp_and_corr_percentages_dict = {
         'all': {
-            'comp_and_corr': all_comp_and_corr_percentage
+            'comp_and_corr': all_comp_and_corr_percentage,
+            'count': comp_and_corr_all_count
         },
         'non-smelly': {
-            'comp_and_corr': (comp_and_corr_scores_dict['non-smelly']['comp_and_corr'] / comp_and_corr_scores_dict['non-smelly']['count']) * 100
+            'comp_and_corr': (comp_and_corr_scores_dict['non-smelly']['comp_and_corr'] / comp_and_corr_scores_dict['non-smelly']['count']) * 100,
+            'count': comp_and_corr_scores_dict['non-smelly']['count']
         },
         'smelly': {
-            'comp_and_corr': (comp_and_corr_scores_dict['smelly']['comp_and_corr'] / comp_and_corr_scores_dict['smelly']['count']) * 100
+            'comp_and_corr': (comp_and_corr_scores_dict['smelly']['comp_and_corr'] / comp_and_corr_scores_dict['smelly']['count']) * 100,
+            'count': comp_and_corr_scores_dict['smelly']['count']
         }
     }
 
@@ -136,7 +142,7 @@ def create_percentages_diagram(percentages_dict, file_name, context = 'None'):
 
     # Correctly center tick labels under each group
     ax.set_xticks(group_centers)
-    ax.set_xticklabels(ordered_keys, rotation=45, ha='center')  # <== ha='center' is key here
+    ax.set_xticklabels([item + f'\n(n={percentages_dict[item]['count']})' for index, item in enumerate(ordered_keys)], rotation=45, ha='center')  # <== ha='center' is key here
 
     ax.set_ylim(0, 100)
     ax.set_yticks(np.arange(0, 101, 10))
@@ -178,7 +184,7 @@ def create_percentages_diagram_both_true(percentages_dict, file_name, context = 
 
     # Correctly center tick labels under each group
     ax.set_xticks(x_positions)
-    ax.set_xticklabels(ordered_keys, rotation=45, ha='center')  # <== ha='center' is key here
+    ax.set_xticklabels([item + f'\n(n={percentages_dict[item]['count']})' for index, item in enumerate(ordered_keys)], rotation=45, ha='center')  # <== ha='center' is key here
 
     ax.set_ylim(0, 100)
     ax.set_yticks(np.arange(0, 101, 10))
